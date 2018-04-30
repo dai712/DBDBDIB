@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var client = require('cheerio-httpcli');
+var cheerio = require('cheerio');
 var request = require('request');
 var fs = require('fs');
 var urlType = require('url');
@@ -36,7 +37,7 @@ request(url, function(err, res, body){
    if(err) console.log(err);
    //console.log('body : ', body);
 
-   var $ = client.load(body);
+   var $ = cheerio.load(body);
 
     let json = [], title;
     $('#main_content > div > div._persist > div:nth-child(1) > div:nth-child(1) > div.cluster_body > ul > li:nth-child(1)').each(function(index, ele){ // <div class="recomm_blog">를 반복
