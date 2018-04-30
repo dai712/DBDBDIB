@@ -13,12 +13,12 @@ if(!fs.existsSync(savedir)){
 //URL 지정
 var url = 'https://ko.wikipedia.org/wiki/' + encodeURIComponent('강아지');
 var param = {};
-
+/*
 //html 파일 획득
 client.fetch(url, param, function(err, $, res){
     if(err) {console.log(err); return;}
     //img 링크 추출 후 함수 실행
-    $('img').each(function(idx){
+    $('div').each(function(idx){
         var src = $(this).attr('src');
         //상대 경로 -> 절대 경로
         src = urlType.resolve(url, src);
@@ -30,11 +30,12 @@ client.fetch(url, param, function(err, $, res){
         request(src).pipe(fs.createWriteStream(fname));
     });
 });
-function getNewsbyPress(press){
-    url = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=10' + press;
-}
-
-
+*/
+url = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=102';
+request(url, function(err, res, body){
+   if(err) console.log(err);
+   console.log('body : ', body);
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
