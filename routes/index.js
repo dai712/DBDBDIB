@@ -4,6 +4,7 @@ var client = require('cheerio-httpcli');
 var request = require('request');
 var fs = require('fs');
 var urlType = require('url');
+
 var savedir = __dirname + '/img';
 if(!fs.existsSync(savedir)){
     fs.mkdirSync(savedir);
