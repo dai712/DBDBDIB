@@ -22,14 +22,13 @@ client.fetch(url, param, function(err, $, res){
         var src = $(this).attr('src');
         //상대 경로 -> 절대 경로
         src = urlType.resolve(url, src);
-
+        console.log(src);
         //저장 파일 이름 설정
         var fname = urlType.parse(src).pathname;
         fname = savedir + '/' + fname.replace(/[^a-zA-Z0-9\.]+/g, '_');
         //다운로드
         request(src).pipe(fs.createWriteStream(fname));
     });
-    console.log(res);
 });
 function getNewsbyPress(press){
     url = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=10' + press;
