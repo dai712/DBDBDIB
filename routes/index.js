@@ -29,7 +29,13 @@ client.fetch(url, param, function(err, $, res){
         //다운로드
         request(src).pipe(fs.createWriteStream(fname));
     });
+    console.log(res);
 });
+function getNewsbyPress(press){
+    url = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=10' + press;
+}
+
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
