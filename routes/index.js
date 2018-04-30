@@ -36,7 +36,7 @@ request(url, function(err, res, body){
    if(err) console.log(err);
    //console.log('body : ', body);
 
-   $ = cheerio.load(body);
+   $ = client.load(body);
 
     let json = [], title;
     $('#main_content > div > div._persist > div:nth-child(1) > div:nth-child(1) > div.cluster_body > ul > li:nth-child(1)').each(function(index, ele){ // <div class="recomm_blog">를 반복
