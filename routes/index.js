@@ -35,7 +35,9 @@ client.fetch(url, param, function(err, $, res){
 });
 */
 url = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=102';
-request(function(err, res, body){
+request({
+    uri: url,
+}, function(err, res, body){
    if(err) console.log(err);
    //console.log('body : ', body);
     var htmlDoc = iconv.convert(body).toString();
