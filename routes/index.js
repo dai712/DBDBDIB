@@ -5,12 +5,14 @@ var cheerio = require('cheerio');
 var request = require('request');
 var fs = require('fs');
 var urlType = require('url');
+var Iconv = require('iconv').Iconv;
 
+/*
 var savedir = __dirname + '/img';
 if(!fs.existsSync(savedir)){
     fs.mkdirSync(savedir);
 }
-
+*/
 //URL 지정
 var url = 'https://ko.wikipedia.org/wiki/' + encodeURIComponent('강아지');
 var param = {};
@@ -33,11 +35,13 @@ client.fetch(url, param, function(err, $, res){
 });
 */
 url = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=102';
-request(url, function(err, res, body){
+request(function(err, res, body){
    if(err) console.log(err);
    //console.log('body : ', body);
+    var htmlDoc = iconv.convert(body).toString();
 
-    var $ = cheerio.load(body)
+
+    var $ = cheerio.load(htmlDoc)
 
     var test = $('#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(1) > dl > dt:nth-child(2)');
 
