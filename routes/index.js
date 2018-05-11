@@ -15,7 +15,6 @@ var client_id = 'uD_8GWD3pP_KXJJRKecZ';
 var client_secret = '7OTLr047fX';
 router.get('/search/news', function (req, res) {
     var api_url = 'https://openapi.naver.com/v1/search/news?query=' + encodeURI('속보'); // json 결과
-//   var api_url = 'https://openapi.naver.com/v1/search/blog.xml?query=' + encodeURI(req.query.query); // xml 결과
     var request = require('request');
     var options = {
         url: api_url,
@@ -32,7 +31,6 @@ router.get('/search/news', function (req, res) {
     });
 });
 /*
-//URL 지정
 var url = 'https://ko.wikipedia.org/wiki/' + encodeURIComponent('강아지');
 var param = {};
 
@@ -52,13 +50,15 @@ client.fetch(url, param, function(err, $, res){
         request(src).pipe(fs.createWriteStream(fname));
     });
 });
-
+*/
 url = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=102';
-request(url, function(err, res, body){
+request.get({url: url,
+    headers: {'Content-Type': 'text/json;charset=utf-8'},
+    },function(err, res, body){
    if(err) console.log(err);
    //console.log('body : ', body);
 
-    var $ = cheerio.load(body)
+    var $ = cheerio.load(body);
 
     var test = $('#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(1) > dl > dt:nth-child(2)');
 
@@ -71,7 +71,7 @@ request(url, function(err, res, body){
 
     console.log('json: ', json);
 });
-*/
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
