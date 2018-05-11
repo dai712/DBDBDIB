@@ -66,7 +66,8 @@ request.get({url: url,
 
     $('#main_content > div > div._persist > div:nth-child(1) > div:nth-child(1) > div.cluster_body > ul > li:nth-child(1)').each(function(index, ele){ // <div class="recomm_blog">를 반복
         title = $(this).find('a').text(); // a태그 아래에 class="tit_subject"의 텍스트(제목)
-        console.log(json.stringify(title));
+        console.log(index);
+        console.log(ele);
         json.push({ title: title})
     });
 
