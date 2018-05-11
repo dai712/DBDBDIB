@@ -13,8 +13,8 @@ if(!fs.existsSync(savedir)){
 
 var client_id = 'uD_8GWD3pP_KXJJRKecZ';
 var client_secret = '7OTLr047fX';
-router.get('/search/blog', function (req, res) {
-    var api_url = 'https://openapi.naver.com/v1/search/news?query=' + encodeURI(req.query.query); // json 결과
+router.get('/search/news', function (req, res) {
+    var api_url = 'https://openapi.naver.com/v1/search/news?query=' + encodeURI('속보'); // json 결과
 //   var api_url = 'https://openapi.naver.com/v1/search/blog.xml?query=' + encodeURI(req.query.query); // xml 결과
     var request = require('request');
     var options = {
