@@ -54,7 +54,7 @@ client.fetch(url, param, function(err, $, res){
 url_news = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=102';
 request.get({
     url: url_news,
-    headers: {'Content-Type': 'euc-kr'},
+    headers: {'Content-Type': 'utf-8'},
     },function(err, res, body){
    if(err) console.log(err);
    //console.log('body : ', body);
