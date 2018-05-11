@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c6dedf39-cd8c-4694-ba10-5c41b5d4a5b4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -36,21 +37,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="690">
-              <caret line="62" column="5" lean-forward="false" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
+            <state relative-caret-position="521">
+              <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="11" column="1" lean-forward="false" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
+            <state relative-caret-position="460">
+              <caret line="20" column="21" lean-forward="true" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -108,8 +109,8 @@
       <list>
         <option value="$PROJECT_DIR$/../../../4-1/웹설/AjouTeam/server/routes/ClientModel.js" />
         <option value="$PROJECT_DIR$/routes/Schema.js" />
-        <option value="$PROJECT_DIR$/routes/index.js" />
         <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/routes/index.js" />
       </list>
     </option>
   </component>
@@ -131,11 +132,10 @@
   <component name="NodeModulesDirectoryManager">
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-52" />
-    <option name="y" value="-21" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
     <option name="width" value="976" />
-    <option name="height" value="1030" />
+    <option name="height" value="1038" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -224,18 +224,18 @@
       <workItem from="1525067658224" duration="5809000" />
       <workItem from="1525177791105" duration="277000" />
       <workItem from="1525235249873" duration="3386000" />
-      <workItem from="1526052447844" duration="2206000" />
+      <workItem from="1526052447844" duration="2316000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25393000" />
+    <option name="totallyTimeSpent" value="25503000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
+    <frame x="-8" y="0" width="976" height="1038" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.106770836" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21398747" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -633,14 +633,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="11" column="1" lean-forward="false" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bin/www">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="299">
@@ -651,8 +643,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="62" column="5" lean-forward="false" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
+        <state relative-caret-position="521">
+          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="460">
+          <caret line="20" column="21" lean-forward="true" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
           <folding />
         </state>
       </provider>
