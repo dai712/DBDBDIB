@@ -56,10 +56,10 @@ app.get('/search/blog', function (req, res) {
             console.log('error = ' + response.statusCode);
         }
     });
-});
+});/*
 app.listen(3000, function () {
     console.log("결과");
     console.log('http://127.0.0.1:3000/search/blog?query=검색어 app listening on port 3000!');
-});
+});*/
 
 module.exports = app;
