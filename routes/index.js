@@ -54,7 +54,7 @@ client.fetch(url, param, function(err, $, res){
 url_news = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=102';
 request.get({
     url: url_news,
-    headers: {'Content-Type': 'charset=euc-kr'},
+    headers: {'Content-Type': 'application/xml'},
     },function(err, res, body){
    if(err) console.log(err);
    //console.log('body : ', body);
@@ -65,7 +65,7 @@ request.get({
 
     let json = [], title;
 
-    $('#main_content > div > div._persist > div:nth-child(1) > div:nth-child(1) > div.cluster_body > ul > li:nth-child(1)').each(function(index, ele){ // <div class="recomm_blog">를 반복
+    $('#main_content').each(function(index, ele){ // <div class="recomm_blog">를 반복
         title = $(this).find('a').text(); // a태그 아래에 class="tit_subject"의 텍스트(제목)
 
         json.push({ title: title})
