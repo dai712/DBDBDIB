@@ -170,38 +170,42 @@ router.post('/message', (req, res) => {
             message1.keyboard.type = 'text';
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
-        case '속보' :
-            message2.message.text = titles[0];
-            message2.message.photo = {
-                url : 'http://imgnews.naver.net/image/origin/014/2018/05/15/4021664.jpg?type=nf132_90',
-                width : 640,
-                height : 480,
-            };
-            message2.message.message_button = {
-              label : '이동하기',
-                url : urls[0]
-            };
-            message2.keyboard.type = 'buttons';
-            message2.keyboard.buttons = [
-              "돌아가기",
+        case '사회' :
+            message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
+            message1.keyboard.type = 'buttons';
+            message1.keyboard.buttons = [
+                "(사회)" + titles[0],
+                "(사회)" + titles[1],
+                "(사회)" + titles[2],
+                "(사회)" + titles[3],
+                "(사회)" + titles[4],
             ];
-            res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
+            res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
+            break;
 
-            message2.message.text = titles[1];
-            message2.message.photo = {
-                url : 'http://imgnews.naver.net/image/origin/025/2018/05/15/2820854.jpg?type=nf132_90',
-                width : 640,
-                height : 480,
-            };
-            message2.message.message_button = {
-                label : '이동하기',
-                url : urls[1]
-            };
-            message2.keyboard.type = 'buttons';
-            message2.keyboard.buttons = [
-                "돌아가기",
-            ];
-            res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
+        default:
+                if(_obj.content.indexOf('(사회)') !== -1){
+                    for(i=0 ; i<5 ; i++){
+                        if(_obj.content.indexOf(titles[i]) !== -1){
+                            message2.message.text = titles[i];
+                            message2.message.photo = {
+                                url : 'http://imgnews.naver.net/image/origin/014/2018/05/15/4021664.jpg?type=nf132_90',
+                                width : 640,
+                                height : 480,
+                            };
+                            message2.message.message_button = {
+                                label : '이동하기',
+                                url : urls[i]
+                            };
+                            message2.keyboard.type = 'buttons';
+                            message2.keyboard.buttons = [
+                                "돌아가기",
+                            ];
+                            res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
+                            break;
+                        }
+                    }
+                }
             break;
     }
 
