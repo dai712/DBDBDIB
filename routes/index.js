@@ -207,7 +207,7 @@ router.post('/message', (req, res) => {
                     break;
                 }
             }
-            
+
 
 
                 if(_obj.content.indexOf('(사회)') !== -1){
