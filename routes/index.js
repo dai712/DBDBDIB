@@ -70,7 +70,7 @@ function crawlingNewsByField(field){
         }
     });
 }
-
+crawlingNewsByField(1);
 function clearArrays() {
     titles = [];
     urls = [];
