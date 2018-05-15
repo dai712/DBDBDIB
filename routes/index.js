@@ -224,6 +224,9 @@ router.post('/message', (req, res) => {
                 }
             }
             if( _obj.content.charAt(0) === '('){
+                console.log(titles[0]);
+
+                
                     for(i=0 ; i<5 ; i++){
                         if(_obj.content.indexOf(titles[i]) !== -1){
                             message2.message.text = titles[i];
