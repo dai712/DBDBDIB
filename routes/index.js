@@ -58,16 +58,20 @@ function crawlingNewsByField(field){
         var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());
 
         for(i = 1 ; i < 6 ; i++) {
-            var crawSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1)';
+            var crawSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
+            var crawImgSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_thumb > div > a';
             $(crawSelector).each(function(index, value){
                 var title = $(this).find('a').text();
                 var url = $(value).find('a').attr('href');
-                var img = $(value).find('img').attr('src');
-                console.log('ㅅㅅ' , img);
                 titles.push(title);
                 urls.push(url);
+            });
+            $(crawImgSelector).each(function(index, value){
+                var img = $(value).find('img').attr('src');
+                console.log('ㅅㅅ' , img);
                 imgUrls.push(img);
             });
+
         }
     });
 }
