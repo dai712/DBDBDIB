@@ -208,14 +208,13 @@ router.post('/message', (req, res) => {
                     message1.keyboard.type = 'buttons';
                     let field = fields[i];
 
-                    console.log(titles);
                    /*
                     for(j=0;j<5;j++){
                         message1.keyboard.buttons.push("(" + field + ")" +  titles[j]);
                     }*/
 
                    while(true){
-                       if(typeof titles === "undefined"){
+                       if(typeof titles[0] === "undefined"){
                        }else {
                            console.log(titles[0]);
 
