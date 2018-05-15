@@ -42,7 +42,7 @@ function crawlingNewsByField(field){
     if(field === 0){
         url_news = 'http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001';
     } else {
-        url_news = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=10' + field -1;
+        url_news = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=10' + (field - 1);
     }
     
     request.get({
