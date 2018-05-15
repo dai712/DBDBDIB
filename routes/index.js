@@ -56,7 +56,7 @@ function crawlingNewsByField(field){
                 var crawSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child('+ (i+1) +') > dl > dt:nth-child(2)';
                 var crawImgSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child('+ (i+1) +') > dl > dt.photo > a';
                 $(crawSelector).each(function(index, value){
-                    var title = $(this).find('a').text().replace(/^\s*$/,"");
+                    var title = $(this).find('a').text().replace( /(\s*)/g, "");
                     var url = $(value).find('a').attr('href');
                     titles.push(title);
                     urls.push(url);
