@@ -186,6 +186,22 @@ router.post('/message', (req, res) => {
               "돌아가기",
             ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
+
+            message2.message.text = titles[1];
+            message2.message.photo = {
+                url : 'http://imgnews.naver.net/image/origin/025/2018/05/15/2820854.jpg?type=nf132_90',
+                width : 640,
+                height : 480,
+            };
+            message2.message.message_button = {
+                label : '이동하기',
+                url : urls[1]
+            };
+            message2.keyboard.type = 'buttons';
+            message2.keyboard.buttons = [
+                "돌아가기",
+            ];
+            res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
             break;
     }
 
