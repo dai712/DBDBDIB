@@ -216,6 +216,8 @@ router.post('/message', (req, res) => {
 
                    while(true){
                        if(titles[0] !== ''){
+                           console.log(titles[0]);
+                           
                            message1.keyboard.buttons = [
                                "(" + field + ")" +  titles[0],
                                "(" + field + ")" +  titles[1],
