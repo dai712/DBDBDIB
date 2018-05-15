@@ -201,9 +201,9 @@ router.post('/message', (req, res) => {
                     message1.keyboard.type = 'buttons';
                     let field = fields[i];
                     crawlingNewsByField(i);
-                    for(i=0;i<5;i++){
-                        message1.keyboard.buttons.push("(" + field + ")" +  titles[i]);
-
+                    console.log(titles);
+                    for(j=0;j<5;j++){
+                        message1.keyboard.buttons.push("(" + field + ")" +  titles[j]);
                     }
                     res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
                     break;
