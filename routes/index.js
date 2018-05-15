@@ -84,7 +84,15 @@ router.post('/message', (req, res) => {
         content: req.body.content
     };
 
-    const message = {
+    const message1 = {
+        "message": {
+            "text": '',
+        },
+        "keyboard": {
+            "type": "",
+        }
+    };
+    const message2 = {
         "message": {
             "text": '',
             "photo": {
@@ -104,25 +112,28 @@ router.post('/message', (req, res) => {
 
     switch(_obj.content) {
         case '뉴스 보기' :
-            message.message.text = '뉴스보기 실행';
-            message.keyboard.type = 'buttons';
-            message.keyboard.buttons = [
+            message1.message.text = '뉴스보기 실행';
+            message1.keyboard.type = 'buttons';
+            message1.keyboard.buttons = [
                 "장르",
                 "언론사",
                 "키워드 검색",
             ];
+            res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
         case '저장 목록' :
-            message.message.text = '저장목록 실행';
+            message1.message.text = '저장목록 실행';
+            res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
         case '즐겨 찾기' :
-            message.message.text = '즐겨찾기 실행';
+            message1.message.text = '즐겨찾기 실행';
+            res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
 
         case '장르' :
-            message.message.text = '장르 선택';
-            message.keyboard.type = 'buttons';
-            message.keyboard.buttons = [
+            message1.message.text = '장르 선택';
+            message1.keyboard.type = 'buttons';
+            message1.keyboard.buttons = [
                 "속보",
                 "정치",
                 "경제",
@@ -131,11 +142,12 @@ router.post('/message', (req, res) => {
                 "세계",
                 "IT/과학",
             ];
+            res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
         case '언론사' :
-            message.message.text = '언론사 선택';
-            message.keyboard.type = 'buttons';
-            message.keyboard.buttons = [
+            message1.message.text = '언론사 선택';
+            message1.keyboard.type = 'buttons';
+            message1.keyboard.buttons = [
                 "경향",
                 "국민",
                 "동아",
@@ -147,27 +159,33 @@ router.post('/message', (req, res) => {
                 "한겨레",
                 "한국",
             ];
+            res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
         case '경향' :
-            message.message.text = '테스트';
+            message1.message.text = '테스트';
+            res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
         case '키워드 검색' :
-            message.message.text = '입력해 주세용';
-            message.keyboard.type = 'text';
+            message1.message.text = '입력해 주세용';
+            message1.keyboard.type = 'text';
+            res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
         case '속보' :
-            message.message.text = titles[0];
-            message.message.photo = {
-                url : "http://imgnews.naver.net/image/origin/014/2018/05/15/4021664.jpg?type=nf132_90"
+            message2.message.text = titles[0];
+            message2.message.photo = {
+                url : 'http://imgnews.naver.net/image/origin/014/2018/05/15/4021664.jpg?type=nf132_90',
+                width : 640,
+                height : 480,
             };
-            message.message.message_button = {
-              label : "이동하기",
+            message2.message.message_button = {
+              label : '이동하기',
                 url : urls[0]
             };
+            res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
             break;
     }
 
-res.set({'content-type': 'application/json'}).send(JSON.stringify(message));
+
 });
 
 
