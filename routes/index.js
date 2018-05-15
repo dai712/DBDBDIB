@@ -69,7 +69,7 @@ request.get({
 
 
     for(i = 1 ; i < 6 ; i++) {
-        var crawSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(1) > div.cluster_body > ul > li:nth-child('+ i +') > div.cluster_text';
+        var crawSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
         $(crawSelector).each(function(index, ele){
             var title = $(this).find('a').text();
             titles.push(title);
