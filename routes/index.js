@@ -55,6 +55,8 @@ url_news = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=102';
 request.get({
     url: url_news,
  //   headers: {'Content-Type': 'charset=euc-kr'},
+    headers: { "User-Agent": "Mozilla/5.0" } ,
+    encoding: null
     },function(err, res, body){
    if(err) console.log(err);
    //console.log('body : ', body);
