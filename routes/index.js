@@ -56,16 +56,13 @@ function crawlingNewsByField(field){
                 var crawSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child('+ (i+1) +') > dl > dt:nth-child(2)';
                 var crawImgSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child('+ (i+1) +') > dl > dt.photo > a';
                 $(crawSelector).each(function(index, value){
-                    var title = $(this).find('a').text();
+                    var title = $(this).find('a').text().replace(/^\s*$/,"");
                     var url = $(value).find('a').attr('href');
-                    console.log('fsaf',title);
-                    console.log('fsaf',url);
                     titles.push(title);
                     urls.push(url);
                 });
                 $(crawImgSelector).each(function(index, value){
                     var img = $(value).find('img').attr('src');
-                    console.log('fsaf',img);
                     imgUrls.push(img);
                 });
 
