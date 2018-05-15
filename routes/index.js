@@ -42,7 +42,7 @@ function crawlingNewsByField(field){
     if(field === 0){
         url_news = 'http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001';
     } else {
-        url_news = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=10' + field;
+        url_news = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=10' + field -1;
     }
     
     request.get({
@@ -203,10 +203,11 @@ router.post('/message', (req, res) => {
             for(i=0 ; i< 7 ; i++){
                 if(_obj.content === fields[i]){
                     crawlingNewsByField(i);
+                    let field = fields[i];
+
                     setTimeout( function() {
                             message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                             message1.keyboard.type = 'buttons';
-                            let field = fields[i];
                             message1.keyboard.buttons = [
                                 "(" + field + ")" +  titles[0],
                                 "(" + field + ")" +  titles[1],
