@@ -226,9 +226,10 @@ router.post('/message', (req, res) => {
             if( _obj.content.charAt(0) === '('){
                 console.log(titles[0]);
 
-                
+
                     for(i=0 ; i<5 ; i++){
                         if(_obj.content.indexOf(titles[i]) !== -1){
+
                             message2.message.text = titles[i];
                             message2.message.photo = {
                                 url : imgUrls[i],
@@ -243,6 +244,7 @@ router.post('/message', (req, res) => {
                             message2.keyboard.buttons = [
                                 "돌아가기",
                             ];
+                            console.log(message2);
                             res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
                             //clearArrays();
                             break;
