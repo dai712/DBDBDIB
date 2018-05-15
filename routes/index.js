@@ -71,11 +71,11 @@ request.get({
         var title = $(this).find('a').text();
         titles.push(title);
     });
-    console.log(titles[0]);
-    console.log(titles[1]);
-    console.log(titles[2]);
-    console.log(titles[3]);
-    console.log(titles[4]);
+    console.log('titles 1: ', titles[0]);
+    console.log('titles 2: ',titles[1]);
+    console.log('titles 3: ',titles[2]);
+    console.log('titles 4: ',titles[3]);
+    console.log('titles 5: ',titles[4]);
 
 });
 
