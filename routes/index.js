@@ -215,7 +215,7 @@ router.post('/message', (req, res) => {
                     }*/
 
                    while(true){
-                       if(titles[0] !== undefined){
+                       if(typeof titles === "undefined"){
                            console.log(titles[0]);
 
                            message1.keyboard.buttons = [
