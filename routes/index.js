@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var client = require('cheerio-httpcli');
 var cheerio = require('cheerio');
 var request = require('request');
 var fs = require('fs');
 var urlType = require('url');
+var iconv = require('iconv-lite');
 
 var savedir = __dirname + '/img';
 if(!fs.existsSync(savedir)){
@@ -65,10 +65,10 @@ request.get({
 
     let json = [], title;
 
-    $('#main_content').each(function(index, ele){ // <div class="recomm_blog">를 반복
-        title = $(this).find('a').text(); // a태그 아래에 class="tit_subject"의 텍스트(제목)
+    $('#main_content').each(function(index, ele){
+        title = $(this).find('a').text();
 
-        json.push({ title: title})
+        json.push({ title: iconv.decode(strContents, 'EUC-KR').toString()})
     });
 
     console.log('json: ', json);
