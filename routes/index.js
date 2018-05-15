@@ -186,6 +186,7 @@ router.post('/message', (req, res) => {
             break;
 
         case '돌아가기' :
+            clearArrays();
             message1.message.text = '돌아가기';
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [
@@ -202,10 +203,12 @@ router.post('/message', (req, res) => {
             for(i=0 ; i< 7 ; i++){
                 if(_obj.content === fields[i]){
                     console.log(fields[i]);
+
                     message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                     message1.keyboard.type = 'buttons';
                     let field = fields[i];
                     crawlingNewsByField(i);
+
                     console.log(titles);
                    /*
                     for(j=0;j<5;j++){
@@ -217,6 +220,7 @@ router.post('/message', (req, res) => {
                        "(" + field + ")" +  titles[2],
                        "(" + field + ")" +  titles[3],
                        "(" + field + ")" +  titles[4],
+                       "돌아가기",
                    ];
                     res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
                     clearArrays();
