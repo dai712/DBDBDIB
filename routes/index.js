@@ -111,6 +111,7 @@ router.post('/message', (req, res) => {
             res.sendFile(__dirname+'\\Test.html');
             break;
         case '뉴스 보기' :
+            res.sendFile(__dirname+'\\Test.html');
             message.message.text = '뉴스보기 실행';
             message.keyboard.type = 'buttons';
             message.keyboard.buttons = [
