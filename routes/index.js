@@ -49,8 +49,6 @@ function crawlingNewsByField(field){
         },function(err, res, body){
             if(err) console.log(err);
 
-
-
             var strContents = new Buffer(body);
             var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());
 
@@ -60,11 +58,14 @@ function crawlingNewsByField(field){
                 $(crawSelector).each(function(index, value){
                     var title = $(this).find('a').text();
                     var url = $(value).find('a').attr('href');
+                    console.log('fsaf',title);
+                    console.log('fsaf',url);
                     titles.push(title);
                     urls.push(url);
                 });
                 $(crawImgSelector).each(function(index, value){
                     var img = $(value).find('img').attr('src');
+                    console.log('fsaf',img);
                     imgUrls.push(img);
                 });
 
