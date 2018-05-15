@@ -71,7 +71,11 @@ request.get({
         var title = $(this).find('a').text();
         titles.push(title);
     });
-    console.log(titles);
+    console.log(titles[0]);
+    console.log(titles[1]);
+    console.log(titles[2]);
+    console.log(titles[3]);
+    console.log(titles[4]);
 
 });
 
