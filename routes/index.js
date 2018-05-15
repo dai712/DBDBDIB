@@ -181,6 +181,10 @@ router.post('/message', (req, res) => {
               label : '이동하기',
                 url : urls[0]
             };
+            message2.keyboard.type = 'buttons';
+            message2.keyboard.buttons = [
+              "돌아가기",
+            ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
             break;
     }
