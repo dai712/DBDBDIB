@@ -71,6 +71,7 @@ function crawlingNewsByField(field){
     });
 }
 crawlingNewsByField(1);
+clearArrays();
 function clearArrays() {
     titles = [];
     urls = [];
