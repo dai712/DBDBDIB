@@ -196,13 +196,14 @@ router.post('/message', (req, res) => {
 
             for(i=0 ; i< 7 ; i++){
                 if(_obj.content === fields[i]){
+                    console.log(fields[i]);
                     message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                     message1.keyboard.type = 'buttons';
                     let field = fields[i];
                     crawlingNewsByField(i);
                     for(i=0;i<5;i++){
                         message1.keyboard.buttons.push("(" + field + ")" +  titles[i]);
-                        
+
                     }
                     res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
                     break;
