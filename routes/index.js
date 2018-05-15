@@ -61,7 +61,7 @@ request.get({
    if(err) console.log(err);
    //console.log('body : ', body);
 
-
+    let titles = [];
 
     var strContents = new Buffer(body);
    // console.log(iconv.decode(strContents, 'EUC-KR').toString());
@@ -69,8 +69,9 @@ request.get({
 
     $('#main_content').each(function(index, ele){
         var title = $(this).find('a').text();
-        console.log(title);
+        titles.push(title);
     });
+    console.log(titles);
 
 });
 
