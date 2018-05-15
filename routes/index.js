@@ -2,19 +2,21 @@ var express = require('express');
 var router = express.Router();
 var cheerio = require('cheerio');
 var request = require('request');
-var fs = require('fs');
-var urlType = require('url');
+//var fs = require('fs');
+//var urlType = require('url');
 var iconv = require('iconv-lite');
 
+/*
 var savedir = __dirname + '/img';
 if(!fs.existsSync(savedir)){
     fs.mkdirSync(savedir);
 }
+*/
 
 var client_id = 'uD_8GWD3pP_KXJJRKecZ';
 var client_secret = '7OTLr047fX';
-router.get('/search/news', function (req, res) {
-    var api_url = 'https://openapi.naver.com/v1/search/news?query=' + encodeURI('속보'); // json 결과
+router.get('/search/news', function (req, res) {                                                            //네이버 뉴스 API
+    var api_url = 'https://openapi.naver.com/v1/search/news?query=' + encodeURI('속보');
     var request = require('request');
     var options = {
         url: api_url,
@@ -30,31 +32,10 @@ router.get('/search/news', function (req, res) {
         }
     });
 });
-/*
-var url = 'https://ko.wikipedia.org/wiki/' + encodeURIComponent('강아지');
-var param = {};
-
-//html 파일 획득
-client.fetch(url, param, function(err, $, res){
-    if(err) {console.log(err); return;}
-    //img 링크 추출 후 함수 실행
-    $('div').each(function(idx){
-        var src = $(this).attr('src');
-        //상대 경로 -> 절대 경로
-        src = urlType.resolve(url, src);
-        console.log(src);
-        //저장 파일 이름 설정
-        var fname = urlType.parse(src).pathname;
-        fname = savedir + '/' + fname.replace(/[^a-zA-Z0-9\.]+/g, '_');
-        //다운로드
-        request(src).pipe(fs.createWriteStream(fname));
-    });
-});
-*/
+                                                                                            //크롤링
 url_news = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=102';
 request.get({
     url: url_news,
- //   headers: {'Content-Type': 'charset=euc-kr'},
     headers: { "User-Agent": "Mozilla/5.0" } ,
     encoding: null
     },function(err, res, body){
@@ -78,7 +59,7 @@ request.get({
 
     }
 
-
+/*
     console.log('titles 1: ', titles[0]);
     console.log('titles 2: ',titles[1]);
     console.log('titles 3: ',titles[2]);
@@ -88,6 +69,7 @@ request.get({
     console.log('urls 1 : ', urls[0]);
     console.log('urls 2 : ', urls[1]);
     console.log('urls 3 : ', urls[2]);
+    */
 
 });
 
