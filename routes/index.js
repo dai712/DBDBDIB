@@ -68,7 +68,7 @@ request.get({
     $('#main_content').each(function(index, ele){
         title = $(this).find('a').text();
 
-        json.push({ title: iconv.decode(strContents, 'EUC-KR').toString()})
+        json.push({ title: iconv.decode(title, 'EUC-KR').toString()})
     });
 
     console.log('json: ', json);
