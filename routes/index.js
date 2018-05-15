@@ -67,7 +67,7 @@ request.get({
    // console.log(iconv.decode(strContents, 'EUC-KR').toString());
     var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());
 
-    $('#main_content').each(function(index, ele){
+    $('#main_content > div > div._persist > div:nth-child(1) > div:nth-child(1) > div.cluster_body > ul').each(function(index, ele){
         var title = $(this).find('a').text();
         titles.push(title);
     });
