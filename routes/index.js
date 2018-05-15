@@ -63,7 +63,7 @@ function crawlingNewsByField(field){
                 var title = $(this).find('a').text();
                 var url = $(value).find('a').attr('href');
                 var img = $(value).find('img').attr('src');
-                console.log(img);
+                console.log('ㅅㅅ' , img);
                 titles.push(title);
                 urls.push(url);
                 imgUrls.push(img);
@@ -225,7 +225,7 @@ router.post('/message', (req, res) => {
                 }
             }
             if( _obj.content.charAt(0) === '('){
-                
+
                     for(i=0 ; i<5 ; i++){
                         if(_obj.content.indexOf(titles[i]) !== -1){
 
