@@ -32,7 +32,10 @@ router.get('/search/news', function (req, res) {                                
         }
     });
 });
-                                                                                            //크롤링
+
+var titles = [];
+var urls = [];
+                                                                                //크롤링
 url_news = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=102';
 request.get({
     url: url_news,
@@ -41,12 +44,10 @@ request.get({
     },function(err, res, body){
    if(err) console.log(err);
 
-    let titles = [];
-    let urls = [];
+
 
     var strContents = new Buffer(body);
     var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());
-
 
     for(i = 1 ; i < 6 ; i++) {
         var crawSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
@@ -56,21 +57,7 @@ request.get({
             titles.push(title);
             urls.push(url);
         });
-
     }
-
-/*
-    console.log('titles 1: ', titles[0]);
-    console.log('titles 2: ',titles[1]);
-    console.log('titles 3: ',titles[2]);
-    console.log('titles 4: ',titles[3]);
-    console.log('titles 5: ',titles[4]);
-
-    console.log('urls 1 : ', urls[0]);
-    console.log('urls 2 : ', urls[1]);
-    console.log('urls 3 : ', urls[2]);
-    */
-
 });
 
 /* GET home page. */
@@ -82,7 +69,7 @@ router.get('/', function(req, res, next) {
 router.get('/keyboard', (req, res) => {
     const menu = {
         type: 'buttons',
-        buttons: ["뉴스 보기", "저장 목록", "즐겨찾기", "테스트용"]
+        buttons: ["뉴스 보기", "저장 목록", "즐겨찾기"]
     };
 res.set({
     'content-type': 'application/json'
@@ -100,6 +87,15 @@ router.post('/message', (req, res) => {
     const message = {
         "message": {
             "text": '',
+            "photo": {
+                "url": "",
+                "width": 640,
+                "height": 480
+            },
+            "message_button": {
+                "label": "",
+                "url": ""
+            }
         },
         "keyboard": {
             "type": "",
@@ -107,11 +103,7 @@ router.post('/message', (req, res) => {
     };
 
     switch(_obj.content) {
-        case '테스트용' :
-            res.sendFile(__dirname+'\\Test.html');
-            break;
         case '뉴스 보기' :
-            res.sendFile(__dirname+'\\Test.html');
             message.message.text = '뉴스보기 실행';
             message.keyboard.type = 'buttons';
             message.keyboard.buttons = [
@@ -162,6 +154,16 @@ router.post('/message', (req, res) => {
         case '키워드 검색' :
             message.message.text = '입력해 주세용';
             message.keyboard.type = 'text';
+            break;
+        case '속보' :
+            message.message.text = titles[0];
+            message.message.photo = {
+                url : "http://imgnews.naver.net/image/origin/014/2018/05/15/4021664.jpg?type=nf132_90"
+            };
+            message.message.message_button = {
+              label : "이동하기",
+                url : urls[0]
+            };
             break;
     }
 
