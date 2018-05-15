@@ -62,6 +62,7 @@ request.get({
    //console.log('body : ', body);
 
     let titles = [];
+    let urls = [];
 
     var strContents = new Buffer(body);
    // console.log(iconv.decode(strContents, 'EUC-KR').toString());
@@ -72,7 +73,9 @@ request.get({
         var crawSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
         $(crawSelector).each(function(index, ele){
             var title = $(this).find('a').text();
+            var url = $(this).find('href');
             titles.push(title);
+            urls.push(url);
         });
 
     }
@@ -83,6 +86,10 @@ request.get({
     console.log('titles 3: ',titles[2]);
     console.log('titles 4: ',titles[3]);
     console.log('titles 5: ',titles[4]);
+
+    console.log('urls 1 : ', urls[0]);
+    console.log('urls 2 : ', urls[1]);
+    console.log('urls 3 : ', urls[2]);
 
 });
 
