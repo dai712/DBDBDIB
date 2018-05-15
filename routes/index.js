@@ -58,7 +58,7 @@ function crawlingNewsByField(field){
         var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());
 
         for(i = 1 ; i < 6 ; i++) {
-            var crawSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
+            var crawSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1)';
             $(crawSelector).each(function(index, value){
                 var title = $(this).find('a').text();
                 var url = $(value).find('a').attr('href');
