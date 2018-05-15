@@ -67,10 +67,17 @@ request.get({
    // console.log(iconv.decode(strContents, 'EUC-KR').toString());
     var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());
 
-    $('#main_content > div > div._persist > div:nth-child(1) > div:nth-child(1) > div.cluster_body > ul').each(function(index, ele){
-        var title = $(this).find('a').text();
-        titles.push(title);
-    });
+
+    for(i = 1 ; i < 6 ; i++) {
+        var crawSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(1) > div.cluster_body > ul > li:nth-child('+ i +') > div.cluster_text';
+        $(crawSelector).each(function(index, ele){
+            var title = $(this).find('a').text();
+            titles.push(title);
+        });
+
+    }
+
+
     console.log('titles 1: ', titles[0]);
     console.log('titles 2: ',titles[1]);
     console.log('titles 3: ',titles[2]);
