@@ -82,7 +82,7 @@ router.get('/', function(req, res, next) {
 router.get('/keyboard', (req, res) => {
     const menu = {
         type: 'buttons',
-        buttons: ["뉴스 보기", "저장 목록", "즐겨찾기"]
+        buttons: ["뉴스 보기", "저장 목록", "즐겨찾기", "테스트용"]
     };
 res.set({
     'content-type': 'application/json'
@@ -107,6 +107,9 @@ router.post('/message', (req, res) => {
     };
 
     switch(_obj.content) {
+        case '테스트용' :
+            res.sendFile(__dirname+'\\Test.html');
+            break;
         case '뉴스 보기' :
             message.message.text = '뉴스보기 실행';
             message.keyboard.type = 'buttons';
