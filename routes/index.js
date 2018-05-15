@@ -200,29 +200,30 @@ router.post('/message', (req, res) => {
         default:
             let fields = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학"];
 
-            for(i=0 ; i< 7 ; i++) {
-                if (_obj.content === fields[i]) {
+            for(i=0 ; i< 7 ; i++){
+                if(_obj.content === fields[i]){
                     crawlingNewsByField(i);
                     let field = fields[i];
 
-                    setTimeout(function () {
+                    setTimeout( function() {
                             message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                             message1.keyboard.type = 'buttons';
                             message1.keyboard.buttons = [
-                                "(" + field + ")" + titles[0],
-                                "(" + field + ")" + titles[1],
-                                "(" + field + ")" + titles[2],
-                                "(" + field + ")" + titles[3],
-                                "(" + field + ")" + titles[4],
+                                "(" + field + ")" +  titles[0],
+                                "(" + field + ")" +  titles[1],
+                                "(" + field + ")" +  titles[2],
+                                "(" + field + ")" +  titles[3],
+                                "(" + field + ")" +  titles[4],
                                 "돌아가기",
                             ];
                             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
-                            // clearArrays();
-                        },
-                        1000);
+                           // clearArrays();
+                    },
+                1000);
                     break;
                 }
-            }else{
+            }
+            if(_obj.content[0] === '('){
                     for(i=0 ; i<5 ; i++){
                         if(_obj.content.indexOf(titles[i]) !== -1){
                             message2.message.text = titles[i];
