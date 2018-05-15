@@ -54,24 +54,20 @@ client.fetch(url, param, function(err, $, res){
 url_news = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=102';
 request.get({
     url: url_news,
-    headers: {'Content-Type': 'charset=euc-kr'},
+ //   headers: {'Content-Type': 'charset=euc-kr'},
     },function(err, res, body){
    if(err) console.log(err);
    //console.log('body : ', body);
 
     var $ = cheerio.load(body);
 
-    var test = $('#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(1) > dl > dt:nth-child(2)');
-
-    let json = [], title;
+    var strContents = new Buffer(body);
+    console.log(iconv.decode(strContents, 'EUC-KR').toString());
 
     $('#main_content').each(function(index, ele){
-        title = $(this).find('a').text();
-
-        json.push({ title: iconv.decode(title, 'EUC-KR').toString()})
+       // title = $(this).find('a').text();
     });
 
-    console.log('json: ', json);
 });
 
 /* GET home page. */
