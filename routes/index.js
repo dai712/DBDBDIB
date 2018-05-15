@@ -39,10 +39,10 @@ var imgUrls = [];           //img url
 
 function crawlingNewsByField(field){
 
-    if(isNaN(field) === false){             //숫자일때
-        url_news = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=10' + field;    
-    } else {                                //숫자가 아닐때 == 속보
+    if(field === 0){
         url_news = 'http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001';
+    } else {
+        url_news = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=10' + field;
     }
     
     request.get({
@@ -192,19 +192,22 @@ router.post('/message', (req, res) => {
             break;
 
         default:
-                if(_obj.content === '사회'){
+            let fields = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학"];
+
+            for(i=0 ; i< 7 ; i++){
+                if(_obj.content === fields[i]){
                     message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                     message1.keyboard.type = 'buttons';
-                    message1.keyboard.buttons = [
-                        "(사회)" + titles[0],
-                        "(사회)" + titles[1],
-                        "(사회)" + titles[2],
-                        "(사회)" + titles[3],
-                        "(사회)" + titles[4],
-                    ];
+                    let field = fields[i];
+                    crawlingNewsByField(i);
+                    for(i=0;i<5;i++){
+                        message1.keyboard.buttons.push("(" + field + ")" +  titles[i]);
+                    }
                     res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
                     break;
                 }
+            }
+            
 
 
                 if(_obj.content.indexOf('(사회)') !== -1){
