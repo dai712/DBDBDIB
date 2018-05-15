@@ -71,6 +71,11 @@ function crawlingNewsByField(field){
     });
 }
 
+function clearArrays() {
+    titles = [];
+    urls = [];
+    imgUrls = [];
+}
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -202,10 +207,19 @@ router.post('/message', (req, res) => {
                     let field = fields[i];
                     crawlingNewsByField(i);
                     console.log(titles);
+                   /*
                     for(j=0;j<5;j++){
                         message1.keyboard.buttons.push("(" + field + ")" +  titles[j]);
-                    }
+                    }*/
+                   message1.keyboard.buttons = [
+                       "(" + field + ")" +  titles[0],
+                       "(" + field + ")" +  titles[1],
+                       "(" + field + ")" +  titles[2],
+                       "(" + field + ")" +  titles[3],
+                       "(" + field + ")" +  titles[4],
+                   ];
                     res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
+                    clearArrays();
                     break;
                 }
             }
@@ -230,6 +244,7 @@ router.post('/message', (req, res) => {
                                 "돌아가기",
                             ];
                             res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
+                            clearArrays();
                             break;
                         }
                     }
