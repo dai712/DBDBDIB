@@ -67,8 +67,9 @@ request.get({
    // console.log(iconv.decode(strContents, 'EUC-KR').toString());
 
     $('#main_content').each(function(index, ele){
-       var title = $(this).find('a').text();
-        console.log(iconv.decode(title, 'EUC-KR').toString());
+        var title = $(this).find('a').text();
+        var strContents = new Buffer(title);
+        console.log(iconv.decode(strContents, 'EUC-KR').toString());
     });
 
 });
