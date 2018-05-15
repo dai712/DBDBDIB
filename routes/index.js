@@ -61,15 +61,15 @@ request.get({
    if(err) console.log(err);
    //console.log('body : ', body);
 
-    var $ = cheerio.load(body);
 
-   // var strContents = new Buffer(body);
+
+    var strContents = new Buffer(body);
    // console.log(iconv.decode(strContents, 'EUC-KR').toString());
+    var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());
 
     $('#main_content').each(function(index, ele){
         var title = $(this).find('a').text();
-        var strContents = new Buffer(title);
-        console.log(iconv.decode(strContents, 'EUC-KR').toString());
+        console.log(title);
     });
 
 });
