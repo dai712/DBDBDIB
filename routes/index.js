@@ -59,21 +59,19 @@ request.get({
     encoding: null
     },function(err, res, body){
    if(err) console.log(err);
-   //console.log('body : ', body);
 
     let titles = [];
     let urls = [];
 
     var strContents = new Buffer(body);
-   // console.log(iconv.decode(strContents, 'EUC-KR').toString());
     var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());
 
 
     for(i = 1 ; i < 6 ; i++) {
         var crawSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
-        $(crawSelector).each(function(index, ele){
+        $(crawSelector).each(function(index, value){
             var title = $(this).find('a').text();
-            var url = $(ele).attr('href');
+            var url = $(value).find('a').attr('href');
             titles.push(title);
             urls.push(url);
         });
