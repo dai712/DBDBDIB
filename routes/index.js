@@ -73,7 +73,7 @@ request.get({
         var crawSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
         $(crawSelector).each(function(index, ele){
             var title = $(this).find('a').text();
-            var url = $(this).find('href');
+            var url = $(this).attr('href');
             titles.push(title);
             urls.push(url);
         });
