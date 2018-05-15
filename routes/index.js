@@ -41,39 +41,67 @@ function crawlingNewsByField(field){
 
     if(field === 0){
         url_news = 'http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001';
+
+        request.get({
+            url: url_news,
+            headers: { "User-Agent": "Mozilla/5.0" } ,
+            encoding: null
+        },function(err, res, body){
+            if(err) console.log(err);
+
+
+
+            var strContents = new Buffer(body);
+            var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());
+
+            for(i = 1 ; i < 6 ; i++) {
+                var crawSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child('+ (i+1) +') > dl > dt:nth-child(2)';
+                var crawImgSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child('+ (i+1) +') > dl > dt.photo > a';
+                $(crawSelector).each(function(index, value){
+                    var title = $(this).find('a').text();
+                    var url = $(value).find('a').attr('href');
+                    titles.push(title);
+                    urls.push(url);
+                });
+                $(crawImgSelector).each(function(index, value){
+                    var img = $(value).find('img').attr('src');
+                    imgUrls.push(img);
+                });
+
+            }
+        });
     } else {
         url_news = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=10' + (field - 1);
+
+        request.get({
+            url: url_news,
+            headers: { "User-Agent": "Mozilla/5.0" } ,
+            encoding: null
+        },function(err, res, body){
+            if(err) console.log(err);
+
+            var strContents = new Buffer(body);
+            var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());
+
+            for(i = 1 ; i < 6 ; i++) {
+                var crawSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
+                var crawImgSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_thumb > div > a';
+                $(crawSelector).each(function(index, value){
+                    var title = $(this).find('a').text();
+                    var url = $(value).find('a').attr('href');
+                    titles.push(title);
+                    urls.push(url);
+                });
+                $(crawImgSelector).each(function(index, value){
+                    var img = $(value).find('img').attr('src');
+                    imgUrls.push(img);
+                });
+
+            }
+        });
     }
     
-    request.get({
-        url: url_news,
-        headers: { "User-Agent": "Mozilla/5.0" } ,
-        encoding: null
-    },function(err, res, body){
-        if(err) console.log(err);
 
-
-
-        var strContents = new Buffer(body);
-        var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());
-
-        for(i = 1 ; i < 6 ; i++) {
-            var crawSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
-            var crawImgSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_thumb > div > a';
-            $(crawSelector).each(function(index, value){
-                var title = $(this).find('a').text();
-                var url = $(value).find('a').attr('href');
-                titles.push(title);
-                urls.push(url);
-            });
-            $(crawImgSelector).each(function(index, value){
-                var img = $(value).find('img').attr('src');
-                console.log('ㅅㅅ' , img);
-                imgUrls.push(img);
-            });
-
-        }
-    });
 }
 
 function clearArrays() {
