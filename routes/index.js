@@ -33,32 +33,44 @@ router.get('/search/news', function (req, res) {                                
     });
 });
 
-var titles = [];
-var urls = [];
-                                                                                //크롤링
-url_news = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=102';
-request.get({
-    url: url_news,
-    headers: { "User-Agent": "Mozilla/5.0" } ,
-    encoding: null
-    },function(err, res, body){
-   if(err) console.log(err);
+var titles = [];            //제목
+var urls = [];              //url
+var imgUrls = [];           //img url
 
+function crawlingNewsByField(field){
 
-
-    var strContents = new Buffer(body);
-    var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());
-
-    for(i = 1 ; i < 6 ; i++) {
-        var crawSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
-        $(crawSelector).each(function(index, value){
-            var title = $(this).find('a').text();
-            var url = $(value).find('a').attr('href');
-            titles.push(title);
-            urls.push(url);
-        });
+    if(isNaN(field) === false){             //숫자일때
+        url_news = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=10' + field;    
+    } else {                                //숫자가 아닐때 == 속보
+        url_news = 'http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001';
     }
-});
+    
+    request.get({
+        url: url_news,
+        headers: { "User-Agent": "Mozilla/5.0" } ,
+        encoding: null
+    },function(err, res, body){
+        if(err) console.log(err);
+
+
+
+        var strContents = new Buffer(body);
+        var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());
+
+        for(i = 1 ; i < 6 ; i++) {
+            var crawSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
+            $(crawSelector).each(function(index, value){
+                var title = $(this).find('a').text();
+                var url = $(value).find('a').attr('href');
+                var img = $(value).find('img').attr('src');
+                titles.push(title);
+                urls.push(url);
+                imgUrls.push(img);
+            });
+        }
+    });
+}
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -161,35 +173,46 @@ router.post('/message', (req, res) => {
             ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
-        case '경향' :
-            message1.message.text = '테스트';
-            res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
-            break;
+
         case '키워드 검색' :
             message1.message.text = '입력해 주세용';
             message1.keyboard.type = 'text';
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
-        case '사회' :
-            message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
+
+        case '돌아가기' :
+            message1.message.text = '돌아가기';
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [
-                "(사회)" + titles[0],
-                "(사회)" + titles[1],
-                "(사회)" + titles[2],
-                "(사회)" + titles[3],
-                "(사회)" + titles[4],
+                "뉴스 보기",
+                "저장 목록",
+                "즐겨찾기"
             ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
 
         default:
+                if(_obj.content === '사회'){
+                    message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
+                    message1.keyboard.type = 'buttons';
+                    message1.keyboard.buttons = [
+                        "(사회)" + titles[0],
+                        "(사회)" + titles[1],
+                        "(사회)" + titles[2],
+                        "(사회)" + titles[3],
+                        "(사회)" + titles[4],
+                    ];
+                    res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
+                    break;
+                }
+
+
                 if(_obj.content.indexOf('(사회)') !== -1){
                     for(i=0 ; i<5 ; i++){
                         if(_obj.content.indexOf(titles[i]) !== -1){
                             message2.message.text = titles[i];
                             message2.message.photo = {
-                                url : 'http://imgnews.naver.net/image/origin/014/2018/05/15/4021664.jpg?type=nf132_90',
+                                url : imgUrls[i],
                                 width : 640,
                                 height : 480,
                             };
@@ -206,6 +229,7 @@ router.post('/message', (req, res) => {
                         }
                     }
                 }
+
             break;
     }
 
