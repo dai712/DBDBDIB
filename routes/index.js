@@ -223,7 +223,7 @@ router.post('/message', (req, res) => {
                     break;
                 }
             }
-            if(_obj.content[0] === '('){
+            if( _obj.content.substring(0,0) === '('){
                     for(i=0 ; i<5 ; i++){
                         if(_obj.content.indexOf(titles[i]) !== -1){
                             message2.message.text = titles[i];
