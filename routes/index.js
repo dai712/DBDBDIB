@@ -202,28 +202,33 @@ router.post('/message', (req, res) => {
 
             for(i=0 ; i< 7 ; i++){
                 if(_obj.content === fields[i]){
-                    console.log(fields[i]);
+                    crawlingNewsByField(i);
 
                     message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                     message1.keyboard.type = 'buttons';
                     let field = fields[i];
-                    crawlingNewsByField(i);
 
                     console.log(titles);
                    /*
                     for(j=0;j<5;j++){
                         message1.keyboard.buttons.push("(" + field + ")" +  titles[j]);
                     }*/
-                   message1.keyboard.buttons = [
-                       "(" + field + ")" +  titles[0],
-                       "(" + field + ")" +  titles[1],
-                       "(" + field + ")" +  titles[2],
-                       "(" + field + ")" +  titles[3],
-                       "(" + field + ")" +  titles[4],
-                       "돌아가기",
-                   ];
-                    res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
-                    clearArrays();
+
+                   while(true){
+                       if(titles[0] !== null){
+                           message1.keyboard.buttons = [
+                               "(" + field + ")" +  titles[0],
+                               "(" + field + ")" +  titles[1],
+                               "(" + field + ")" +  titles[2],
+                               "(" + field + ")" +  titles[3],
+                               "(" + field + ")" +  titles[4],
+                               "돌아가기",
+                           ];
+                           res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
+                           clearArrays();
+                           break;
+                       }
+                   }
                     break;
                 }
             }
