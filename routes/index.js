@@ -3,10 +3,10 @@ var router = express.Router();
 var cheerio = require('cheerio');
 var iconv = require('iconv-lite');
 
-let fieldSelector1 = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(';
-let fieldSelector2 = ') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
-let fieldImgSelector1 = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(';
-let fieldImgSelector2 = ') > div.cluster_body > ul > li:nth-child(1) > div.cluster_thumb > div > a';
+const fieldSelector1 = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(';
+const fieldSelector2 = ') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
+const fieldImgSelector1 = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(';
+const fieldImgSelector2 = ') > div.cluster_body > ul > li:nth-child(1) > div.cluster_thumb > div > a';
 let breakingSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(\'+ (i+1) +\') > dl > dt:nth-child(2)';
 let breakingImgSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(\'+ (i+1) +\') > dl > dt.photo > a';
 let pressSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(\'+ (i+1) +\') > dl > dt:nth-child(2)';
