@@ -60,9 +60,7 @@ var urls = [];              //url
 var imgUrls = [];           //img url
 
 function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector2 ){
-
-
-        console.log('ㄴㅁㄻㄴㄹ');
+        var request = require('request');
         request.get({
             url: targetURL,
             headers: { "User-Agent": "Mozilla/5.0" } ,
