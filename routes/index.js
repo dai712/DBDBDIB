@@ -3,8 +3,8 @@ var router = express.Router();
 var cheerio = require('cheerio');
 var iconv = require('iconv-lite');
 
-let fieldSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(\'+ i +\') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
-let fieldImgSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(\'+ i +\') > div.cluster_body > ul > li:nth-child(1) > div.cluster_thumb > div > a';
+let fieldSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
+let fieldImgSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_thumb > div > a';
 let breakingSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(\'+ (i+1) +\') > dl > dt:nth-child(2)';
 let breakingImgSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(\'+ (i+1) +\') > dl > dt.photo > a';
 let pressSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(\'+ (i+1) +\') > dl > dt:nth-child(2)';
