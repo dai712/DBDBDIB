@@ -1,23 +1,41 @@
 var express = require('express');
 var router = express.Router();
 var cheerio = require('cheerio');
-var request = require('request');
-//var fs = require('fs');
-//var urlType = require('url');
 var iconv = require('iconv-lite');
 
+let fieldSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(\'+ i +\') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
+let fieldImgSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(\'+ i +\') > div.cluster_body > ul > li:nth-child(1) > div.cluster_thumb > div > a';
+let breakingSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(\'+ (i+1) +\') > dl > dt:nth-child(2)';
+let breakingImgSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(\'+ (i+1) +\') > dl > dt.photo > a';
+let pressSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(\'+ (i+1) +\') > dl > dt:nth-child(2)';
+let pressImgSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(\'+ (i+1) +\') > dl > dt.photo > a';
+let fieldURLs = [
+    'http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001',                //속보
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=100',                //정치
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=101',                //경제
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=102',                //사회
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=103',                //생활/문화
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=104',                //세계
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=105',                //IT/과학
+];
+let pressURLS = [
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=032',                //경향
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=005',                //국민
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=020',                //동아
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=021',                //문화
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=081',                //서울
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=022',                //세계
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=023',                //조선
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=025',                //중앙
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=028',                //한겨레
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=469',                //한국
+];
 /*
-var savedir = __dirname + '/img';
-if(!fs.existsSync(savedir)){
-    fs.mkdirSync(savedir);
-}
-*/
-
 var client_id = 'uD_8GWD3pP_KXJJRKecZ';
 var client_secret = '7OTLr047fX';
-/*
+
 router.get('/search/news', function (req, res) {                                                            //네이버 뉴스 API
-    var api_url = 'https://openapi.naver.com/v1/search/news?query=' + encodeURI('속보');
+    var api_url = 'https://openapi.naver.com/v1/search/news.json?query=' + encodeURI('속보');
     var request = require('request');
     var options = {
         url: api_url,
@@ -27,6 +45,7 @@ router.get('/search/news', function (req, res) {                                
         if (!error && response.statusCode === 200) {
             res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
             res.end(body);
+            console.log(body.items);
         } else {
             res.status(response.statusCode).end();
             console.log('error = ' + response.statusCode);
@@ -38,28 +57,9 @@ var titles = [];            //제목
 var urls = [];              //url
 var imgUrls = [];           //img url
 
-function searchNewsByKeyword(keyword) {
-    var api_url = 'https://openapi.naver.com/v1/search/news?query=' + encodeURI(keyword);
-    var request = require('request');
-    var options = {
-        url: api_url,
-        headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
-    };
-    request.get(options, function (error, response, body) {
-        if (!error && response.statusCode === 200) {
-           // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
-           // res.end(body);
-            console.log(body);
-        } else {
-            console.log('error = ' + response.statusCode);
-        }
-    });
-}
+function crawlingNews(targetURL, selector, imgSelector ){
 
-function crawlingNewsByField(field){
-
-    if(field === 0){
-        url_news = 'http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001';
+        url_news = targetURL;
 
         request.get({
             url: url_news,
@@ -72,8 +72,8 @@ function crawlingNewsByField(field){
             var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());
 
             for(i = 1 ; i < 6 ; i++) {
-                var crawSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child('+ (i+1) +') > dl > dt:nth-child(2)';
-                var crawImgSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child('+ (i+1) +') > dl > dt.photo > a';
+                var crawSelector = selector;
+                var crawImgSelector = imgSelector;
                 $(crawSelector).each(function(index, value){
                     var title = $(this).find('a').text().replace( /(\s*)/g, "");
                     var url = $(value).find('a').attr('href');
@@ -87,38 +87,6 @@ function crawlingNewsByField(field){
 
             }
         });
-    } else {
-        url_news = 'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=10' + (field - 1);
-
-        request.get({
-            url: url_news,
-            headers: { "User-Agent": "Mozilla/5.0" } ,
-            encoding: null
-        },function(err, res, body){
-            if(err) console.log(err);
-
-            var strContents = new Buffer(body);
-            var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());
-
-            for(i = 1 ; i < 6 ; i++) {
-                var crawSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
-                var crawImgSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_thumb > div > a';
-                $(crawSelector).each(function(index, value){
-                    var title = $(this).find('a').text();
-                    var url = $(value).find('a').attr('href');
-                    titles.push(title);
-                    urls.push(url);
-                });
-                $(crawImgSelector).each(function(index, value){
-                    var img = $(value).find('img').attr('src');
-                    imgUrls.push(img);
-                });
-
-            }
-        });
-    }
-    
-
 }
 
 function clearArrays() {
@@ -252,7 +220,12 @@ router.post('/message', (req, res) => {
 
             for(i=0 ; i< 7 ; i++) {
                 if (_obj.content === fields[i]) {
-                    crawlingNewsByField(i);
+                    if(i === 0) {
+                        crawlingNews(fieldURLs[i], breakingSelector, breakingImgSelector);
+                    } else {
+                        crawlingNews(fieldURLs[i], fieldSelector, fieldImgSelector);
+                    }
+
                     let field = fields[i];
 
                     setTimeout(function () {
@@ -308,7 +281,6 @@ router.post('/message', (req, res) => {
                         }
                     }
                 } else{
-                searchNewsByKeyword(_obj.content);
             }
 
 
