@@ -3,8 +3,10 @@ var router = express.Router();
 var cheerio = require('cheerio');
 var iconv = require('iconv-lite');
 
-let fieldSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
-let fieldImgSelector = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child('+ i +') > div.cluster_body > ul > li:nth-child(1) > div.cluster_thumb > div > a';
+let fieldSelector1 = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(';
+let fieldSelector2 = ') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
+let fieldImgSelector1 = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(';
+let fieldImgSelector2 = ') > div.cluster_body > ul > li:nth-child(1) > div.cluster_thumb > div > a';
 let breakingSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(\'+ (i+1) +\') > dl > dt:nth-child(2)';
 let breakingImgSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(\'+ (i+1) +\') > dl > dt.photo > a';
 let pressSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(\'+ (i+1) +\') > dl > dt:nth-child(2)';
@@ -57,7 +59,7 @@ var titles = [];            //제목
 var urls = [];              //url
 var imgUrls = [];           //img url
 
-function crawlingNews(targetURL, selector, imgSelector ){
+function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector2 ){
 
         url_news = targetURL;
 
@@ -72,8 +74,8 @@ function crawlingNews(targetURL, selector, imgSelector ){
             var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());
 
             for(i = 1 ; i < 6 ; i++) {
-                var crawSelector = selector;
-                var crawImgSelector = imgSelector;
+                var crawSelector = selector1 + i + selector2;
+                var crawImgSelector = imgSelector + i + imgSelector2;
                 $(crawSelector).each(function(index, value){
                     var title = $(this).find('a').text().replace( /(\s*)/g, "");
                     var url = $(value).find('a').attr('href');
@@ -223,7 +225,7 @@ router.post('/message', (req, res) => {
                     if(i === 0) {
                         crawlingNews(fieldURLs[i], breakingSelector, breakingImgSelector);
                     } else {
-                        crawlingNews(fieldURLs[i], fieldSelector, fieldImgSelector);
+                        crawlingNews(fieldURLs[i], fieldSelector1, fieldImgSelector2, fieldImgSelector1, fieldImgSelector2);
                     }
 
                     let field = fields[i];
