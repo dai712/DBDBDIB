@@ -266,16 +266,20 @@ router.post('/message', (req, res) => {
             for(k = 0 ; k < 10 ; k++) {
                 if(_obj.content === presses[k]){
                     crawlingNews(pressURLS[k], pressSelector1, pressSelector2, pressImgSelector1, pressImgSelector2);
-                    message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
-                    message1.keyboard.type = 'buttons';
-                    message1.keyboard.buttons = [
-                        "(" + presses[k] + ")" + titles[0],
-                        "(" + presses[k] + ")" + titles[1],
-                        "(" + presses[k] + ")" + titles[2],
-                        "(" + presses[k] + ")" + titles[3],
-                        "(" + presses[k] + ")" + titles[4],
-                        "돌아가기",
-                    ];
+
+                    setTimeout(function() {
+                        message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
+                        message1.keyboard.type = 'buttons';
+                        message1.keyboard.buttons = [
+                            "(" + presses[k] + ")" + titles[0],
+                            "(" + presses[k] + ")" + titles[1],
+                            "(" + presses[k] + ")" + titles[2],
+                            "(" + presses[k] + ")" + titles[3],
+                            "(" + presses[k] + ")" + titles[4],
+                            "돌아가기",
+                        ];
+                    },1000);
+
                 }
             }
             if( _obj.content.charAt(0) === '('){
