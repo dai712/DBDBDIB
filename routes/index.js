@@ -61,10 +61,10 @@ var imgUrls = [];           //img url
 
 function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector2 ){
 
-        url_news = targetURL;
 
+        console.log('ㄴㅁㄻㄴㄹ');
         request.get({
-            url: url_news,
+            url: targetURL,
             headers: { "User-Agent": "Mozilla/5.0" } ,
             encoding: null
         },function(err, res, body){
@@ -79,7 +79,8 @@ function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector
 
                 var crawImgSelector = imgSelector1 + i + imgSelector2;
                 $(crawSelector).each(function(index, value){
-                    var title = $(this).find('a').text().replace( /(\s*)/g, "");
+                    var title = $(this).find('a').text();
+                    //.replace( /(\s*)/g, "")
                     var url = $(value).find('a').attr('href');
                     titles.push(title);
                     urls.push(url);
