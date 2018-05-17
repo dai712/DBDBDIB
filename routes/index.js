@@ -15,6 +15,7 @@ if(!fs.existsSync(savedir)){
 
 var client_id = 'uD_8GWD3pP_KXJJRKecZ';
 var client_secret = '7OTLr047fX';
+/*
 router.get('/search/news', function (req, res) {                                                            //네이버 뉴스 API
     var api_url = 'https://openapi.naver.com/v1/search/news?query=' + encodeURI('속보');
     var request = require('request');
@@ -23,7 +24,7 @@ router.get('/search/news', function (req, res) {                                
         headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
     };
     request.get(options, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
+        if (!error && response.statusCode === 200) {
             res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
             res.end(body);
         } else {
@@ -32,10 +33,28 @@ router.get('/search/news', function (req, res) {                                
         }
     });
 });
-
+*/
 var titles = [];            //제목
 var urls = [];              //url
 var imgUrls = [];           //img url
+
+function searchNewsByKeyword(keyword) {
+    var api_url = 'https://openapi.naver.com/v1/search/news?query=' + encodeURI(keyword);
+    var request = require('request');
+    var options = {
+        url: api_url,
+        headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
+    };
+    request.get(options, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+           // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
+           // res.end(body);
+            console.log(body);
+        } else {
+            console.log('error = ' + response.statusCode);
+        }
+    });
+}
 
 function crawlingNewsByField(field){
 
@@ -231,26 +250,35 @@ router.post('/message', (req, res) => {
         default:
             let fields = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학"];
 
-            for(i=0 ; i< 7 ; i++){
-                if(_obj.content === fields[i]){
+            for(i=0 ; i< 7 ; i++) {
+                if (_obj.content === fields[i]) {
                     crawlingNewsByField(i);
                     let field = fields[i];
 
-                    setTimeout( function() {
+                    setTimeout(function () {
                             message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                             message1.keyboard.type = 'buttons';
-                            message1.keyboard.buttons = [
-                                "(" + field + ")" +  titles[0],
-                                "(" + field + ")" +  titles[1],
-                                "(" + field + ")" +  titles[2],
-                                "(" + field + ")" +  titles[3],
-                                "(" + field + ")" +  titles[4],
-                                "돌아가기",
-                            ];
+
+                            if (field === "IT/과학") {
+                                message1.keyboard.buttons = [
+                                    "(" + field + ")" + titles[0],
+                                    "(" + field + ")" + titles[1],
+                                    "(" + field + ")" + titles[2],
+                                    "돌아가기",
+                                ];
+                            } else {
+                                message1.keyboard.buttons = [
+                                    "(" + field + ")" + titles[0],
+                                    "(" + field + ")" + titles[1],
+                                    "(" + field + ")" + titles[2],
+                                    "(" + field + ")" + titles[3],
+                                    "(" + field + ")" + titles[4],
+                                    "돌아가기",
+                                ];
+                            }
                             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
-                           // clearArrays();
-                    },
-                1000);
+                        },
+                        1000);
                     break;
                 }
             }
@@ -279,11 +307,13 @@ router.post('/message', (req, res) => {
                             break;
                         }
                     }
-                }
+                } else{
+                searchNewsByKeyword(_obj.content);
+            }
+
 
             break;
     }
-
 
 });
 
