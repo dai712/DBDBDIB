@@ -75,7 +75,9 @@ function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector
 
             for(i = 1 ; i < 6 ; i++) {
                 var crawSelector = selector1 + i + selector2;
-                console.log(crawSelector);
+                console.log(selector1);
+                console.log(selector2);
+                console.log(selector1 + i + selector2);
 
                 var crawImgSelector = imgSelector1 + i + imgSelector2;
                 $(crawSelector).each(function(index, value){
