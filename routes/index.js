@@ -77,10 +77,6 @@ function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector
 
             for(i = 1 ; i < 6 ; i++) {
                 var crawSelector = selector1 + i + selector2;
-                console.log(selector1);
-                console.log(selector2);
-                console.log(selector1 + i + selector2);
-
                 var crawImgSelector = imgSelector1 + i + imgSelector2;
                 $(crawSelector).each(function(index, value){
                     if(targetURL === fieldURLs[0]){
@@ -233,7 +229,7 @@ router.post('/message', (req, res) => {
             for(i=0 ; i< 7 ; i++) {
                 if (_obj.content === fields[i]) {
                     if(i === 0) {
-                        crawlingNews(fieldURLs[i], breakingSelector1, breakingImgSelector2, breakingImgSelector1, breakingImgSelector2);
+                        crawlingNews(fieldURLs[i], breakingSelector1, breakingSelector2, breakingImgSelector1, breakingImgSelector2);
                     } else {
                         crawlingNews(fieldURLs[i], fieldSelector1, fieldSelector2, fieldImgSelector1, fieldImgSelector2);
                     }
@@ -269,6 +265,7 @@ router.post('/message', (req, res) => {
             }
             for(k = 0 ; k < 10 ; k++) {
                 if(_obj.content === presses[k]){
+                    crawlingNews(pressURLS[k], pressSelector1, pressSelector2, pressImgSelector1, pressImgSelector2);
                     message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                     message1.keyboard.type = 'buttons';
                     message1.keyboard.buttons = [
