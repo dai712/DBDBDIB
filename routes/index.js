@@ -76,7 +76,7 @@ function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector
             for(i = 1 ; i < 6 ; i++) {
                 var crawSelector = selector1 + i + selector2;
                 console.log(crawSelector);
-                var crawImgSelector = imgSelector + i + imgSelector2;
+                var crawImgSelector = imgSelector1 + i + imgSelector2;
                 $(crawSelector).each(function(index, value){
                     var title = $(this).find('a').text().replace( /(\s*)/g, "");
                     var url = $(value).find('a').attr('href');
@@ -226,7 +226,7 @@ router.post('/message', (req, res) => {
                     if(i === 0) {
                         crawlingNews(fieldURLs[i], breakingSelector, breakingImgSelector);
                     } else {
-                        crawlingNews(fieldURLs[i], fieldSelector1, fieldImgSelector2, fieldImgSelector1, fieldImgSelector2);
+                        crawlingNews(fieldURLs[i], fieldSelector1, fieldSelector2, fieldImgSelector1, fieldImgSelector2);
                     }
 
                     let field = fields[i];
