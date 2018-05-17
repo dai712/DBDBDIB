@@ -279,6 +279,7 @@ router.post('/message', (req, res) => {
                             "(" + presses[k] + ")" + titles[4],
                             "돌아가기",
                         ];
+                        res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
                     },1000);
 
                 }
