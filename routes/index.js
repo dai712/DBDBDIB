@@ -7,10 +7,14 @@ const fieldSelector1 = '#main_content > div > div._persist > div:nth-child(1) > 
 const fieldSelector2 = ') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
 const fieldImgSelector1 = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(';
 const fieldImgSelector2 = ') > div.cluster_body > ul > li:nth-child(1) > div.cluster_thumb > div > a';
-let breakingSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(\'+ (i+1) +\') > dl > dt:nth-child(2)';
-let breakingImgSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(\'+ (i+1) +\') > dl > dt.photo > a';
-let pressSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(\'+ (i+1) +\') > dl > dt:nth-child(2)';
-let pressImgSelector = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(\'+ (i+1) +\') > dl > dt.photo > a';
+const breakingSelector1 = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(';
+const breakingSelector2 = ') > dl > dt:nth-child(2)';
+const breakingImgSelector1 = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(';
+const breakingImgSelector2 = ') > dl > dt.photo > a';
+const pressSelector1 = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(';
+const pressSelector2 = ') > dl > dt:nth-child(2)';
+const pressImgSelector1 = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(';
+const pressImgSelector2 = ') > dl > dt.photo > a';
 let fieldURLs = [
     'http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001',                //속보
     'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=100',                //정치
@@ -79,8 +83,11 @@ function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector
 
                 var crawImgSelector = imgSelector1 + i + imgSelector2;
                 $(crawSelector).each(function(index, value){
-                    var title = $(this).find('a').text();
-                    //.replace( /(\s*)/g, "")
+                    if(targetURL === fieldURLs[0]){
+                        var title = $(this).find('a').text().replace( /(\s*)/g, "");
+                    } else {
+                        var title = $(this).find('a').text();
+                    }
                     var url = $(value).find('a').attr('href');
                     titles.push(title);
                     urls.push(url);
@@ -222,11 +229,11 @@ router.post('/message', (req, res) => {
 
         default:
             let fields = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학"];
-
+            let presses = ["경향", "국민", "동아", "문화", "서울", "세계", "조선", "중앙", "한겨레", "한국"];
             for(i=0 ; i< 7 ; i++) {
                 if (_obj.content === fields[i]) {
                     if(i === 0) {
-                    //    crawlingNews(fieldURLs[i], breakingSelector, breakingImgSelector);
+                        crawlingNews(fieldURLs[i], breakingSelector1, breakingImgSelector2, breakingImgSelector1, breakingImgSelector2);
                     } else {
                         crawlingNews(fieldURLs[i], fieldSelector1, fieldSelector2, fieldImgSelector1, fieldImgSelector2);
                     }
@@ -260,6 +267,20 @@ router.post('/message', (req, res) => {
                     break;
                 }
             }
+            for(k = 0 ; k < 10 ; k++) {
+                if(_obj.content === presses[k]){
+                    message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
+                    message1.keyboard.type = 'buttons';
+                    message1.keyboard.buttons = [
+                        "(" + presses[k] + ")" + titles[0],
+                        "(" + presses[k] + ")" + titles[1],
+                        "(" + presses[k] + ")" + titles[2],
+                        "(" + presses[k] + ")" + titles[3],
+                        "(" + presses[k] + ")" + titles[4],
+                        "돌아가기",
+                    ];
+                }
+            }
             if( _obj.content.charAt(0) === '('){
 
                     for(i=0 ; i<5 ; i++){
@@ -281,7 +302,6 @@ router.post('/message', (req, res) => {
                             ];
                             console.log(message2);
                             res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
-                            //clearArrays();
                             break;
                         }
                     }
