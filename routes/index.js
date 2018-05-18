@@ -420,7 +420,7 @@ router.post('/message', (req, res) => {
             break;
         case '즐겨찾기 등록' :
             if(field !== null && press === null) {
-
+                console.log(field);
                 User.findOne({'id' : connectedUser, 'Favorite.Category' : field}, function(err, doc){
                     if(err) console.log(err);
                     else if(doc !== null) {
@@ -437,6 +437,7 @@ router.post('/message', (req, res) => {
                 });
 
             }else if(field === null && press !== null){
+                console.log(press);
                 User.findOne({'id' : connectedUser, 'Favorite.Press' : press}, function(err, doc){
                     if(err) console.log(err);
                     else if(doc !== null) {
