@@ -241,18 +241,22 @@ function getSavedNews(user_key) {
        }
     });
     for(i=0 ; i<tempNews.length ; i++) {
-        FieldNews.findOne({_id : tempNews[i]}, function(err, retDoc){
+        FieldNews.findOne({'_id' : tempNews[i]}, function(err, retDoc){
            if(err) console.log(err);
            else if(retDoc !== null) {
                savedTitles.push(retDoc.Title);
                console.log(retDoc.Title);
+           } else if(retDoc === null){
+               console.log('못찾음.(필드)');
            }
         });
-        PressNews.findOne({_id: tempNews[i]}, function(err, retDoc){
+        PressNews.findOne({'_id': tempNews[i]}, function(err, retDoc){
             if(err) console.log(err);
             else if(retDoc !== null) {
                 savedTitles.push(retDoc.Title);
                 console.log(retDoc.Title);
+            }else if(retDoc === null){
+                console.log('못찾음.(언론사)');
             }
         });
     }
