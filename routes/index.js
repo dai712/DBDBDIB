@@ -81,6 +81,7 @@ var imgUrls = [];           //img url
 var field = '';
 var press = '';
 
+
 function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector2 ){
         var request = require('request');
         request.get({
@@ -123,6 +124,7 @@ function clearArrays() {
     targetIndex = 99;
     field = '';
     press = '';
+
 }
 
 /* GET home page. */
@@ -416,6 +418,40 @@ router.post('/message', (req, res) => {
             ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
+        case '즐겨찾는 분야로 등록' :
+            if(field !== null && press === null) {
+
+                User.findOne({'id' : connectedUser, 'Favorite.Category' : field}, function(err, doc){
+                    if(err) console.log(err)
+                    else if(doc !== null) {
+                        console.log('이미 저장된 분야');
+                    }else if(doc === null) {
+                        User.findOneAndUpdate({'id': connectedUser}, {$push: {'Favorite.Category' : field}}, {new: true}, function(err, doc){
+                            if(err) console.log(err);
+                            else if(doc !== null){
+                                console.log(doc);
+                            }
+                        });
+                    }
+                });
+
+            }else if(field === null && press !== null){
+                User.findOne({'id' : connectedUser, 'Favorite.Press' : press}, function(err, doc){
+                    if(err) console.log(err)
+                    else if(doc !== null) {
+                        console.log('이미 저장된 분야');
+                    }else if(doc === null) {
+                        User.findOneAndUpdate({'id': connectedUser}, {$push: {'Favorite.Press' : press}}, {new: true}, function(err, doc){
+                            if(err) console.log(err);
+                            else if(doc !== null){
+                                console.log(doc);
+                            }
+                        });
+                    }
+                });
+            }
+
+            break;
         default:
             let fields = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학"];
             let presses = ["경향", "국민", "동아", "문화", "서울", "세계", "조선", "중앙", "한겨레", "한국"];
@@ -439,6 +475,7 @@ router.post('/message', (req, res) => {
                                     "(" + field + ")" + titles[1],
                                     "(" + field + ")" + titles[2],
                                     "돌아가기",
+                                    "즐겨찾는 분야로 등록"
                                 ];
                             } else {
                                 message1.keyboard.buttons = [
@@ -448,6 +485,7 @@ router.post('/message', (req, res) => {
                                     "(" + field + ")" + titles[3],
                                     "(" + field + ")" + titles[4],
                                     "돌아가기",
+                                    "즐겨찾는 언론사로 등록"
                                 ];
                             }
                             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
@@ -471,6 +509,7 @@ router.post('/message', (req, res) => {
                             "(" + press + ")" + titles[3],
                             "(" + press + ")" + titles[4],
                             "돌아가기",
+                            "즐겨찾기등록(" + press + ")"
                         ];
                         res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
                     },1000);

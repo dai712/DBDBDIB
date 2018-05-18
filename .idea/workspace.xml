@@ -19,7 +19,7 @@
       <content type="file-editors">
         <state>
           <leaf>
-            <file leaf-file-name="UserSchema.js" pinned="false" current-in-tab="false">
+            <file leaf-file-name="UserSchema.js" pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/routes/UserSchema.js">
                 <provider selected="true" editor-type-id="text-editor">
                   <state relative-caret-position="207">
@@ -39,7 +39,7 @@
                 </provider>
               </entry>
             </file>
-            <file leaf-file-name="FieldSchema.js" pinned="false" current-in-tab="true">
+            <file leaf-file-name="FieldSchema.js" pinned="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/routes/FieldSchema.js">
                 <provider selected="true" editor-type-id="text-editor">
                   <state relative-caret-position="276">
@@ -89,8 +89,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="424">
-              <caret line="567" column="112" lean-forward="false" selection-start-line="567" selection-start-column="112" selection-end-line="567" selection-end-column="112" />
+            <state relative-caret-position="700">
+              <caret line="446" column="49" lean-forward="true" selection-start-line="446" selection-start-column="49" selection-end-line="446" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -144,6 +144,7 @@
       <find>push</find>
       <find>시발</find>
       <find>_id</find>
+      <find>field</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -281,12 +282,12 @@
       <workItem from="1525177791105" duration="277000" />
       <workItem from="1525235249873" duration="3386000" />
       <workItem from="1526052447844" duration="5068000" />
-      <workItem from="1526364152824" duration="36859000" />
+      <workItem from="1526364152824" duration="37685000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65114000" />
+    <option name="totallyTimeSpent" value="65940000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="0" width="1194" height="1038" extended-state="0" />
@@ -678,14 +679,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/UserSchema.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="9" column="16" lean-forward="true" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/PressSchema.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="138">
@@ -710,10 +703,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/routes/UserSchema.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="9" column="16" lean-forward="true" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="567" column="112" lean-forward="false" selection-start-line="567" selection-start-column="112" selection-end-line="567" selection-end-column="112" />
+        <state relative-caret-position="700">
+          <caret line="446" column="49" lean-forward="true" selection-start-line="446" selection-start-column="49" selection-end-line="446" selection-end-column="49" />
           <folding />
         </state>
       </provider>
