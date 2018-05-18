@@ -236,34 +236,32 @@ function getSavedNews(user_key) {
        if(err) console.log(err);
        if(doc !== null){
            tempNews = doc.SavedNews;
-           console.log(tempNews);
-           console.log(tempNews.length);
-           for(i=0 ; i<tempNews.length ; i++) {
-               FieldNews.findOne({_id : tempNews[i]}, function(err, retDoc){
-                   console.log('시발');
-                   if(err) console.log(err);
-                   else if(retDoc !== null) {
-                       savedTitles.push(retDoc.Title);
-                       console.log(retDoc.Title);
-                   } else if(retDoc === null){
-                       console.log('못찾음.(필드)');
-                   }
-               });
-               PressNews.findOne({_id: tempNews[i]}, function(err, retDoc){
-                   if(err) console.log(err);
-                   else if(retDoc !== null) {
-                       savedTitles.push(retDoc.Title);
-                       console.log(retDoc.Title);
-                   }else if(retDoc === null){
-                       console.log('못찾음.(언론사)');
-                   }
-               });
+           if(tempNews.length === 0 ){
+           } else {
+               for(i=0 ; i<tempNews.length ; i++) {
+                   FieldNews.findOne({_id : tempNews[i]}, function(err, retDoc){
+                       console.log('시발');
+                       if(err) console.log(err);
+                       else if(retDoc !== null) {
+                           savedTitles.push(retDoc.Title);
+                           console.log(retDoc.Title);
+                       }
+                   });
+                   PressNews.findOne({_id: tempNews[i]}, function(err, retDoc){
+                       if(err) console.log(err);
+                       else if(retDoc !== null) {
+                           savedTitles.push(retDoc.Title);
+                           console.log(retDoc.Title);
+                       }
+                   });
+               }
+
            }
+
+
        }
     });
-
-
-    console.log(savedTitles);
+    return savedTitles;
 }
 router.get('/keyboard', (req, res) => {
 
@@ -333,12 +331,20 @@ router.post('/message', (req, res) => {
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
         case '저장 목록' :
-            getSavedNews(connectedUser);
-            message1.message.text = '저장목록 실행';
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [
                 "돌아가기",
             ];
+            var returnSavedNews = getSavedNews(connectedUser);
+            if( returnSavedNews.length === 0){
+                message1.message.text = '저장된 뉴스가 없습니다.'
+            } else {
+                message1.message.text = '저장목록 실행\n 줄바꿈';
+                for (i = 0 ; i < returnSavedNews.length ; i++){
+                    message1.keyboard.buttons.push(returnSavedNews[i]);
+                }
+            }
+            
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
         case '즐겨 찾기' :
