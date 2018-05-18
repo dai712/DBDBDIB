@@ -129,11 +129,13 @@ function findUser(user_key) {
     User.find({id : user_key}, function(err, doc){
         if(err) console.log(err);
         else if(doc === null) {
+            console.log('새로저장으로 들어옴');
             var newUser = new User();
             newUser.id = user_key;
 
             newUser.save(function(err, doc){
-                if(err) console.log(err);
+                if(err) {console.log(err)}
+                console.log('새로저장중');
                 console.log(doc);
             });
         }
