@@ -183,7 +183,7 @@ function saveNews(title, url, imgurl, user_key){
                           console.log(retDoc);
                       });
                   } else {
-                      return 2;                         //이미 저장되어 있음.
+                      return 2;                         //이미 이계정에 저장되어 있음.
                   }
                });
 
@@ -221,17 +221,37 @@ function saveNews(title, url, imgurl, user_key){
                             console.log(retDoc);
                         });
                     } else {
-                        return 2;                         //이미 저장되어 있음.
+                        return 2;                         //이미 이 계정에 저장되어 있음.
                     }
                 });
 
             }
         });
-    } else {
-        console.log('엥');
     }
 }
-
+function getSavedNews(user_key) {
+    var tempNews = [];
+    User.findOne({'id' : user_key}, function(err, doc){
+       if(err) console.log(err);
+        tempNews = doc.SavedNews;
+        console.log(tempNews);
+    });
+    while(tempNews) {
+        var i = 0;
+        FieldNews.findOne({_id : tempNews[i]}, function(err, retDoc){
+           if(err) console.log(err);
+           else if(retDoc !== null) {
+               console.log(retDoc.Title);
+           }
+        });
+        PressNews.findOne({_id: tempNews[i]}, function(err, retDoc){
+            if(err) console.log(err);
+            else if(retDoc !== null) {
+                console.log(retDoc.Title);
+            }
+        })
+    }
+}
 router.get('/keyboard', (req, res) => {
 
     const menu = {
@@ -300,6 +320,7 @@ router.post('/message', (req, res) => {
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
         case '저장 목록' :
+            getSavedNews(connectedUser);
             message1.message.text = '저장목록 실행';
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
