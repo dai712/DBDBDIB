@@ -3,7 +3,9 @@ var router = express.Router();
 var cheerio = require('cheerio');
 var iconv = require('iconv-lite');
 var mongoose = require('mongoose');
-var User = require('./Schema');
+var User = require('./UserSchema');
+var FieldNews = require('./FieldSchema');
+var PressNews = require('./PressSchema');
 mongoose.connect('mongodb://localhost:27017/data');
 var db = mongoose.connection;
 db.on('error', function(){
@@ -76,6 +78,8 @@ var targetIndex = 99;
 var titles = [];            //제목
 var urls = [];              //url
 var imgUrls = [];           //img url
+var field = '';
+var press = '';
 
 function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector2 ){
         var request = require('request');
@@ -117,6 +121,8 @@ function clearArrays() {
     urls = [];
     imgUrls = [];
     targetIndex = 99;
+    field = '';
+    press = '';
 }
 
 /* GET home page. */
@@ -144,6 +150,81 @@ function findUser(user_key) {
         }
 
     });
+}
+
+function saveNews(title, url, imgurl, user_key){
+    if(press !== null && field === null) {
+        PressNews.findOne({'Url' : url}, function(err, doc){
+           if(err) console.log(err);
+           else if(doc === null) {                      //뉴스가 처음 저장되는것이면 유저 스키마에서 중복될일 x
+               var pressNews = new PressNews();
+               pressNews.Title = title;
+               pressNews.Press = press;
+               pressNews.Url = url;
+               pressNews.ImgUrl = imgurl;
+
+               pressNews.save(function(err, doc){
+                   if(err) console.log(err);
+                   else {
+                       User.findOneAndUpdate({'id' : user_key}, {$push: {'SavedNews' : doc._id}}, {new: true} , function(err, retDoc){
+                          if(err) console.log(err);
+                           console.log(retDoc);
+                       });
+                   }
+               });
+
+           } else {                                     //뉴스가 이미 누군가에 의해 저장된 것이면 중복될일 o
+               User.findOne({'id' : user_key, 'SavedNews' : doc._id}, function(err, retDoc){
+                  if(err) console.log(err);
+                  else if(retDoc === null){
+                      User.findOneAndUpdate({'id' : user_key}, {$push: {'SavedNews' : doc._id}}, {new: true} , function(err, retDoc){
+                          if(err) console.log(err);
+                          console.log(retDoc);
+                      });
+                  } else {
+                      return 2;                         //이미 저장되어 있음.
+                  }
+               });
+
+           }
+        });
+    }else if(press === null && field !== null) {
+
+        FieldNews.findOne({'Url' : url}, function(err, doc){
+            if(err) console.log(err);
+            else if(doc === null) {                      //뉴스가 처음 저장되는것이면 유저 스키마에서 중복될일 x
+                var fieldNews = new FieldNews();
+                fieldNews.Title = title;
+                fieldNews.Field = field;
+                fieldNews.Url = url;
+                fieldNews.ImgUrl = imgurl;
+
+                fieldNews.save(function(err, doc){
+                    if(err) console.log(err);
+                    else {
+                        User.findOneAndUpdate({'id' : user_key}, {$push: {'SavedNews' : doc._id}}, {new: true} , function(err, retDoc){
+                            if(err) console.log(err);
+                            console.log(retDoc);
+                        });
+                    }
+                });
+
+            } else {                                     //뉴스가 이미 누군가에 의해 저장된 것이면 중복될일 o
+                User.findOne({'id' : user_key, 'SavedNews' : doc._id}, function(err, retDoc){
+                    if(err) console.log(err);
+                    else if(retDoc === null){
+                        User.findOneAndUpdate({'id' : user_key}, {$push: {'SavedNews' : doc._id}}, {new: true} , function(err, retDoc){
+                            if(err) console.log(err);
+                            console.log(retDoc);
+                        });
+                    } else {
+                        return 2;                         //이미 저장되어 있음.
+                    }
+                });
+
+            }
+        });
+    }
 }
 
 router.get('/keyboard', (req, res) => {
@@ -287,7 +368,7 @@ router.post('/message', (req, res) => {
                         crawlingNews(fieldURLs[i], fieldSelector1, fieldSelector2, fieldImgSelector1, fieldImgSelector2);
                     }
 
-                    let field = fields[i];
+                    field = fields[i];
 
                     setTimeout(function () {
                             message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
@@ -320,7 +401,7 @@ router.post('/message', (req, res) => {
                 if(_obj.content === presses[k]){
                     console.log(presses[k]);
                     crawlingNews(pressURLS[k], pressSelector1, pressSelector2, pressImgSelector1, pressImgSelector2);
-                    let press = presses[k]
+                    press = presses[k];
                     setTimeout(function() {
                         message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                         message1.keyboard.type = 'buttons';
