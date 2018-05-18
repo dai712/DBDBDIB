@@ -515,6 +515,7 @@ router.post('/message', (req, res) => {
             message3.keyboard.buttons = [
                 "돌아가기",
             ];
+            res.set({'content-type': 'application/json'}).send(JSON.stringify(message3));
             break;
         default:
             let fields = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학"];
