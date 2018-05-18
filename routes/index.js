@@ -278,6 +278,7 @@ res.set({'content-type': 'application/json'}).send(JSON.stringify(menu));
 router.get('/user/test', (req, res) => {
     var newsList = [];
     newsList = getSavedNews(connectedUser);
+    console.log(newsList);
    res.render('User', {title : '뉴스bot',
                        newsList : newsList,
    });
