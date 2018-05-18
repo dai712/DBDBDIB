@@ -237,30 +237,32 @@ function getSavedNews(user_key) {
        if(doc !== null){
            tempNews = doc.SavedNews;
            console.log(tempNews);
+           console.log(tempNews.length);
+           for(i=0 ; i<tempNews.length ; i++) {
+               FieldNews.findOne({_id : ObjectId(tempNews[i])}, function(err, retDoc){
+                   console.log('시발');
+                   if(err) console.log(err);
+                   else if(retDoc !== null) {
+                       savedTitles.push(retDoc.Title);
+                       console.log(retDoc.Title);
+                   } else if(retDoc === null){
+                       console.log('못찾음.(필드)');
+                   }
+               });
+               PressNews.findOne({_id: ObjectId(tempNews[i])}, function(err, retDoc){
+                   if(err) console.log(err);
+                   else if(retDoc !== null) {
+                       savedTitles.push(retDoc.Title);
+                       console.log(retDoc.Title);
+                   }else if(retDoc === null){
+                       console.log('못찾음.(언론사)');
+                   }
+               });
+           }
        }
     });
-    console.log(tempNews.length);
-    for(i=0 ; i<tempNews.length ; i++) {
-        FieldNews.findOne({_id : ObjectId(tempNews[i])}, function(err, retDoc){
-            console.log('시발');
-           if(err) console.log(err);
-           else if(retDoc !== null) {
-               savedTitles.push(retDoc.Title);
-               console.log(retDoc.Title);
-           } else if(retDoc === null){
-               console.log('못찾음.(필드)');
-           }
-        });
-        PressNews.findOne({_id: ObjectId(tempNews[i])}, function(err, retDoc){
-            if(err) console.log(err);
-            else if(retDoc !== null) {
-                savedTitles.push(retDoc.Title);
-                console.log(retDoc.Title);
-            }else if(retDoc === null){
-                console.log('못찾음.(언론사)');
-            }
-        });
-    }
+
+
     console.log(savedTitles);
 }
 router.get('/keyboard', (req, res) => {
