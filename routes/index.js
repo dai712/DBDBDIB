@@ -419,6 +419,8 @@ router.post('/message', (req, res) => {
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
         case '즐겨찾기등록' :
+            console.log(field);
+            console.log(press);
             if(field !== null && press === null) {
                 console.log(field);
                 User.findOne({'id' : connectedUser, 'Favorite.Category' : field}, function(err, doc){
@@ -452,6 +454,8 @@ router.post('/message', (req, res) => {
                         });
                     }
                 });
+            } else{
+                console.log('뭔가이상함');
             }
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [
