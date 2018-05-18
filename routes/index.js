@@ -235,10 +235,11 @@ function getSavedNews(user_key) {
        if(err) console.log(err);
        if(doc !== null){
            tempNews = doc.SavedNews;
+           console.log(doc);
            console.log(doc.SavedNews);
            console.log(tempNews);
        }
-    });
+    });/*
     while(tempNews) {
         var i = 0;
         FieldNews.findOne({_id : tempNews[i]}, function(err, retDoc){
@@ -253,7 +254,7 @@ function getSavedNews(user_key) {
                 console.log(retDoc.Title);
             }
         })
-    }
+    }*/
 }
 router.get('/keyboard', (req, res) => {
 
