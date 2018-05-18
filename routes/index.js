@@ -141,8 +141,7 @@ function findUser(user_key) {
 }
 
 router.get('/keyboard', (req, res) => {
-    connectedUser = req.body.user_key;
-    findUser(connectedUser);
+
     const menu = {
         type: 'buttons',
         buttons: ["뉴스 보기", "저장 목록", "즐겨찾기"]
@@ -159,7 +158,7 @@ router.post('/message', (req, res) => {
         type: req.body.type,
         content: req.body.content
     };
-
+    connectedUser = req.body.user_key;
     const message1 = {
         "message": {
             "text": '',
@@ -261,6 +260,7 @@ router.post('/message', (req, res) => {
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
         case '저장하기' :
+            findUser(connectedUser);
             message1.message.text = '저장이 완료되었습니다.';
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [
