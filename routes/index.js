@@ -276,8 +276,12 @@ res.set({'content-type': 'application/json'}).send(JSON.stringify(menu));
 });
 
 router.get('/user/test', (req, res) => {
+    var newsList = [];
+    newsList = getSavedNews(connectedUser);
    res.render('User', {title : '뉴스bot',
-                       newsList : getSavedNews(connectedUser) });
+                       newsList : newsList,
+                        length: newsList.length,
+   });
 });
 
 router.post('/message', (req, res) => {
