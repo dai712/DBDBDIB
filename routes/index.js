@@ -355,8 +355,8 @@ router.post('/message', (req, res) => {
             }, 500);
 
             break;
-        case '즐겨 찾기' :
-            message1.message.text = '즐겨찾기 목록.'
+        case '즐겨찾기' :
+            message1.message.text = '즐겨찾기 목록.';
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [
             "돌아가기",
