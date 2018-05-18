@@ -153,7 +153,7 @@ function findUser(user_key) {
 }
 
 function saveNews(title, url, imgurl, user_key){
-    if(press !== null && field === null) {
+    if(press !== '' && field === '') {
         console.log('언론사로 저장');
         PressNews.findOne({'Url' : url}, function(err, doc){
            if(err) console.log(err);
@@ -189,7 +189,7 @@ function saveNews(title, url, imgurl, user_key){
 
            }
         });
-    }else if(press === null && field !== null) {
+    }else if(press === '' && field !== '') {
         console.log('필드로 저장');
         FieldNews.findOne({'Url' : url}, function(err, doc){
             if(err) console.log(err);
@@ -227,6 +227,8 @@ function saveNews(title, url, imgurl, user_key){
 
             }
         });
+    } else {
+        console.log('엥');
     }
 }
 
