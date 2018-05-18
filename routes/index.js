@@ -280,7 +280,6 @@ router.get('/user/test', (req, res) => {
     newsList = getSavedNews(connectedUser);
    res.render('User', {title : '뉴스bot',
                        newsList : newsList,
-                        length: newsList.length,
    });
 });
 
