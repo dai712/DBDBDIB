@@ -277,7 +277,7 @@ res.set({
 }).send(JSON.stringify(menu));
 });
 router.get('/user/test', (req, res) => {
-   res.send('./User.html');
+   res.render('./User.html');
 });
 
 router.post('/message', (req, res) => {
