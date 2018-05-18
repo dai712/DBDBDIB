@@ -418,7 +418,7 @@ router.post('/message', (req, res) => {
             ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
-        case '즐겨찾기 등록' :
+        case '즐겨찾기등록' :
             if(field !== null && press === null) {
                 console.log(field);
                 User.findOne({'id' : connectedUser, 'Favorite.Category' : field}, function(err, doc){
@@ -483,7 +483,7 @@ router.post('/message', (req, res) => {
                                     "(" + field + ")" + titles[1],
                                     "(" + field + ")" + titles[2],
                                     "돌아가기",
-                                    "즐겨찾기 등록"
+                                    "즐겨찾기등록"
                                 ];
                             } else {
                                 message1.keyboard.buttons = [
@@ -493,7 +493,7 @@ router.post('/message', (req, res) => {
                                     "(" + field + ")" + titles[3],
                                     "(" + field + ")" + titles[4],
                                     "돌아가기",
-                                    "즐겨찾기 등록"
+                                    "즐겨찾기등록"
                                 ];
                             }
                             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
@@ -517,7 +517,7 @@ router.post('/message', (req, res) => {
                             "(" + press + ")" + titles[3],
                             "(" + press + ")" + titles[4],
                             "돌아가기",
-                            "즐겨찾기 등록"
+                            "즐겨찾기등록"
                         ];
                         res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
                     },1000);
