@@ -337,16 +337,20 @@ router.post('/message', (req, res) => {
             ];
             var returnSavedNews = [];
             returnSavedNews = getSavedNews(connectedUser);
-            if( returnSavedNews.length === 0){
-                message1.message.text = '저장된 뉴스가 없습니다.'
-            } else {
-                message1.message.text = '저장목록 실행\n 줄바꿈';
-                for (i = 0 ; i < returnSavedNews.length ; i++){
-                    message1.keyboard.buttons.push(returnSavedNews[i]);
+
+            setTimeout(function() {
+                if( returnSavedNews.length === 0){
+                    message1.message.text = '저장된 뉴스가 없습니다.'
+                } else {
+                    message1.message.text = '저장목록 실행\n 줄바꿈';
+                    for (i = 0 ; i < returnSavedNews.length ; i++){
+                        message1.keyboard.buttons.push(returnSavedNews[i]);
+                    }
                 }
-            }
-            
-            res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
+
+                res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
+            }, 500);
+
             break;
         case '즐겨 찾기' :
             message1.message.text = '즐겨찾기 실행';
