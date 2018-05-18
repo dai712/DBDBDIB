@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-    Email : String,             //카카오 이메일
+    id : String,             //카카오 이메일
     SavedNews : [String],       //저장한 뉴스
     RecentNews : [String],      //최근 본 뉴스
 

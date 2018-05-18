@@ -3,6 +3,7 @@ var router = express.Router();
 var cheerio = require('cheerio');
 var iconv = require('iconv-lite');
 var mongoose = require('mongoose');
+var User = require('./Schema');
 mongoose.connect('mongodb://localhost:27017/data');
 var db = mongoose.connection;
 db.on('error', function(){
@@ -11,6 +12,7 @@ db.on('error', function(){
 db.once('open', function() {
     console.log('Connected!');
 });
+
 
 
 const fieldSelector1 = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(';
@@ -122,8 +124,24 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+function findUser(user_key) {
+    User.find({id : user_key}, function(err, doc){
+        if(err) {
+            var newUser = new User();
+            newUser.id = user_key;
+
+            newUser.save(function(err, doc){
+               if(err) console.log(err);
+               console.log(doc);
+            });
+        }
+
+    });
+}
 
 router.get('/keyboard', (req, res) => {
+    connectedUser = req.body.user_key;
+    findUser(connectedUser);
     const menu = {
         type: 'buttons',
         buttons: ["뉴스 보기", "저장 목록", "즐겨찾기"]
@@ -140,7 +158,6 @@ router.post('/message', (req, res) => {
         type: req.body.type,
         content: req.body.content
     };
-    connectedUser = _obj.user_key;
 
     const message1 = {
         "message": {
