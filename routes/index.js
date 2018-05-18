@@ -348,6 +348,7 @@ router.post('/message', (req, res) => {
             break;
         case '저장하기' :
             findUser(connectedUser);
+            saveNews(titles[targetIndex], urls[targetIndex], imgUrls[targetIndex], connectedUser);
             message1.message.text = '저장이 완료되었습니다.';
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [
