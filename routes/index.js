@@ -364,14 +364,15 @@ router.post('/message', (req, res) => {
             User.findOne({'id': connectedUser}, function (err, doc) {
                 if(err) console.log(err);
                 else if(doc !== null) {
-                    if(doc.Favorite.Press.length === 0 && doc.Favorite.Field.length === 0){
+                    console.log()
+                    if(doc.Favorite.Press.length === 0 && doc.Favorite.Category.length === 0){
                         message1.message.text = '즐겨찾는 언론사 or 분야가 없습니다.';
                     }else {
                         for(i = 0 ; i < doc.Favorite.Press.length ; i++){
                             message1.keyboard.buttons.push(doc.Favorite.Press[i]);
                         }
-                        for(j = 0 ; j < doc.Favorite.Field.length ; j++){
-                            message1.keyboard.buttons.push(doc.Favorite.Field[j]);
+                        for(j = 0 ; j < doc.Favorite.Category.length ; j++){
+                            message1.keyboard.buttons.push(doc.Favorite.Category[j]);
                         }
 
                     }
