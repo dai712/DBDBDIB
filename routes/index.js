@@ -428,7 +428,8 @@ router.post('/message', (req, res) => {
             message1.keyboard.buttons = [
                 "뉴스 보기",
                 "저장 목록",
-                "즐겨찾기"
+                "즐겨찾기",
+                "테스트용"
             ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
