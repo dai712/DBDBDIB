@@ -241,7 +241,7 @@ function getSavedNews(user_key) {
        }
     });
     for(i=0 ; i<tempNews.length ; i++) {
-        FieldNews.findOne({'_id' : ObjectId(tempNews[i])}, function(err, retDoc){
+        FieldNews.findOne({_id : ObjectId(tempNews[i])}, function(err, retDoc){
            if(err) console.log(err);
            else if(retDoc !== null) {
                savedTitles.push(retDoc.Title);
@@ -250,7 +250,7 @@ function getSavedNews(user_key) {
                console.log('못찾음.(필드)');
            }
         });
-        PressNews.findOne({'_id': ObjectId(tempNews[i])}, function(err, retDoc){
+        PressNews.findOne({_id: ObjectId(tempNews[i])}, function(err, retDoc){
             if(err) console.log(err);
             else if(retDoc !== null) {
                 savedTitles.push(retDoc.Title);
