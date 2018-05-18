@@ -419,9 +419,8 @@ router.post('/message', (req, res) => {
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
         case '즐겨찾기등록' :
-            console.log(field);
-            console.log(press);
-            if(field !== null && press === null) {
+
+            if(field !== '' && press === '') {
                 console.log(field);
                 User.findOne({'id' : connectedUser, 'Favorite.Category' : field}, function(err, doc){
                     if(err) console.log(err);
@@ -438,7 +437,7 @@ router.post('/message', (req, res) => {
                     }
                 });
 
-            }else if(field === null && press !== null){
+            }else if(field === '' && press !== ''){
                 console.log(press);
                 User.findOne({'id' : connectedUser, 'Favorite.Press' : press}, function(err, doc){
                     if(err) console.log(err);
@@ -454,8 +453,6 @@ router.post('/message', (req, res) => {
                         });
                     }
                 });
-            } else{
-                console.log('뭔가이상함');
             }
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [
