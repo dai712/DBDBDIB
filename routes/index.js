@@ -493,6 +493,7 @@ router.post('/message', (req, res) => {
                    message1.keyboard.buttons = [
                        "돌아가기",
                    ];
+                   console.log(doc);
                }
             });
             setTimeout(function() {
