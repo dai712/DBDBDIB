@@ -516,6 +516,62 @@ router.post('/message', (req, res) => {
                         }
                     }
                 } else{
+                FieldNews.findOne({'Title' : _obj.content}, function(err, doc){
+                   if(err) console.log(err);
+                   else if(doc !== null) {
+                       message2.message.text = doc.Title;
+                       message2.message.photo = {
+                           url : doc.ImgUrl,
+                           width : 640,
+                           height : 480,
+                       };
+                       message2.message.message_button = {
+                           label : '이동하기',
+                           url : doc.Url
+                       };
+                       message2.keyboard.type = 'buttons';
+                       message2.keyboard.buttons = [
+                           "돌아가기",
+                       ];
+                       res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
+                   } else if(doc === null) {
+                       PressNews.findOne({'Title': _obj.content}, function(err, doc){
+                           if(err) console.log(err);
+                          else if(doc !== null) {
+                               if(ImgUrl === null) {
+                                   console.log('언론사별 뉴스, 이미지 빔');
+                                   message3.message.text = doc.Title;
+                                   message3.message.message_button = {
+                                       label : '이동하기',
+                                       url : doc.Url
+                                   };
+                                   message3.keyboard.type = 'buttons';
+                                   message3.keyboard.buttons = [
+                                       "돌아가기",
+                                   ];
+                                   res.set({'content-type': 'application/json'}).send(JSON.stringify(message3));
+                               }else {
+                                   message2.message.text = doc.Title;
+                                   message2.message.photo = {
+                                       url : doc.ImgUrl,
+                                       width : 640,
+                                       height : 480,
+                                   };
+                                   message2.message.message_button = {
+                                       label : '이동하기',
+                                       url : doc.Url
+                                   };
+                                   message2.keyboard.type = 'buttons';
+                                   message2.keyboard.buttons = [
+                                       "돌아가기",
+                                   ];
+                                   res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
+                                   console.log('언론사별 뉴스, 이미지도 있음');
+                               }
+                           }
+                       });
+                   }
+                });
             }
 
 
