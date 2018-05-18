@@ -298,24 +298,22 @@ router.post('/message', (req, res) => {
                 }
             }
             if( _obj.content.charAt(0) === '('){
-
                     for(i=0 ; i<5 ; i++){
-                        if(imgUrls[i] === undefined){
-                            message3.message.text = titles[i];
-                            message3.message.message_button = {
-                                label : '이동하기',
-                                url : urls[i]
-                            };
-                            message3.keyboard.type = 'buttons';
-                            message3.keyboard.buttons = [
-                                "돌아가기",
-                            ];
-                            res.set({'content-type': 'application/json'}).send(JSON.stringify(message3));
-                            break;
-
-                        }
                         if(_obj.content.indexOf(titles[i]) !== -1){
+                            if(imgUrls[i] === undefined){
+                                message3.message.text = titles[i];
+                                message3.message.message_button = {
+                                    label : '이동하기',
+                                    url : urls[i]
+                                };
+                                message3.keyboard.type = 'buttons';
+                                message3.keyboard.buttons = [
+                                    "돌아가기",
+                                ];
+                                res.set({'content-type': 'application/json'}).send(JSON.stringify(message3));
+                                break;
 
+                            }
                             message2.message.text = titles[i];
                             message2.message.photo = {
                                 url : imgUrls[i],
