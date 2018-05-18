@@ -270,13 +270,15 @@ router.get('/keyboard', (req, res) => {
 
     const menu = {
         type: 'buttons',
-        buttons: ["뉴스 보기", "저장 목록", "즐겨찾기"]
+        buttons: ["뉴스 보기", "저장 목록", "즐겨찾기", "테스트용"]
     };
 res.set({
     'content-type': 'application/json'
 }).send(JSON.stringify(menu));
 });
-
+router.get('/user/test', (req, res) => {
+   res.send('./User.html');
+});
 
 router.post('/message', (req, res) => {
     const _obj = {
@@ -501,6 +503,17 @@ router.post('/message', (req, res) => {
             setTimeout(function() {
                 res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             }, 500);
+            break;
+        case '테스트용' :
+            message3.message.text = '테스트';
+            message3.message.message_button = {
+                label : '이동하기',
+                url : 'http://13.124.160.53:3000/user/test',
+            };
+            message3.keyboard.type = 'buttons';
+            message3.keyboard.buttons = [
+                "돌아가기",
+            ];
             break;
         default:
             let fields = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학"];
