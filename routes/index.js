@@ -154,6 +154,7 @@ function findUser(user_key) {
 
 function saveNews(title, url, imgurl, user_key){
     if(press !== null && field === null) {
+        console.log('언론사로 저장');
         PressNews.findOne({'Url' : url}, function(err, doc){
            if(err) console.log(err);
            else if(doc === null) {                      //뉴스가 처음 저장되는것이면 유저 스키마에서 중복될일 x
@@ -189,10 +190,11 @@ function saveNews(title, url, imgurl, user_key){
            }
         });
     }else if(press === null && field !== null) {
-
+        console.log('필드로 저장');
         FieldNews.findOne({'Url' : url}, function(err, doc){
             if(err) console.log(err);
             else if(doc === null) {                      //뉴스가 처음 저장되는것이면 유저 스키마에서 중복될일 x
+                console.log('뉴스 처음저장');
                 var fieldNews = new FieldNews();
                 fieldNews.Title = title;
                 fieldNews.Field = field;
@@ -210,6 +212,7 @@ function saveNews(title, url, imgurl, user_key){
                 });
 
             } else {                                     //뉴스가 이미 누군가에 의해 저장된 것이면 중복될일 o
+                console.log('뉴스 다른사람이 저장');
                 User.findOne({'id' : user_key, 'SavedNews' : doc._id}, function(err, retDoc){
                     if(err) console.log(err);
                     else if(retDoc === null){
