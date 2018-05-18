@@ -574,9 +574,11 @@ router.post('/message', (req, res) => {
                             "돌아가기",
                             "즐겨찾기등록"
                         ];
+                        res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
                     },1000);
-                    res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
+
                 }
+                break;
             }
             if( _obj.content.charAt(0) === '('){
                     for(i=0 ; i<5 ; i++){
