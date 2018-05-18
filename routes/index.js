@@ -127,13 +127,14 @@ router.get('/', function(req, res, next) {
 function findUser(user_key) {
     console.log(user_key);
     User.find({id : user_key}, function(err, doc){
-        if(err) {
+        if(err) console.log(err);
+        else if(doc === null) {
             var newUser = new User();
             newUser.id = user_key;
 
             newUser.save(function(err, doc){
-               if(err) console.log(err);
-               console.log(doc);
+                if(err) console.log(err);
+                console.log(doc);
             });
         }
 
