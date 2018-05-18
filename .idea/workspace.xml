@@ -89,8 +89,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="629">
-              <caret line="252" column="27" lean-forward="true" selection-start-line="252" selection-start-column="27" selection-end-line="252" selection-end-column="27" />
+            <state relative-caret-position="376">
+              <caret line="244" column="30" lean-forward="false" selection-start-line="244" selection-start-column="30" selection-end-line="244" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -279,12 +279,12 @@
       <workItem from="1525177791105" duration="277000" />
       <workItem from="1525235249873" duration="3386000" />
       <workItem from="1526052447844" duration="5068000" />
-      <workItem from="1526364152824" duration="35257000" />
+      <workItem from="1526364152824" duration="35397000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="63512000" />
+    <option name="totallyTimeSpent" value="63652000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="0" width="1194" height="1038" extended-state="0" />
@@ -700,18 +700,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="252" column="27" lean-forward="true" selection-start-line="252" selection-start-column="27" selection-end-line="252" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../4-1/웹설/AjouTeam/server/routes/com.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4300">
           <caret line="289" column="31" lean-forward="false" selection-start-line="289" selection-start-column="28" selection-end-line="289" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="244" column="30" lean-forward="false" selection-start-line="244" selection-start-column="30" selection-end-line="244" selection-end-column="30" />
           <folding />
         </state>
       </provider>

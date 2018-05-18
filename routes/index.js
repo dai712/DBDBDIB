@@ -236,12 +236,13 @@ function getSavedNews(user_key) {
        if(err) console.log(err);
        if(doc !== null){
            tempNews = doc.SavedNews;
-           console.log(doc.SavedNews);
            console.log(tempNews);
        }
     });
+    console.log(tempNews.length);
     for(i=0 ; i<tempNews.length ; i++) {
         FieldNews.findOne({_id : ObjectId(tempNews[i])}, function(err, retDoc){
+            console.log('시발');
            if(err) console.log(err);
            else if(retDoc !== null) {
                savedTitles.push(retDoc.Title);
