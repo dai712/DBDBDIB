@@ -604,9 +604,10 @@ router.post('/message', (req, res) => {
                     }
                 } else{
                 FieldNews.findOne({'Title' : _obj.content}, function(err, doc){
-                    targetNewsId = doc._id;
+
                    if(err) console.log(err);
                    else if(doc !== null) {
+                       targetNewsId = doc._id;
                        message2.message.text = doc.Title;
                        message2.message.photo = {
                            url : doc.ImgUrl,
