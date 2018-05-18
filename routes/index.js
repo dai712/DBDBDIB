@@ -12,9 +12,9 @@ const breakingSelector2 = ') > dl > dt:nth-child(2)';
 const breakingImgSelector1 = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(';
 const breakingImgSelector2 = ') > dl > dt.photo > a';
 const pressSelector1 = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(';
-const pressSelector2 = ') > dl > dt:nth-child(2)';
+const pressSelector2 = ') > dl';
 const pressImgSelector1 = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(';
-const pressImgSelector2 = ') > dl > dt.photo > a';
+const pressImgSelector2 = ') > dl';
 let fieldURLs = [
     'http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001',                //속보
     'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=100',                //정치
@@ -88,10 +88,10 @@ function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector
                     titles.push(title);
                     urls.push(url);
                 });
-                $(crawImgSelector).each(function(index, value){
-                    var img = $(value).find('img').attr('src');
-                    imgUrls.push(img);
-                });
+                    $(crawImgSelector).each(function(index, value){
+                        var img = $(value).find('img').attr('src');
+                        imgUrls.push(img);
+                    });
 
             }
         });
@@ -143,6 +143,18 @@ router.post('/message', (req, res) => {
                 "width": 640,
                 "height": 480
             },
+            "message_button": {
+                "label": "",
+                "url": ""
+            }
+        },
+        "keyboard": {
+            "type": "",
+        }
+    };
+    const message3 = {
+        "message": {
+            "text": '',
             "message_button": {
                 "label": "",
                 "url": ""
@@ -206,7 +218,7 @@ router.post('/message', (req, res) => {
             break;
 
         case '키워드 검색' :
-            message1.message.text = '입력해 주세용';
+            message1.message.text = '입력해 주세요';
             message1.keyboard.type = 'text';
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
@@ -287,6 +299,19 @@ router.post('/message', (req, res) => {
             if( _obj.content.charAt(0) === '('){
 
                     for(i=0 ; i<5 ; i++){
+                        if(imgUrls[i] === undefined){
+                            message3.message.text = titles[i];
+                            message3.message.message_button = {
+                                label : '이동하기',
+                                url : urls[i]
+                            };
+                            message3.keyboard.type = 'buttons';
+                            message3.keyboard.buttons = [
+                                "돌아가기",
+                            ];
+                            res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
+                            break;
+                        }
                         if(_obj.content.indexOf(titles[i]) !== -1){
 
                             message2.message.text = titles[i];
@@ -303,7 +328,6 @@ router.post('/message', (req, res) => {
                             message2.keyboard.buttons = [
                                 "돌아가기",
                             ];
-                            console.log(message2);
                             res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
                             break;
                         }
