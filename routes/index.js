@@ -422,14 +422,15 @@ router.post('/message', (req, res) => {
             if(field !== null && press === null) {
 
                 User.findOne({'id' : connectedUser, 'Favorite.Category' : field}, function(err, doc){
-                    if(err) console.log(err)
+                    if(err) console.log(err);
                     else if(doc !== null) {
-                        console.log('이미 저장된 분야');
+                        message1.message.text = '이미 저장된 분야';
                     }else if(doc === null) {
                         User.findOneAndUpdate({'id': connectedUser}, {$push: {'Favorite.Category' : field}}, {new: true}, function(err, doc){
                             if(err) console.log(err);
                             else if(doc !== null){
                                 console.log(doc);
+                                message1.message.text = '저장 완료';
                             }
                         });
                     }
@@ -437,19 +438,25 @@ router.post('/message', (req, res) => {
 
             }else if(field === null && press !== null){
                 User.findOne({'id' : connectedUser, 'Favorite.Press' : press}, function(err, doc){
-                    if(err) console.log(err)
+                    if(err) console.log(err);
                     else if(doc !== null) {
-                        console.log('이미 저장된 분야');
+                        message1.message.text = '이미 저장된 분야';
                     }else if(doc === null) {
                         User.findOneAndUpdate({'id': connectedUser}, {$push: {'Favorite.Press' : press}}, {new: true}, function(err, doc){
                             if(err) console.log(err);
                             else if(doc !== null){
                                 console.log(doc);
+                                message1.message.text = '저장 완료';
                             }
                         });
                     }
                 });
             }
+            message1.keyboard.type = 'buttons';
+            message1.keyboard.buttons = [
+                "돌아가기",
+            ];
+            res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
 
             break;
         default:
