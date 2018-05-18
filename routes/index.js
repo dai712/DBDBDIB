@@ -342,7 +342,7 @@ router.post('/message', (req, res) => {
                 if( returnSavedNews.length === 0){
                     message1.message.text = '저장된 뉴스가 없습니다.'
                 } else {
-                    message1.message.text = '저장목록 실행\n 줄바꿈';
+                    message1.message.text = '저장목록 실행\n 갯수 : ' + returnSavedNews.length + '개';
                     for (i = 0 ; i < returnSavedNews.length ; i++){
                         message1.keyboard.buttons.push(returnSavedNews[i]);
                     }
