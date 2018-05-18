@@ -79,11 +79,12 @@ function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector
                 var crawSelector = selector1 + i + selector2;
                 var crawImgSelector = imgSelector1 + i + imgSelector2;
                 $(crawSelector).each(function(index, value){
-                    if(targetURL === fieldURLs[0]){
+                    if(targetURL === fieldURLs[0] || selector1 === pressSelector1){
                         var title = $(this).find('a').text().replace( /(\s*)/g, "");
                     } else {
                         var title = $(this).find('a').text();
                     }
+                    console.log(title);
                     var url = $(value).find('a').attr('href');
                     titles.push(title);
                     urls.push(url);
@@ -311,6 +312,7 @@ router.post('/message', (req, res) => {
                             ];
                             res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
                             break;
+
                         }
                         if(_obj.content.indexOf(titles[i]) !== -1){
 
