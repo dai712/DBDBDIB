@@ -272,12 +272,12 @@ router.get('/keyboard', (req, res) => {
         type: 'buttons',
         buttons: ["뉴스 보기", "저장 목록", "즐겨찾기", "테스트용"]
     };
-res.set({
-    'content-type': 'application/json'
-}).send(JSON.stringify(menu));
+res.set({'content-type': 'application/json'}).send(JSON.stringify(menu));
 });
+
 router.get('/user/test', (req, res) => {
-   res.render('User', {title : '뉴스bot'});
+   res.render('User', {title : '뉴스bot',
+                       newsList : getSavedNews(connectedUser) });
 });
 
 router.post('/message', (req, res) => {
