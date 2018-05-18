@@ -231,6 +231,7 @@ function saveNews(title, url, imgurl, user_key){
 }
 function getSavedNews(user_key) {
     var tempNews = [];
+    var savedTitles = [];
     User.findOne({'id' : user_key}, function(err, doc){
        if(err) console.log(err);
        if(doc !== null){
@@ -243,16 +244,19 @@ function getSavedNews(user_key) {
         FieldNews.findOne({_id : tempNews[i]}, function(err, retDoc){
            if(err) console.log(err);
            else if(retDoc !== null) {
+               savedTitles.push(retDoc.Title);
                console.log(retDoc.Title);
            }
         });
         PressNews.findOne({_id: tempNews[i]}, function(err, retDoc){
             if(err) console.log(err);
             else if(retDoc !== null) {
+                savedTitles.push(retDoc.Title);
                 console.log(retDoc.Title);
             }
-        })
+        });
     }
+    console.log(savedTitles);
 }
 router.get('/keyboard', (req, res) => {
 
@@ -324,10 +328,18 @@ router.post('/message', (req, res) => {
         case '저장 목록' :
             getSavedNews(connectedUser);
             message1.message.text = '저장목록 실행';
+            message1.keyboard.type = 'buttons';
+            message1.keyboard.buttons = [
+                "돌아가기",
+            ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
         case '즐겨 찾기' :
             message1.message.text = '즐겨찾기 실행';
+            message1.keyboard.type = 'buttons';
+            message1.keyboard.buttons = [
+                "돌아가기",
+            ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
 
