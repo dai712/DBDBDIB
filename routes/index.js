@@ -513,7 +513,7 @@ router.post('/message', (req, res) => {
                 res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             }, 500);
             break;
-        case '테스트용' :
+        case '현황' :
             message3.message.text = '테스트';
             message3.message.message_button = {
                 label : '이동하기',
