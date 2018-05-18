@@ -310,7 +310,7 @@ router.post('/message', (req, res) => {
                             message3.keyboard.buttons = [
                                 "돌아가기",
                             ];
-                            res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
+                            res.set({'content-type': 'application/json'}).send(JSON.stringify(message3));
                             break;
 
                         }
