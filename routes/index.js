@@ -277,7 +277,7 @@ res.set({
 }).send(JSON.stringify(menu));
 });
 router.get('/user/test', (req, res) => {
-   res.render('./User.html');
+   res.render('./User', {title : '뉴스bot'});
 });
 
 router.post('/message', (req, res) => {
