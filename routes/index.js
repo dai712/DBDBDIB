@@ -2,6 +2,16 @@ var express = require('express');
 var router = express.Router();
 var cheerio = require('cheerio');
 var iconv = require('iconv-lite');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/data');
+var db = mongoose.connection;
+db.on('error', function(){
+    console.log('Connection Failed!');
+});
+db.once('open', function() {
+    console.log('Connected!');
+});
+
 
 const fieldSelector1 = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(';
 const fieldSelector2 = ') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
@@ -59,6 +69,8 @@ router.get('/search/news', function (req, res) {                                
     });
 });
 */
+var connectedUser = '';
+var targetIndex = 99;
 var titles = [];            //제목
 var urls = [];              //url
 var imgUrls = [];           //img url
@@ -102,6 +114,7 @@ function clearArrays() {
     titles = [];
     urls = [];
     imgUrls = [];
+    targetIndex = 99;
 }
 
 /* GET home page. */
@@ -127,6 +140,7 @@ router.post('/message', (req, res) => {
         type: req.body.type,
         content: req.body.content
     };
+    connectedUser = _obj.user_key;
 
     const message1 = {
         "message": {
@@ -173,7 +187,6 @@ router.post('/message', (req, res) => {
             message1.keyboard.buttons = [
                 "장르",
                 "언론사",
-                "키워드 검색",
             ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
@@ -218,12 +231,6 @@ router.post('/message', (req, res) => {
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
 
-        case '키워드 검색' :
-            message1.message.text = '입력해 주세요';
-            message1.keyboard.type = 'text';
-            res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
-            break;
-
         case '돌아가기' :
             clearArrays();
             message1.message.text = '돌아가기';
@@ -235,7 +242,16 @@ router.post('/message', (req, res) => {
             ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
-
+        case '저장하기' :
+            message1.message.text = '저장이 완료되었습니다.';
+            message1.keyboard.type = 'buttons';
+            message1.keyboard.buttons = [
+                "뉴스 보기",
+                "저장 목록",
+                "즐겨찾기"
+            ];
+            res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
+            break;
         default:
             let fields = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학"];
             let presses = ["경향", "국민", "동아", "문화", "서울", "세계", "조선", "중앙", "한겨레", "한국"];
@@ -300,6 +316,7 @@ router.post('/message', (req, res) => {
             if( _obj.content.charAt(0) === '('){
                     for(i=0 ; i<5 ; i++){
                         if(_obj.content.indexOf(titles[i]) !== -1){
+                            targetIndex = i;
                             if(imgUrls[i] === undefined){
                                 message3.message.text = titles[i];
                                 message3.message.message_button = {
@@ -308,6 +325,7 @@ router.post('/message', (req, res) => {
                                 };
                                 message3.keyboard.type = 'buttons';
                                 message3.keyboard.buttons = [
+                                    "저장하기",
                                     "돌아가기",
                                 ];
                                 res.set({'content-type': 'application/json'}).send(JSON.stringify(message3));
