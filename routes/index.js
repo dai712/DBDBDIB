@@ -233,8 +233,11 @@ function getSavedNews(user_key) {
     var tempNews = [];
     User.findOne({'id' : user_key}, function(err, doc){
        if(err) console.log(err);
-        tempNews = doc.SavedNews;
-        console.log(tempNews);
+       if(doc !== null){
+           tempNews = doc.SavedNews;
+           console.log(doc.SavedNews);
+           console.log(tempNews);
+       }
     });
     while(tempNews) {
         var i = 0;
