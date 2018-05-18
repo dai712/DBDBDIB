@@ -280,16 +280,16 @@ router.post('/message', (req, res) => {
                 if(_obj.content === presses[k]){
                     console.log(presses[k]);
                     crawlingNews(pressURLS[k], pressSelector1, pressSelector2, pressImgSelector1, pressImgSelector2);
-
+                    let press = presses[k]
                     setTimeout(function() {
                         message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                         message1.keyboard.type = 'buttons';
                         message1.keyboard.buttons = [
-                            "(" + presses[k] + ")" + titles[0],
-                            "(" + presses[k] + ")" + titles[1],
-                            "(" + presses[k] + ")" + titles[2],
-                            "(" + presses[k] + ")" + titles[3],
-                            "(" + presses[k] + ")" + titles[4],
+                            "(" + press + ")" + titles[0],
+                            "(" + press + ")" + titles[1],
+                            "(" + press + ")" + titles[2],
+                            "(" + press + ")" + titles[3],
+                            "(" + press + ")" + titles[4],
                             "돌아가기",
                         ];
                         res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
