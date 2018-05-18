@@ -278,10 +278,13 @@ res.set({'content-type': 'application/json'}).send(JSON.stringify(menu));
 router.get('/user/test', (req, res) => {
     var newsList = [];
     newsList = getSavedNews(connectedUser);
-    console.log('뉴스리스트',newsList);
-   res.render('User', {title : '뉴스bot',
-                       newsList : newsList,
-   });
+    setTimeout(function() {
+        console.log('뉴스리스트',newsList);
+        res.render('User', {title : '뉴스bot',
+            newsList : newsList,
+        });
+    }, 500);
+
 });
 
 router.post('/message', (req, res) => {
