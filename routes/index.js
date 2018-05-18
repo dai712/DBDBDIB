@@ -138,6 +138,9 @@ function findUser(user_key) {
                 console.log('새로저장중');
                 console.log(doc);
             });
+        } else {
+            console.log('찾음');
+            console.log(doc);
         }
 
     });
