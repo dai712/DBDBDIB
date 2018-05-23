@@ -270,7 +270,7 @@ function getSavedNews(user_key) {           //먼저 DB에서 유저를 검색�
     return savedTitles;
 }
 router.get('/keyboard', (req, res) => {
-
+console.log(req);
     const menu = {
         type: 'buttons',
         buttons: ["뉴스 보기", "저장 목록", "즐겨찾기", "현황"]
@@ -571,6 +571,7 @@ router.post('/message', (req, res) => {
                 }
             }
             for(k = 0 ; k < 10 ; k++) {
+                console.log(_obj.content);
                 if(_obj.content === presses[k]){
                     console.log(presses[k]);
                     crawlingNews(pressURLS[k], pressSelector1, pressSelector2, pressImgSelector1, pressImgSelector2);
