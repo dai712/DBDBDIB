@@ -83,6 +83,7 @@ var imgUrls = [];           //img url
 var field = '';             //분야
 var press = '';             //언론사
 var targetNewsId = '';      //Save할때 쓸 뉴스의 DB Primary key
+var curPos = 0;
 
 
 function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector2 ){
@@ -260,17 +261,18 @@ function getSavedNews(user_key) {           //먼저 DB에서 유저를 검색�
                        }
                    });
                }
-
            }
-
-
        }
     });
     console.log(savedTitles);
     return savedTitles;
 }
+console.log("현재 위치 : ", curPos);
+
 router.get('/keyboard', (req, res) => {
 console.log(req);
+    curPos = 1;
+    console.log("현재 위치 : ", curPos);
     const menu = {
         type: 'buttons',
         buttons: ["뉴스 보기", "저장 목록", "즐겨찾기", "현황"]
@@ -344,6 +346,8 @@ router.post('/message', (req, res) => {
                 "언론사",
             ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
+            curPos = 2;
+            console.log("현재 위치 : ", curPos);
             break;
         case '저장 목록' :
             message1.keyboard.type = 'buttons';
@@ -411,6 +415,8 @@ router.post('/message', (req, res) => {
                 "IT/과학",
             ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
+            curPos = 3;
+            console.log("현재 위치 : ", curPos);
             break;
         case '언론사' :
             message1.message.text = '언론사 선택';
@@ -428,6 +434,8 @@ router.post('/message', (req, res) => {
                 "한국",
             ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
+            curPos = 4;
+            console.log("현재 위치 : ", curPos);
             break;
 
         case '돌아가기' :
