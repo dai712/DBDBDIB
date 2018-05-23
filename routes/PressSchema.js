@@ -7,6 +7,7 @@ const PressSchema = new mongoose.Schema({
     Press : String,
     Url : String,
     ImgUrl : String,
+    Views : Number,
 });
 
 

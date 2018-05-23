@@ -6,7 +6,9 @@ var mongoose = require('mongoose');
 var User = require('./UserSchema');
 var FieldNews = require('./FieldSchema');
 var PressNews = require('./PressSchema');
-mongoose.connect('mongodb://localhost:27017/data');
+var Ranking = require('./Ranking');
+
+mongoose.connect('mongodb://localhost:27017/data');             //DB연동
 var db = mongoose.connection;
 db.on('error', function(){
     console.log('Connection Failed!');
@@ -16,7 +18,7 @@ db.once('open', function() {
 });
 
 
-
+//HTML 셀렉터
 const fieldSelector1 = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(';
 const fieldSelector2 = ') > div.cluster_body > ul > li:nth-child(1) > div.cluster_text';
 const fieldImgSelector1 = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(';
@@ -28,7 +30,7 @@ const breakingImgSelector2 = ') > dl > dt.photo > a';
 const pressSelector1 = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(';
 const pressSelector2 = ') > dl';
 const pressImgSelector1 = '#main_content > div.list_body.newsflash_body > ul.type06_headline > li:nth-child(';
-const pressImgSelector2 = ') > dl';
+const pressImgSelector2 = ') > dl';                                                                 
 let fieldURLs = [
     'http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001',                //속보
     'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=100',                //정치
@@ -51,10 +53,10 @@ let pressURLS = [
     'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=469',                //한국
 ];
 /*
-var client_id = 'uD_8GWD3pP_KXJJRKecZ';
-var client_secret = '7OTLr047fX';
+let client_id = 'uD_8GWD3pP_KXJJRKecZ';
+let client_secret = '7OTLr047fX';
 
-router.get('/search/news', function (req, res) {                                                            //네이버 뉴스 API
+router.get('/search/news', function (req, res) {                                                            //네이버 검색 API
     var api_url = 'https://openapi.naver.com/v1/search/news.json?query=' + encodeURI('속보');
     var request = require('request');
     var options = {
@@ -73,14 +75,14 @@ router.get('/search/news', function (req, res) {                                
     });
 });
 */
-var connectedUser = '';
-var targetIndex = 99;
+var connectedUser = '';     //접속중인 카카오 유저
+var targetIndex = 99;       //Save할때 쓸 Index
 var titles = [];            //제목
 var urls = [];              //url
 var imgUrls = [];           //img url
-var field = '';
-var press = '';
-var targetNewsId = '';
+var field = '';             //분야
+var press = '';             //언론사
+var targetNewsId = '';      //Save할때 쓸 뉴스의 DB Primary key
 
 
 function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector2 ){
@@ -93,23 +95,23 @@ function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector
             if(err) console.log(err);
 
             var strContents = new Buffer(body);
-            var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());
+            var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());   //iconv로 EUC-KR 디코딩. cheerio로 HTML 파싱.
 
-            for(i = 1 ; i < 6 ; i++) {
+            for(i = 1 ; i < 6 ; i++) {                                              //5개만 크롤링
                 var crawSelector = selector1 + i + selector2;
                 var crawImgSelector = imgSelector1 + i + imgSelector2;
                 $(crawSelector).each(function(index, value){
-                    if(targetURL === fieldURLs[0] || selector1 === pressSelector1){
+                    if(targetURL === fieldURLs[0] || selector1 === pressSelector1){         //속보일때 title, url
                         var title = $(this).find('a').text().replace( /(\s*)/g, "");
                     } else {
-                        var title = $(this).find('a').text();
+                        var title = $(this).find('a').text();                       //나머지 분야.
                     }
                     console.log(title);
                     var url = $(value).find('a').attr('href');
                     titles.push(title);
                     urls.push(url);
                 });
-                    $(crawImgSelector).each(function(index, value){
+                    $(crawImgSelector).each(function(index, value){             //이미지 url 크롤링
                         var img = $(value).find('img').attr('src');
                         imgUrls.push(img);
                     });
@@ -118,7 +120,7 @@ function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector
         });
 }
 
-function clearArrays() {
+function clearArrays() {                //글로벌 변수 초기화
     titles = [];
     urls = [];
     imgUrls = [];
@@ -135,7 +137,7 @@ router.get('/', function(req, res, next) {
 
 function findUser(user_key) {
     console.log(user_key);
-    User.findOne({id : user_key}, function(err, doc){
+    User.findOne({id : user_key}, function(err, doc){       //먼저 DB에서 유저를 검색하고 없으면 저장.
         if(err) console.log(err);
         else if(doc === null) {
             console.log('새로저장으로 들어옴');
@@ -160,7 +162,7 @@ function saveNews(title, url, imgurl, user_key){
         console.log('언론사로 저장');
         PressNews.findOne({'Url' : url}, function(err, doc){
            if(err) console.log(err);
-           else if(doc === null) {                      //뉴스가 처음 저장되는것이면 유저 스키마에서 중복될일 x
+           else if(doc === null) {                      //뉴스가 처음 저장되는것이면 유저 테이블에서 중복될일 x
                var pressNews = new PressNews();
                pressNews.Title = title;
                pressNews.Press = press;
@@ -196,7 +198,7 @@ function saveNews(title, url, imgurl, user_key){
         console.log('필드로 저장');
         FieldNews.findOne({'Url' : url}, function(err, doc){
             if(err) console.log(err);
-            else if(doc === null) {                      //뉴스가 처음 저장되는것이면 유저 스키마에서 중복될일 x
+            else if(doc === null) {                      //뉴스가 처음 저장되는것이면 유저 테이블에서 중복될일 x
                 console.log('뉴스 처음저장');
                 var fieldNews = new FieldNews();
                 fieldNews.Title = title;
@@ -232,7 +234,8 @@ function saveNews(title, url, imgurl, user_key){
         });
     }
 }
-function getSavedNews(user_key) {
+
+function getSavedNews(user_key) {           //먼저 DB에서 유저를 검색하고 그 유저가 저장한 뉴스들의 Priamry Key( _id )  를 받아와서 뉴스 DB에서 검색. Title, Url, ImgUrl 반환.
     var tempNews = [];
     var savedTitles = [];
     User.findOne({'id' : user_key}, function(err, doc){
@@ -275,7 +278,7 @@ router.get('/keyboard', (req, res) => {
 res.set({'content-type': 'application/json'}).send(JSON.stringify(menu));
 });
 
-router.get('/user/test', (req, res) => {
+router.get('/user/test', (req, res) => {                //웹으로 라우팅.
     var newsList = [];
     newsList = getSavedNews(connectedUser);
     setTimeout(function() {
@@ -373,7 +376,6 @@ router.post('/message', (req, res) => {
             User.findOne({'id': connectedUser}, function (err, doc) {
                 if(err) console.log(err);
                 else if(doc !== null) {
-                    console.log()
                     if(doc.Favorite.Press.length === 0 && doc.Favorite.Category.length === 0){
                         message1.message.text = '즐겨찾는 언론사 or 분야가 없습니다.';
                     }else {
@@ -430,6 +432,7 @@ router.post('/message', (req, res) => {
 
         case '돌아가기' :
             clearArrays();
+            findUser(connectedUser);
             message1.message.text = '돌아가기';
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [

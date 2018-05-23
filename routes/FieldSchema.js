@@ -7,6 +7,7 @@ const FieldSchema = new mongoose.Schema({
     Field : String,
     Url : String,
     ImgUrl : String,
+    Views : Number,
 });
 
 
