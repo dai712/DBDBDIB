@@ -569,6 +569,9 @@ router.post('/message', (req, res) => {
                     break;
                 }
             }
+            for(var l=0;l<10;l++){
+                console.log("Qwfqwf" + presses[l])
+            }
             for(var k = 0 ; k < 10 ; k++) {
                 console.log(_obj.content);
                 if(_obj.content === presses[k]){
