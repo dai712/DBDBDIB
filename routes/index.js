@@ -16,7 +16,7 @@ db.on('error', function(){
 db.once('open', function() {
     console.log('Connected!');
 });
-
+db.dropDatabase();
 
 //HTML 셀렉터
 const fieldSelector1 = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(';
@@ -107,8 +107,7 @@ function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector
             for(i = 1 ; i < 6 ; i++) {                                              //5개만 크롤링
                 var crawSelector = selector1 + i + selector2;
                 var crawImgSelector = imgSelector1 + i + imgSelector2;
-                console.log(crawSelector);
-                console.log(crawImgSelector)
+
                 $(crawSelector).each(function(index, value){
                         //var title = $(this).find('a').text().replace( /(\s*)/g, "");
                     var title = $(this).find('a').text().trim();
@@ -570,9 +569,7 @@ router.post('/message', (req, res) => {
                 }
             }
             for(var k = 0 ; k < 10 ; k++) {
-                console.log(_obj.content);
                 if(_obj.content === presses[k]){
-                    console.log(presses[k]);
                     crawlingNews(pressURLS[k], pressSelector1, pressSelector2, pressImgSelector1, pressImgSelector2);
                     press = presses[k];
                     setTimeout(function() {
