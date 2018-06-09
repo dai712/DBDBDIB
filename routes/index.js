@@ -100,7 +100,9 @@ function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector
 
             var strContents = new Buffer(body);
             var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());   //iconv로 EUC-KR 디코딩. cheerio로 HTML 파싱.
-            console.log(body);
+
+            console.log(selector1 + 1 + selector2);
+
             for(i = 1 ; i < 6 ; i++) {                                              //5개만 크롤링
                 var crawSelector = selector1 + i + selector2;
                 var crawImgSelector = imgSelector1 + i + imgSelector2;
