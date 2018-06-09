@@ -104,13 +104,14 @@ function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector
             for(i = 1 ; i < 6 ; i++) {                                              //5개만 크롤링
                 var crawSelector = selector1 + i + selector2;
                 var crawImgSelector = imgSelector1 + i + imgSelector2;
+                console.log(crawSelector);
+                console.log(crawImgSelector)
                 $(crawSelector).each(function(index, value){
                         //var title = $(this).find('a').text().replace( /(\s*)/g, "");
                     var title = $(this).find('a').text().trim();
 
                     var url = $(value).find('a').attr('href');
                     titles.push(title);
-                    console.log(title);
                     urls.push(url);
                 });
                     $(crawImgSelector).each(function(index, value){             //이미지 url 크롤링
