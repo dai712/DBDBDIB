@@ -132,8 +132,9 @@ setInterval(function() {
             $(crawImgSelector).each(function(index, value){             //이미지 url 크롤링
                 var img = $(value).find('img').attr('src');
                // imgUrls.push(img);
-            });
                 updateFieldNews.ImgUrl = img;
+            });
+
             updateFieldNews.save({new : true}, function(err, doc){
                 if(err) console.log(err);
                 console.log('가져온 뉴스', doc);
