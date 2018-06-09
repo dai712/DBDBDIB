@@ -17,7 +17,7 @@ db.on('error', function(){
 db.once('open', function() {
     console.log('Connected!');
 });
-//db.dropDatabase();
+db.dropDatabase();
 
 //HTML 셀렉터
 const fieldSelector1 = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(';
@@ -102,14 +102,14 @@ setInterval(function() {
         var tempUrls = [];
         var savedNewsList = [];
 
-        var updateFieldNews = new FieldNews();
+
 
         var strContents = new Buffer(body);
         var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());   //iconv로 EUC-KR 디코딩. cheerio로 HTML 파싱.
 
         FieldNews.find({}).sort({_id: -1}).limit(85, function(err, doc){
            if(err) console.log(err);
-            console.log(doc);
+            console.log('데헷' + doc);
         });
 
         for(i = 1 ; i < 6 ; i++) {                                              //5개만 크롤링
@@ -117,6 +117,7 @@ setInterval(function() {
           //  var crawImgSelector = imgSelector1 + i + imgSelector2;
            var crawSelector = fieldSelector1 + i +  fieldSelector2;
            var crawImgSelector = fieldImgSelector1 + i + fieldImgSelector2;
+           var updateFieldNews = new FieldNews();
 
             $(crawSelector).each(function(index, value){
                 var title = $(this).find('a').text().trim();
@@ -126,17 +127,17 @@ setInterval(function() {
             //    tempTitles.push(title);
                 updateFieldNews.Title = title;
                 updateFieldNews.Url = url;
-                updateFieldNews.save({new : true}, function(err, doc){
-                   if(err) console.log(err);
-                   console.log('가져온 뉴스', doc);
-                });
 
             });
             $(crawImgSelector).each(function(index, value){             //이미지 url 크롤링
                 var img = $(value).find('img').attr('src');
-                imgUrls.push(img);
+               // imgUrls.push(img);
             });
-
+                updateFieldNews.ImgUrl = img;
+            updateFieldNews.save({new : true}, function(err, doc){
+                if(err) console.log(err);
+                console.log('가져온 뉴스', doc);
+            });
         }
     });
 },10000);  //5분
