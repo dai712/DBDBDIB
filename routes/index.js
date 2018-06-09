@@ -96,7 +96,7 @@ function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector
             headers: { "User-Agent": "Mozilla/5.0" } ,
             encoding: null
         },function(err, res, body){
-            if(err) console.log(err);
+            if(err) console.log('err');
 
             var strContents = new Buffer(body);
             var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());   //iconv로 EUC-KR 디코딩. cheerio로 HTML 파싱.
