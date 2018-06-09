@@ -8,4 +8,4 @@ const NewsList= new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model('FieldNews', NewsList);
+module.exports = mongoose.model('NewsList', NewsList);
