@@ -7,6 +7,7 @@ var User = require('./UserSchema');
 var FieldNews = require('./FieldSchema');
 var PressNews = require('./PressSchema');
 var Ranking = require('./Ranking');
+var NewsList = require('./NewsList');
 
 mongoose.connect('mongodb://localhost:27017/data');             //DB연동
 var db = mongoose.connection;
@@ -40,7 +41,7 @@ let fieldURLs = [
     'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=102',                //사회
     'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=103',                //생활/문화
     'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=104',                //세계
-    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=105',                //IT/과학
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=105',                //IT/과학             7개
 ];
 let pressURLS = [
     'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=032',                //경향
@@ -52,7 +53,7 @@ let pressURLS = [
     'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=023',                //조선
     'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=025',                //중앙
     'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=028',                //한겨레
-    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=469',                //한국
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=469',                //한국                10개
 ];
 /*
 let client_id = 'uD_8GWD3pP_KXJJRKecZ';
@@ -89,8 +90,55 @@ var curPos = 0;
 
 
 setInterval(function() {
-   console.log('ㅂㄹㅈ');
-},3000);
+    console.log(selector1 + 1 + selector2);
+    var request = require('request');
+    request.get({
+        url: targetURL,
+        headers: { "User-Agent": "Mozilla/5.0" } ,
+        encoding: null
+    },function(err, res, body){
+        if(err) console.log('err');
+        var tempTitles = [];
+        var tempUrls = [];
+        var savedNewsList = [];
+
+        var updateFieldNews = new FieldNews();
+
+        var strContents = new Buffer(body);
+        var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());   //iconv로 EUC-KR 디코딩. cheerio로 HTML 파싱.
+
+        FieldNews.find({}).sort({_id: -1}).limit(85, function(err, doc){
+           if(err) console.log(err);
+            console.log(doc);
+        });
+
+        for(i = 1 ; i < 6 ; i++) {                                              //5개만 크롤링
+            var crawSelector = selector1 + i + selector2;
+            var crawImgSelector = imgSelector1 + i + imgSelector2;
+
+            $(crawSelector).each(function(index, value){
+                var title = $(this).find('a').text().trim();
+                var url = $(value).find('a').attr('href');
+            //    titles.push(title);
+            //    urls.push(url);
+            //    tempTitles.push(title);
+                updateFieldNews.Title = title;
+                updateFieldNews.Url = url;
+                updateFieldNews.save({new : true}, function(err, doc){
+                   if(err) console.log(err);
+                   console.log('가져온 뉴스', doc);
+                });
+
+            });
+            $(crawImgSelector).each(function(index, value){             //이미지 url 크롤링
+                var img = $(value).find('img').attr('src');
+                imgUrls.push(img);
+            });
+
+        }
+    });
+},10000);  //5분
+/*
 function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector2 ){
     console.log(selector1 + 1 + selector2);
         var request = require('request');
@@ -126,7 +174,7 @@ function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector
             }
         });
 }
-
+*/
 function clearArrays() {                //글로벌 변수 초기화
     titles = [];
     urls = [];
