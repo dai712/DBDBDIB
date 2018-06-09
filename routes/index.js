@@ -90,10 +90,10 @@ var curPos = 0;
 
 
 setInterval(function() {
-    console.log(selector1 + 1 + selector2);
     var request = require('request');
     request.get({
-        url: targetURL,
+        //url: targetURL,
+        url: fieldURLs[1],
         headers: { "User-Agent": "Mozilla/5.0" } ,
         encoding: null
     },function(err, res, body){
@@ -113,8 +113,10 @@ setInterval(function() {
         });
 
         for(i = 1 ; i < 6 ; i++) {                                              //5개만 크롤링
-            var crawSelector = selector1 + i + selector2;
-            var crawImgSelector = imgSelector1 + i + imgSelector2;
+          //  var crawSelector = selector1 + i + selector2;
+          //  var crawImgSelector = imgSelector1 + i + imgSelector2;
+           var crawSelector = fieldSelector1 + i +  fieldSelector2;
+           var crawImgSelector = fieldImgSelector1 + i + fieldImgSelector2;
 
             $(crawSelector).each(function(index, value){
                 var title = $(this).find('a').text().trim();
