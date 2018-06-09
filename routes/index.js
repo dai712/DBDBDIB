@@ -572,7 +572,7 @@ router.post('/message', (req, res) => {
             for(k = 0 ; k < 10 ; k++) {
                 console.log(_obj.content);
                 if(_obj.content === presses[k]){
-                    console.log(presses[k]);
+                    console.log('뭔데씨발' + presses[k]);
                     crawlingNews(pressURLS[k], pressSelector1, pressSelector2, pressImgSelector1, pressImgSelector2);
                     press = presses[k];
                     setTimeout(function() {
