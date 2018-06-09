@@ -110,7 +110,7 @@ function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector
                     } else {
                         var title = $(this).find('a').text();                       //나머지 분야.
                     }
-                    console.log(title);
+                    console.log(title.trim());
                     var url = $(value).find('a').attr('href');
                     titles.push(title);
                     urls.push(url);
