@@ -569,7 +569,7 @@ router.post('/message', (req, res) => {
                     break;
                 }
             }
-            for(k = 0 ; k < 10 ; k++) {
+            for(var k = 0 ; k < 10 ; k++) {
                 console.log(_obj.content);
                 if(_obj.content === presses[k]){
                     console.log('뭔데씨발' + presses[k]);
