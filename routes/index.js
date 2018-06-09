@@ -16,7 +16,7 @@ db.on('error', function(){
 db.once('open', function() {
     console.log('Connected!');
 });
-db.dropDatabase();
+//db.dropDatabase();
 
 //HTML 셀렉터
 const fieldSelector1 = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(';
@@ -88,7 +88,9 @@ var targetNewsId = '';      //Save할때 쓸 뉴스의 DB Primary key
 var curPos = 0;
 
 
-
+setInterval(function() {
+   console.log('ㅂㄹㅈ');
+},3000);
 function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector2 ){
     console.log(selector1 + 1 + selector2);
         var request = require('request');
