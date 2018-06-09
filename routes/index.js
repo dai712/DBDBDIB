@@ -569,13 +569,10 @@ router.post('/message', (req, res) => {
                     break;
                 }
             }
-            for(var l=0;l<10;l++){
-                console.log("Qwfqwf" + presses[l])
-            }
             for(var k = 0 ; k < 10 ; k++) {
                 console.log(_obj.content);
                 if(_obj.content === presses[k]){
-                    console.log('뭔데씨발' + presses[k]);
+                    console.log(presses[k]);
                     crawlingNews(pressURLS[k], pressSelector1, pressSelector2, pressImgSelector1, pressImgSelector2);
                     press = presses[k];
                     setTimeout(function() {
@@ -592,9 +589,9 @@ router.post('/message', (req, res) => {
                         ];
                         res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
                     },1000);
-
+                    break;
                 }
-                break;
+
             }
             if( _obj.content.charAt(0) === '('){
                     for(i=0 ; i<5 ; i++){
