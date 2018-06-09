@@ -106,11 +106,11 @@ function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector
                 var crawImgSelector = imgSelector1 + i + imgSelector2;
                 $(crawSelector).each(function(index, value){
                     if(targetURL === fieldURLs[0] || selector1 === pressSelector1){         //속보일때 title, url
-                        var title = $(this).find('a').text().replace( /(\s*)/g, "");
+                        //var title = $(this).find('a').text().replace( /(\s*)/g, "");
+                        var title = $(this).find('a').text().trim();
                     } else {
                         var title = $(this).find('a').text();                       //나머지 분야.
                     }
-                    console.log(title.trim());
                     var url = $(value).find('a').attr('href');
                     titles.push(title);
                     urls.push(url);
