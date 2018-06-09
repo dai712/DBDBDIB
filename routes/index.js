@@ -106,10 +106,11 @@ function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector
                 var crawImgSelector = imgSelector1 + i + imgSelector2;
                 $(crawSelector).each(function(index, value){
                         //var title = $(this).find('a').text().replace( /(\s*)/g, "");
-                        var title = $(this).find('a').text().trim();
+                    var title = $(this).find('a').text().trim();
 
                     var url = $(value).find('a').attr('href');
                     titles.push(title);
+                    console.log(title);
                     urls.push(url);
                 });
                     $(crawImgSelector).each(function(index, value){             //이미지 url 크롤링
