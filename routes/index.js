@@ -155,6 +155,7 @@ function crawling(k){
             for (var i = 1; i < 6; i++) {                                              //5개만 크롤링
                 var crawSelector;
                 var crawImgSelector;
+                console.log('현재 k' + k);
                 if (k >= 7){
                     console.log('언론사');
                     crawSelector = pressSelector1 + i + pressSelector2;
