@@ -112,13 +112,13 @@ setInterval(function() {
     for(let k = 0, p = Promise.resolve() ; k < 16 ; k++) {
            p = p.then(_ => new Promise(resolve =>
                 setTimeout(function(){
-                    console.log(k);
+                    console.log('아웃펑션k' + k);
                     crawling(k);
                     resolve();
-                }, 800)
+                }, 1000)
            ))
     }
-},5000);  //5분
+},10000);  //5분
 
 
 function crawling(k){
@@ -157,7 +157,7 @@ function crawling(k){
                 var updateFieldNews = new FieldNews();
                 var updatePressNews = new PressNews();
 
-                console.log('k: ' + k);
+                console.log('인 펑션k: ' + k);
 
                 $(crawSelector).each(function (index, value) {
                     var title = $(this).find('a').text().trim();
@@ -183,8 +183,8 @@ function crawling(k){
                 });
 
                 if(k < 7) {
-                    console.log(updateFieldNews.title);
-                    FieldNews.find({'Title': updateFieldNews.title}, {new: true}, function (err, doc) {
+                    console.log(updateFieldNews.Title);
+                    FieldNews.find({'Title': updateFieldNews.Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         if (doc === null) {
                             updateFieldNews.save({new: true}, function (err, doc) {
@@ -194,7 +194,7 @@ function crawling(k){
                         }
                     });
                 } else {
-                    PressNews.find({'Title': updatePressNews.title}, {new: true}, function (err, doc) {
+                    PressNews.find({'Title': updatePressNews.Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         if (doc === null) {
                             updatePressNews.save({new: true}, function (err, doc) {
