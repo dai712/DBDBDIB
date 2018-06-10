@@ -635,7 +635,7 @@ setTimeout(function() {
                            setTimeout(function(){
                                returnNews = doc;
                                console.log(returnNews);
-                           },1000);
+                           },2000);
 
                        });
                    } else {
@@ -643,7 +643,7 @@ setTimeout(function() {
                        setTimeout(function(){
                            returnNews = doc;
                            console.log(returnNews);
-                       },1000);
+                       },2000);
                    }
                 });
 
