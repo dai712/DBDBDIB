@@ -357,22 +357,23 @@ router.post('/message', (req, res) => {
             break;
         case 'Top10 조회순위(분야별)':
             var top10Field;
-
+            message1.keyboard.buttons = [];
             FieldNews.find().sort('-Views').limit(10).exec(function (err, docs) {
                 top10Field = docs;
                 console.log('씨바립ㅈㄹ' + docs);
+                setTimeout(function() {
+                    var i = 0;
+                    while(top10Field){
+                        message1.keyboard.buttons.push(top10Field[i].Title);
+                        i++
+                    }
+                },500);
             });
 setTimeout(function() {
 
     message1.keyboard.type = 'buttons';
     message1.message.text = "순위";
-    message1.keyboard.buttons = [];
-    
-    var i = 0;
-    while(top10Field){
-        message1.keyboard.buttons.push(top10Field[i].Title);
-        i++
-    }
+
     message1.keyboard.buttons = [
         "돌아가기",
     ];
