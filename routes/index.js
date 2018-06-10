@@ -452,6 +452,7 @@ router.post('/message', (req, res) => {
                     User.findOneAndUpdate({'id' : connectedUser}, {$push: {'SavedNews' : curNews._id}}, function(err, retDoc){
                         if(err) console.log(err);
                         message1.message.text = '저장이 완료되었습니다.';
+                        console.log(retDoc);
                     });
                 }else {          //이미 저장한것.
                     message1.message.text = '이미 저장한 뉴스입니다.';
@@ -466,7 +467,7 @@ router.post('/message', (req, res) => {
             ];
             setTimeout(function(){
                 res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
-            },500);
+            },800);
 
             break;
         case '즐겨찾기등록' :
