@@ -165,6 +165,8 @@ function crawling(k){
                             updateFieldNews.Field = fieldAndPressList[k];
                             updateFieldNews.SavedDate = Date.now();
 
+                            console.log('씨발럼의것' + updateFieldNews.Field);
+
 
                             updateFieldNews.save({new: true}, function (err, doc) {
                                 if (err) console.log(err);
@@ -184,6 +186,8 @@ function crawling(k){
                             updatePressNews.ImgUrl = ImgUrl;
                             updatePressNews.Press = fieldAndPressList[k];
                             updatePressNews.SavedDate = Date.now();
+
+                            console.log('씨발럼의것' + updatePressNews.Field);
                             updatePressNews.save({new: true}, function (err, doc) {
                                 if (err) console.log(err);
                                 console.log('가져온 뉴스(언론사)', doc);
