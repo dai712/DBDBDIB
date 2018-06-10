@@ -554,6 +554,7 @@ router.post('/message', (req, res) => {
             }
 
             if (_obj.content.charAt(0) === '(') {
+                console.log('(들어옴');
                 console.log('제발좀이씨발' + resultNews[1]);
                 for (let i = 0; i < 5; i++) {
                     if (resultNews[i].ImgUrl !== null) {
