@@ -554,41 +554,34 @@ router.post('/message', (req, res) => {
             }
 
             else{
-                var title;
-                var url;
-                var imgurl;
+                let returnNews;
                 FieldNews.findOne({'Title' : _obj.content} , {new : true} , function(err, doc){
                    if(err) console.log(err);
                    if(doc === null){
                        console.log('언론사찾음');
                        PressNews.findOne({'Title' : _obj.content} , {new : true} , function(err, doc) {
-                            title = doc.Title;
-                            url = doc.Url;
-                            imgurl = doc.ImgUrl;
+                            returnNews = doc;
+                            console.log(returnNews);
                        });
                    } else {
                        console.log('분야찾음');
-                       title = doc.Title;
-                       url = doc.Url;
-                       imgurl = doc.ImgUrl;
+                       returnNews = doc;
+                       console.log(returnNews);
                    }
                 });
 
                 setTimeout(function(){
                    // console.log(returnNews);
-                    console.log(title);
-                    console.log(url);
-                    console.log(imgurl);
-                    if (imgurl !== null) {
-                        message2.message.text = title;
+                    if (returnNews.ImgUrl !== null) {
+                        message2.message.text = returnNews.Title;
                         message2.message.photo = {
-                            url: imgurl,
+                            url: returnNews.ImgUrl,
                             width: 640,
                             height: 480,
                         };
                         message2.message.message_button = {
                             label: '이동하기',
-                            url: url
+                            url: returnNews.Url
                         };
                         message2.keyboard.type = 'buttons';
                         message2.keyboard.buttons = [
@@ -598,10 +591,10 @@ router.post('/message', (req, res) => {
                         res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
 
                     } else {
-                        message3.message.text = title;
+                        message3.message.text = returnNews.Title;
                         message3.message.message_button = {
                             label : '이동하기',
-                            url : url
+                            url : returnNews.Url
                         };
                         message3.keyboard.type = 'buttons';
                         message3.keyboard.buttons = [
@@ -610,7 +603,7 @@ router.post('/message', (req, res) => {
                         ];
                         res.set({'content-type': 'application/json'}).send(JSON.stringify(message3));
                     }
-                },1000);
+                },2000);
 
 
 
