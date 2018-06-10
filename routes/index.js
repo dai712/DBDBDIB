@@ -158,12 +158,12 @@ function crawling(k){
             console.log(titles);
 
 
-            for(var p = 0 ; p < titles.length ; p++) {
+            for(let p = 0 ; p < titles.length ; p++) {
                 if (k < 7) {
                     FieldNews.findOne({'Title': titles[p]}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         if (doc === null) {
-                            console.log(titles[p]);
+
                             var updateFieldNews = new FieldNews();
                             updateFieldNews.Title = titles[p];
                             updateFieldNews.Url = urls[p];
