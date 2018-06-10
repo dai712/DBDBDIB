@@ -156,15 +156,17 @@ function crawling(k){
                 });
             }
             console.log(titles);
-            /*
-                if(k < 7) {
-                    FieldNews.findOne({'Title': titles[0]}, {new: true}, function (err, doc) {
+
+
+            for(var p = 0 ; p < titles.length ; p++) {
+                if (k < 7) {
+                    FieldNews.findOne({'Title': titles[p]}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         if (doc === null) {
                             var updateFieldNews = new FieldNews();
-                            updateFieldNews.Title = Title;
-                            updateFieldNews.Url = Url;
-                            updateFieldNews.ImgUrl = ImgUrl;
+                            updateFieldNews.Title = titles[p];
+                            updateFieldNews.Url = urls[p];
+                            updateFieldNews.ImgUrl = imgUrls[p];
                             updateFieldNews.Field = fieldAndPressList[k];
                             updateFieldNews.SavedDate = Date.now();
 
@@ -178,15 +180,15 @@ function crawling(k){
                         }
                     });
                 }
-                if (k >= 7){
-                    PressNews.findOne({'Title': titles[0]}, {new: true}, function (err, doc) {
+                if (k >= 7) {
+                    PressNews.findOne({'Title': titles[p]}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         if (doc === null) {
 
                             var updatePressNews = new PressNews();
-                            updatePressNews.Title = Title;
-                            updatePressNews.Url = Url;
-                            updatePressNews.ImgUrl = ImgUrl;
+                            updatePressNews.Title = titles[p];
+                            updatePressNews.Url = urls[p];
+                            updatePressNews.ImgUrl = imgUrls[p];
                             updatePressNews.Press = fieldAndPressList[k];
                             updatePressNews.SavedDate = Date.now();
 
@@ -197,8 +199,8 @@ function crawling(k){
                             });
                         }
                     });
-                }*/
-
+                }
+            }
         });
 }
 
