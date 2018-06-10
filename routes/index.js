@@ -89,7 +89,7 @@ setInterval(function() {
 
 },60000);*/
 (function loop(k) {
-    if (k < 16) new Promise((resolve, reject) => {
+    if (k < 2) new Promise((resolve, reject) => {
         setTimeout( () => {
             console.log(k);
             crawling(k);
@@ -155,7 +155,7 @@ function crawling(k){
                 });
 
                 if(k < 7) {
-                    FieldNews.findOne({'Url': Url}, {new: true}, function (err, doc) {
+                    FieldNews.findOne({'Title': Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         if (doc === null) {
                             var updateFieldNews = new FieldNews();
@@ -176,7 +176,7 @@ function crawling(k){
                     });
                 }
                 if (k >= 7){
-                    PressNews.findOne({'Url': Url}, {new: true}, function (err, doc) {
+                    PressNews.findOne({'Title': Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         if (doc === null) {
 
