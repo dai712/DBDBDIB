@@ -367,6 +367,7 @@ router.post('/message', (req, res) => {
 setTimeout(function() {
     var total = top10Press + top10Field;
     var total3 = [];
+    var i = 0 ;
     while(total){
         total3.push(total[i].Views);
         i++
