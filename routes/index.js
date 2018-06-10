@@ -650,15 +650,6 @@ setTimeout(function() {
                 setTimeout(function(){
                    curNews = returnNews;
 
-                   User.findOne({'id' : connectedUser, 'RecentNews' : curNews._id}, function(err, doc){
-                      if(err) console.log(err);
-                      if(doc === null ) {
-                          User.findOneAndUpdate({'id' : connectedUser}, {$push : {'RecentNews' : curNews._id}}, {new : true} , function(err, doc){
-                             if(err) console.log(err);
-                          });
-                      }
-                   });
-
 
 
                     if (returnNews.ImgUrl !== null) {
