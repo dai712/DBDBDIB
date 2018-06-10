@@ -167,7 +167,7 @@ function crawling(k){
                     FieldNews.find({'Title': updateFieldNews.Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         console.log(doc);
-                        if (doc === null) {
+                        if (doc === []) {
                             console.log(updateFieldNews.Title);
                             updateFieldNews.save({new: true}, function (err, doc) {
                                 if (err) console.log(err);
@@ -178,7 +178,7 @@ function crawling(k){
                 } else if (k >= 7){
                     PressNews.find({'Title': updatePressNews.Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
-                        if (doc === null) {
+                        if (doc === []) {
                             updatePressNews.save({new: true}, function (err, doc) {
                                 if (err) console.log(err);
                                 console.log('가져온 뉴스(언론사)', doc);
