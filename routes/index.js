@@ -83,10 +83,12 @@ var press = '';             //언론사
 var targetNewsId = '';      //Save할때 쓸 뉴스의 DB Primary key
 var curPos = 0;
 
-
+/*
 setInterval(function() {
 
-    (function loop(k) {
+
+},60000);*/
+(function loop(k) {
     if (k < 16) new Promise((resolve, reject) => {
         setTimeout( () => {
             console.log(k);
@@ -95,9 +97,6 @@ setInterval(function() {
         }, 1500);
     }).then(loop.bind(null, k+1));
 })(0);
-
-},60000);
-
 
 
 function crawling(k){
@@ -505,7 +504,7 @@ router.post('/message', (req, res) => {
             }, 500);
             break;
         case '현황' :
-            FieldNews.find({'Field' : '정치'}).sort({SavedDate : -1}).limit(10, function(err, doc){
+            FieldNews.find({'Field' : '정치'}).sort({SavedDate : 1}).toArray(function(err, doc){
                 if(err) console.log(err);
                 console.log('데헷' + doc);
             });
