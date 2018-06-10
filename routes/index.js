@@ -100,6 +100,7 @@ setInterval(function() {
 
 
 function crawling(k){
+        clearArrays();
         var fieldAndPressList = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학", "경향", "국민", "동아", "문화", "서울", "조선", "중앙", "한겨레", "한국"];
         var request = require('request');
         request.get({
@@ -121,16 +122,16 @@ function crawling(k){
                 var crawSelector;
                 var crawImgSelector;
                 console.log('현재 k' + k);
-                if (k >= 7){
+                if (k >= 7) {
                     console.log('언론사');
                     crawSelector = pressSelector1 + i + pressSelector2;
                     crawImgSelector = pressImgSelector1 + i + pressImgSelector2;
-                } else if (0 < k  && k < 7){
+                } else if (0 < k && k < 7) {
                     console.log('분야');
                     crawSelector = fieldSelector1 + i + fieldSelector2;
                     crawImgSelector = fieldImgSelector1 + i + fieldImgSelector2;
                 }
-                if (k === 0){
+                if (k === 0) {
                     console.log('속보');
                     crawSelector = breakingSelector1 + i + breakingSelector2;
                     crawImgSelector = breakingImgSelector1 + i + breakingImgSelector2;
@@ -138,22 +139,23 @@ function crawling(k){
 
 
                 var updatePressNews = new PressNews();
-                var Title;
-                var Url;
-                var Field;
-                var Press;
-                var ImgUrl;
+
                 $(crawSelector).each(function (index, value) {
                     var title = $(this).find('a').text().trim();
                     var url = $(value).find('a').attr('href');
-                    Title = title;
-                    Url = url;
+
+                    titles.push(title);
+                    urls.push(url);
+
                 });
                 $(crawImgSelector).each(function (index, value) {             //이미지 url 크롤링
                     var img = $(value).find('img').attr('src');
-                    ImgUrl = img;
-                });
 
+                    imgUrls.push(img);
+
+                });
+            }
+            console.log(titles);
                 if(k < 7) {
                     FieldNews.findOne({'Title': Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
@@ -195,7 +197,7 @@ function crawling(k){
                         }
                     });
                 }
-            }
+
         });
 }
 
