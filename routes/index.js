@@ -504,10 +504,19 @@ router.post('/message', (req, res) => {
             }, 500);
             break;
         case '현황' :
-            FieldNews.find({'Field' : '정치'}).sort({SavedDate : 1}).toArray(function(err, doc){
-                if(err) console.log(err);
-                console.log('데헷' + doc);
-            });
+            FieldNews.find({
+                    Field:'정치'
+                },
+                {
+                    skip:0,
+                    limit:10,
+                    sort:{
+                        SavedDate: -1 
+                    }
+                },{new : true},
+                function(err,allNews){
+                    console.log(allNews);
+                });
             message3.message.text = '테스트';
             message3.message.message_button = {
                 label : '이동하기',
