@@ -362,6 +362,8 @@ router.post('/message', (req, res) => {
                 top10Field = docs;
             });
 setTimeout(function() {
+    console.log(top10Field);
+    console.log(top10Field[0]);
     message1.keyboard.type = 'buttons';
     message1.message.text = "순위";
     message1.keyboard.buttons = [];
