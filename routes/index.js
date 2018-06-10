@@ -55,14 +55,14 @@ let pressURLS = [
     'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=469',                //한국                10개
 ];
 let totalURLs = [
-    'http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001',                //속보
-    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=100',                //정치
-    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=101',                //경제
-    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=102',                //사회
-    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=103',                //생활/문화
-    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=104',                //세계
-    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=105',                //IT/과학             7개
-    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=032',                //경향
+    'http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001',                //속보 0
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=100',                //정치 1
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=101',                //경제 2
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=102',                //사회 3
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=103',                //생활/문화 4
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=104',                //세계 5
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=105',                //IT/과학 6             7개
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=032',                //경향 7
     'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=005',                //국민
     'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=020',                //동아
     'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=021',                //문화
@@ -115,7 +115,7 @@ setInterval(function() {
                     console.log('아웃펑션k' + k);
                     crawling(k);
                     resolve();
-                }, 1700)
+                }, 1900)
            ))
     }
 },15000);  //5분
