@@ -119,7 +119,7 @@ setInterval(function() {
            ))
     }
 */
-    (async function loop() {
+    (async function() {
         for (let k = 0; k < 10; k++) {
             await new Promise(resolve => setTimeout(resolve, 1500));
             crawling(k);
