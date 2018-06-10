@@ -360,8 +360,10 @@ router.post('/message', (req, res) => {
             message1.keyboard.buttons = [];
             FieldNews.find().sort('-Views').limit(10).exec(function (err, docs) {
                 top10Field = docs;
-                console.log('씨바립ㅈㄹ' + docs);
+
                 setTimeout(function() {
+                    console.log('씨바립ㅈㄹ' + docs);
+
                     var i = 0;
                     while(i<10){
                         message1.keyboard.buttons.push(docs[i].Title);
