@@ -572,8 +572,10 @@ router.post('/message', (req, res) => {
                             "저장하기",
                             "돌아가기",
                         ];
-                        res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
-                        break;
+                        setTimeout(function(){
+                            res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
+                            break;
+                        },1000);
                     }
 
                 }
