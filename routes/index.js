@@ -446,8 +446,17 @@ router.post('/message', (req, res) => {
         case '저장하기' :
 
             console.log(curNews);
-            
-            message1.message.text = '저장이 완료되었습니다.';
+            User.findOne({'id' : connectedUser, 'SavedNews' : curNews._id}, function(err, doc){
+                if(err) console.log(err);
+                if(doc === null ){
+                    User.findOneAndUpdate({'id' : connectedUser}, {$push: {'SavedNews' : curNews._id}}, function(err, retDoc){
+                        if(err) console.log(err);
+                        message1.message.text = '저장이 완료되었습니다.';
+                    });
+                }else {          //이미 저장한것.
+                    message1.message.text = '이미 저장한 뉴스입니다.';
+                }
+            });
 
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [
@@ -455,7 +464,10 @@ router.post('/message', (req, res) => {
                 "저장 목록",
                 "즐겨찾기",
             ];
-            res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
+            setTimeout(function(){
+                res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
+            },500);
+
             break;
         case '즐겨찾기등록' :
             let fieldAndPresses = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학", "경향", "국민", "동아", "문화", "서울", "조선", "중앙", "한겨레", "한국"];
