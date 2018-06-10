@@ -353,6 +353,10 @@ router.post('/message', (req, res) => {
             message1.keyboard.buttons = [
                 "돌아가기",
             ];
+
+            User.findOne({'id' : connectedUser}, function(err, doc){
+               console.log(doc.SavedNews);
+            });
             var returnSavedNews = [];
             returnSavedNews = getSavedNews(connectedUser);
 
