@@ -170,7 +170,7 @@ setInterval(function() {
                     }
                 });
                 if(k < 7) {
-                    FieldNews.find({'Title': title}, {new: true}, function (err, doc) {
+                    FieldNews.find({'Title': updateFieldNews.title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         if (doc === null) {
                             updateFieldNews.save({new: true}, function (err, doc) {
@@ -180,7 +180,7 @@ setInterval(function() {
                         }
                     });
                 } else {
-                    PressNews.find({'Title': title}, {new: true}, function (err, doc) {
+                    PressNews.find({'Title': updatePressNews.title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         if (doc === null) {
                             updatePressNews.save({new: true}, function (err, doc) {
