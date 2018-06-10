@@ -445,7 +445,7 @@ router.post('/message', (req, res) => {
             break;
         case '저장하기' :
 
-            console.log(curNews);
+            console.log(curNews._id);
             User.findOne({'id' : connectedUser, 'SavedNews' : curNews._id}, function(err, doc){
                 if(err) console.log(err);
                 if(doc === null ){
@@ -467,7 +467,7 @@ router.post('/message', (req, res) => {
             ];
             setTimeout(function(){
                 res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
-            },800);
+            },1000);
 
             break;
         case '즐겨찾기등록' :
