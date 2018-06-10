@@ -560,18 +560,23 @@ router.post('/message', (req, res) => {
                    if(doc === null){
                        console.log('언론사찾음');
                        PressNews.findOne({'Title' : _obj.content} , {new : true} , function(err, doc) {
-                            returnNews = doc;
-                            console.log(returnNews);
+                           setTimeout(function(){
+                               returnNews = doc;
+                               console.log(returnNews);
+                           },500);
+
                        });
                    } else {
                        console.log('분야찾음');
-                       returnNews = doc;
-                       console.log(returnNews);
+                       setTimeout(function(){
+                           returnNews = doc;
+                           console.log(returnNews);
+                       },500);
                    }
                 });
 
                 setTimeout(function(){
-                   // console.log(returnNews);
+                   console.log(returnNews);
                     if (returnNews.ImgUrl !== null) {
                         message2.message.text = returnNews.Title;
                         message2.message.photo = {
