@@ -576,6 +576,7 @@ router.post('/message', (req, res) => {
 
                 setTimeout(function(){
                    curNews = returnNews;
+                   console.log(curNews);
                     if (returnNews.ImgUrl !== null) {
                         message2.message.text = returnNews.Title;
                         message2.message.photo = {
