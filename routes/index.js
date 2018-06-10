@@ -96,7 +96,7 @@ setInterval(function() {
     }).then(loop.bind(null, k+1));
 })(0);
 
-},30000);
+},60000);
 
 
 
