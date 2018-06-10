@@ -7,7 +7,6 @@ var User = require('./UserSchema');
 var FieldNews = require('./FieldSchema');
 var PressNews = require('./PressSchema');
 var Ranking = require('./Ranking');
-var NewsList = require('./NewsList');
 
 mongoose.connect('mongodb://localhost:27017/data');             //DB연동
 var db = mongoose.connection;
@@ -55,6 +54,25 @@ let pressURLS = [
     'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=028',                //한겨레
     'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=469',                //한국                10개
 ];
+let totalURLs = [
+    'http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001',                //속보
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=100',                //정치
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=101',                //경제
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=102',                //사회
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=103',                //생활/문화
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=104',                //세계
+    'http://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=105',                //IT/과학             7개
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=032',                //경향
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=005',                //국민
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=020',                //동아
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=021',                //문화
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=081',                //서울
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=022',                //세계
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=023',                //조선
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=025',                //중앙
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=028',                //한겨레
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=469',                //한국                10개
+];
 /*
 let client_id = 'uD_8GWD3pP_KXJJRKecZ';
 let client_secret = '7OTLr047fX';
@@ -91,94 +109,94 @@ var curPos = 0;
 
 setInterval(function() {
     var request = require('request');
-    request.get({
-        //url: targetURL,
-        url: fieldURLs[1],
-        headers: { "User-Agent": "Mozilla/5.0" } ,
-        encoding: null
-    },function(err, res, body){
-        if(err) console.log('err');
-        var tempTitles = [];
-        var tempUrls = [];
-        var savedNewsList = [];
+    for(var k = 0 ; k < 16 ; k++) {
 
-
-
-        var strContents = new Buffer(body);
-        var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());   //iconv로 EUC-KR 디코딩. cheerio로 HTML 파싱.
-
-        FieldNews.find({}).sort({_id: -1}).limit(85, function(err, doc){
-           if(err) console.log(err);
-            console.log('데헷' + doc);
-        });
-
-        for(i = 1 ; i < 6 ; i++) {                                              //5개만 크롤링
-          //  var crawSelector = selector1 + i + selector2;
-          //  var crawImgSelector = imgSelector1 + i + imgSelector2;
-           var crawSelector = fieldSelector1 + i +  fieldSelector2;
-           var crawImgSelector = fieldImgSelector1 + i + fieldImgSelector2;
-           var updateFieldNews = new FieldNews();
-
-            $(crawSelector).each(function(index, value){
-                var title = $(this).find('a').text().trim();
-                var url = $(value).find('a').attr('href');
-            //    titles.push(title);
-            //    urls.push(url);
-            //    tempTitles.push(title);
-                updateFieldNews.Title = title;
-                updateFieldNews.Url = url;
-
-            });
-            $(crawImgSelector).each(function(index, value){             //이미지 url 크롤링
-                var img = $(value).find('img').attr('src');
-               // imgUrls.push(img);
-                updateFieldNews.ImgUrl = img;
-            });
-
-            updateFieldNews.save({new : true}, function(err, doc){
-                if(err) console.log(err);
-                console.log('가져온 뉴스', doc);
-            });
-        }
-    });
-},10000);  //5분
-/*
-function crawlingNews(targetURL, selector1, selector2, imgSelector1, imgSelector2 ){
-    console.log(selector1 + 1 + selector2);
-        var request = require('request');
         request.get({
-            url: targetURL,
-            headers: { "User-Agent": "Mozilla/5.0" } ,
+            //url: targetURL,
+            url: totalURLs[k],
+            headers: {"User-Agent": "Mozilla/5.0"},
             encoding: null
-        },function(err, res, body){
-            if(err) console.log('err');
+        }, function (err, res, body, k) {
+            if (err) console.log('err');
 
             var strContents = new Buffer(body);
             var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());   //iconv로 EUC-KR 디코딩. cheerio로 HTML 파싱.
-
-
-
-            for(i = 1 ; i < 6 ; i++) {                                              //5개만 크롤링
-                var crawSelector = selector1 + i + selector2;
-                var crawImgSelector = imgSelector1 + i + imgSelector2;
-
-                $(crawSelector).each(function(index, value){
-                        //var title = $(this).find('a').text().replace( /(\s*)/g, "");
-                    var title = $(this).find('a').text().trim();
-
-                    var url = $(value).find('a').attr('href');
-                    titles.push(title);
-                    urls.push(url);
-                });
-                    $(crawImgSelector).each(function(index, value){             //이미지 url 크롤링
-                        var img = $(value).find('img').attr('src');
-                        imgUrls.push(img);
+            /*
+                    FieldNews.find({}).sort({_id: -1}).limit(85, function(err, doc){
+                       if(err) console.log(err);
+                        console.log('데헷' + doc);
                     });
+            */
+            for (var i = 1; i < 6; i++) {                                              //5개만 크롤링
+                var crawSelector;
+                var crawImgSelector;
+                if (k === 0) {               //속보
+                    crawSelector = breakingSelector1 + i + breakingSelector2;
+                    crawImgSelector = breakingImgSelector1 + i + breakingSelector2;
+                } else if (0 < k < 7){
+                    crawSelector = fieldSelector1 + i + fieldSelector2;
+                    crawImgSelector = fieldImgSelector1 + i + fieldImgSelector2;
+                } else {
+                    crawSelector = pressSelector1 + i + pressSelector2;
+                    crawImgSelector = pressImgSelector1 + i + pressImgSelector2;
+                }
 
+
+                var updateFieldNews = new FieldNews();
+                var updatePressNews = new PressNews();
+
+                $(crawSelector).each(function (index, value) {
+                    var title = $(this).find('a').text().trim();
+                    var url = $(value).find('a').attr('href');
+                    //    titles.push(title);
+                    //    urls.push(url);
+                    if(k<7){
+                        updateFieldNews.Title = title;
+                        updateFieldNews.Url = url;
+                    } else {
+                        updatePressNews.Title = title;
+                        updatePressNews.Url = url;
+                    }
+
+
+                });
+                $(crawImgSelector).each(function (index, value) {             //이미지 url 크롤링
+                    var img = $(value).find('img').attr('src');
+                    // imgUrls.push(img);
+                    if(k<7){
+                        updateFieldNews.ImgUrl = img;
+                    } else {
+                        updatePressNews.ImgUrl = img;
+                    }
+                });
+                if(k < 7) {
+                    FieldNews.find({'Title': title}, {new: true}, function (err, doc) {
+                        if (err) console.log(err);
+                        if (doc === null) {
+                            updateFieldNews.save({new: true}, function (err, doc) {
+                                if (err) console.log(err);
+                                console.log('가져온 뉴스(분야)', doc);
+                            });
+                        }
+                    });
+                } else {
+                    PressNews.find({'Title': title}, {new: true}, function (err, doc) {
+                        if (err) console.log(err);
+                        if (doc === null) {
+                            updatePressNews.save({new: true}, function (err, doc) {
+                                if (err) console.log(err);
+                                console.log('가져온 뉴스(언론사)', doc);
+                            });
+                        }
+                    });
+                }
             }
+
+
         });
-}
-*/
+    }
+},10000);  //5분
+
 function clearArrays() {                //글로벌 변수 초기화
     titles = [];
     urls = [];
@@ -211,83 +229,6 @@ function findUser(user_key) {
     });
 }
 
-function saveNews(title, url, imgurl, user_key){
-    if(press !== '' && field === '') {
-        console.log('언론사로 저장');
-        PressNews.findOne({'Url' : url}, function(err, doc){
-           if(err) console.log(err);
-           else if(doc === null) {                      //뉴스가 처음 저장되는것이면 유저 테이블에서 중복될일 x
-               var pressNews = new PressNews();
-               pressNews.Title = title;
-               pressNews.Press = press;
-               pressNews.Url = url;
-               pressNews.ImgUrl = imgurl;
-
-               pressNews.save(function(err, doc){
-                   if(err) console.log(err);
-                   else {
-                       User.findOneAndUpdate({'id' : user_key}, {$push: {'SavedNews' : doc._id}}, {new: true} , function(err, retDoc){
-                          if(err) console.log(err);
-                           console.log(retDoc);
-                       });
-                   }
-               });
-
-           } else {                                     //뉴스가 이미 누군가에 의해 저장된 것이면 중복될일 o
-               User.findOne({'id' : user_key, 'SavedNews' : doc._id}, function(err, retDoc){
-                  if(err) console.log(err);
-                  else if(retDoc === null){
-                      User.findOneAndUpdate({'id' : user_key}, {$push: {'SavedNews' : doc._id}}, {new: true} , function(err, retDoc){
-                          if(err) console.log(err);
-                          console.log(retDoc);
-                      });
-                  } else {
-                      return 2;                         //이미 이계정에 저장되어 있음.
-                  }
-               });
-
-           }
-        });
-    }else if(press === '' && field !== '') {
-        console.log('필드로 저장');
-        FieldNews.findOne({'Url' : url}, function(err, doc){
-            if(err) console.log(err);
-            else if(doc === null) {                      //뉴스가 처음 저장되는것이면 유저 테이블에서 중복될일 x
-                console.log('뉴스 처음저장');
-                var fieldNews = new FieldNews();
-                fieldNews.Title = title;
-                fieldNews.Field = field;
-                fieldNews.Url = url;
-                fieldNews.ImgUrl = imgurl;
-
-                fieldNews.save(function(err, doc){
-                    if(err) console.log(err);
-                    else {
-                        User.findOneAndUpdate({'id' : user_key}, {$push: {'SavedNews' : doc._id}}, {new: true} , function(err, retDoc){
-                            if(err) console.log(err);
-                            console.log(retDoc);
-                        });
-                    }
-                });
-
-            } else {                                     //뉴스가 이미 누군가에 의해 저장된 것이면 중복될일 o
-                console.log('뉴스 다른사람이 저장');
-                User.findOne({'id' : user_key, 'SavedNews' : doc._id}, function(err, retDoc){
-                    if(err) console.log(err);
-                    else if(retDoc === null){
-                        User.findOneAndUpdate({'id' : user_key}, {$push: {'SavedNews' : doc._id}}, {new: true} , function(err, retDoc){
-                            if(err) console.log(err);
-                            console.log(retDoc);
-                        });
-                    } else {
-                        return 2;                         //이미 이 계정에 저장되어 있음.
-                    }
-                });
-
-            }
-        });
-    }
-}
 
 function getSavedNews(user_key) {           //먼저 DB에서 유저를 검색하고 그 유저가 저장한 뉴스들의 Priamry Key( _id )  를 받아와서 뉴스 DB에서 검색. Title, Url, ImgUrl 반환.
     var tempNews = [];
@@ -325,7 +266,7 @@ router.get('/keyboard', (req, res) => {
     findUser(connectedUser);
     const menu = {
         type: 'buttons',
-        buttons: ["뉴스 보기", "저장 목록", "즐겨찾기", "현황"]
+        buttons: ["뉴스 보기", "저장 목록", "즐겨찾기", "현황", "크롤링분야뉴스", "크롤링언론사뉴스"]
     };
 res.set({'content-type': 'application/json'}).send(JSON.stringify(menu));
 });
@@ -341,6 +282,20 @@ router.get('/user/test', (req, res) => {                //웹으로 라우팅.
     }, 500);
 
 });
+
+function testField() {
+    FieldNews.find({}).sort({_id: -1}).limit(10, function(err, doc){
+        if(err) console.log(err);
+        console.log('데헷' + doc);
+    });
+}
+
+function testPress() {
+    PressNews.find({}).sort({_id: -1}).limit(85, function(err, doc){
+        if(err) console.log(err);
+        console.log('데헷' + doc);
+    });
+}
 
 router.post('/message', (req, res) => {
     const _obj = {
@@ -388,6 +343,9 @@ router.post('/message', (req, res) => {
     };
 
     switch(_obj.content) {
+        case '크롤링분야뉴스' :
+
+            break;
         case '뉴스 보기' :
             message1.message.text = '뉴스보기 실행';
             message1.keyboard.type = 'buttons';
