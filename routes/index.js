@@ -368,6 +368,7 @@ setTimeout(function() {
     var i = 0;
     while(top10Field){
         message1.keyboard.buttons.push(top10Field[i].Title);
+        i++
     }
     message1.keyboard.buttons = [
         "돌아가기",
@@ -390,6 +391,7 @@ setTimeout(function() {
                 var i = 0;
                 while(top10Field){
                     message1.keyboard.buttons.push(top10Press[i].Title);
+                    i++
                 }
                 message1.keyboard.buttons = [
                     "돌아가기",
