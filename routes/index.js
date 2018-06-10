@@ -546,7 +546,9 @@ router.post('/message', (req, res) => {
                             message1.keyboard.buttons = [];
                             var i = 0;
                             while(resultNews) {
-                                message1.keyboard.buttons.push("(" + fop + ")" + resultNews[i++].Title);
+                                console.log(resultNews[i].Title);
+                                message1.keyboard.buttons.push("(" + fop + ")" + resultNews[i].Title);
+                                i++
                             }
                             message1.keyboard.buttons.push("돌아가기");
                             message1.keyboard.buttons.push("즐겨찾기등록");
