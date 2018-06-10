@@ -529,6 +529,7 @@ router.post('/message', (req, res) => {
                     FieldNews.find({Field:_obj.content}).sort('-SavedDate').limit(5).exec(function(err, docs){
                         setTimeout(function(){
                             resultNews = docs;
+                            console.log(resultNews);
                         },1000);
                     });
                 }
@@ -542,7 +543,7 @@ router.post('/message', (req, res) => {
                 }
             },1000);
 
-            console.log(resultNews);
+       //     console.log(resultNews);
             console.log(point);
 
                     setTimeout(function () {
@@ -550,7 +551,6 @@ router.post('/message', (req, res) => {
                             message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                             message1.keyboard.type = 'buttons';
                             message1.keyboard.buttons = [];
-                            console.log(resultNews[0]);
                             for(let i = 0 ; i < resultNews.length ; i++){
 
                             }
