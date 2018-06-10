@@ -108,16 +108,23 @@ var curPos = 0;
 
 
 setInterval(function() {
-
+/*
     for(let k = 0, p = Promise.resolve() ; k < 16 ; k++) {
            p = p.then(_ => new Promise(resolve =>
                 setTimeout(function(){
                     console.log('아웃펑션k' + k);
                     crawling(k);
                     resolve();
-                }, 1900)
+                },1500)
            ))
     }
+*/
+    (async function loop() {
+        for (let k = 0; k < 10; k++) {
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            crawling(k);
+        }
+    })();
 },15000);  //5분
 
 
