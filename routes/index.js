@@ -445,6 +445,7 @@ router.post('/message', (req, res) => {
             break;
         case '저장하기' :
 
+            console.log(curNews);
             User.findOne({'id' : connectedUser, 'SavedNews' : curNews._id}, function(err, doc){
                if(err) console.log(err);
                if(doc === null ){
