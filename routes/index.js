@@ -156,7 +156,7 @@ function crawling(k){
 
                 if(k < 7) {
                     console.log(Title);
-                    FieldNews.find({'Title': Title}, {new: true}, function (err, doc) {
+                    FieldNews.findOne({'Title': Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         console.log(doc);
                         if (doc === []) {
@@ -178,7 +178,7 @@ function crawling(k){
                     });
                 }
                 if (k >= 7){
-                    PressNews.find({'Title': Title}, {new: true}, function (err, doc) {
+                    PressNews.findOne({'Title': Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         if (doc === null) {
 
