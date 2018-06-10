@@ -555,7 +555,30 @@ router.post('/message', (req, res) => {
             }
     }
             if( _obj.content.charAt(0) === '('){
-                    for(i=0 ; i<5 ; i++){
+                for(let i = 0 ; i < 5 ; i++){
+                    if(resultNews[i].ImgUrl !== null){
+                        message2.message.text = resultNews[i].Title;
+                        message2.message.photo = {
+                            url : resultNews[i].ImgUrl,
+                            width : 640,
+                            height : 480,
+                        };
+                        message2.message.message_button = {
+                            label : '이동하기',
+                            url :resultNews[i].Url
+                        };
+                        message2.keyboard.type = 'buttons';
+                        message2.keyboard.buttons = [
+                            "저장하기",
+                            "돌아가기",
+                        ];
+                        res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
+                        break;
+                    }
+                    
+                }
+
+
                         message3.message.text = resultNews[i].Title;
                         message3.message.message_button = {
                             label : '이동하기',
@@ -567,46 +590,11 @@ router.post('/message', (req, res) => {
                             "돌아가기",
                         ];
                         res.set({'content-type': 'application/json'}).send(JSON.stringify(message3));
-                        break;
 
 
 
-                        if(_obj.content.indexOf(resultNews[i].Title) !== -1){
-                            targetIndex = i;
-                            if(resultNews[i].ImgUrl[i] === undefined){
-                                message3.message.text = resultNews[i].Title;
-                                message3.message.message_button = {
-                                    label : '이동하기',
-                                    url : resultNews[i].Url
-                                };
-                                message3.keyboard.type = 'buttons';
-                                message3.keyboard.buttons = [
-                                    "저장하기",
-                                    "돌아가기",
-                                ];
-                                res.set({'content-type': 'application/json'}).send(JSON.stringify(message3));
-                                break;
 
-                            }
-                            message2.message.text = resultNews[i].Title;
-                            message2.message.photo = {
-                                url : resultNews[i].ImgUrl,
-                                width : 640,
-                                height : 480,
-                            };
-                            message2.message.message_button = {
-                                label : '이동하기',
-                                url :resultNews[i].Url
-                            };
-                            message2.keyboard.type = 'buttons';
-                            message2.keyboard.buttons = [
-                                "저장하기",
-                                "돌아가기",
-                            ];
-                            res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
-                            break;
-                        }
-                    }
+
                 }
 
 
