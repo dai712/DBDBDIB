@@ -100,7 +100,7 @@ setInterval(function() {
 
 
 function crawling(k){
-        var fieldAndPressList = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학","경향", "국민", "동아", "문화", "서울", "조선", "중앙", "한겨레", "한국"];
+        var fieldAndPressList = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학", "경향", "국민", "동아", "문화", "서울", "조선", "중앙", "한겨레", "한국"];
         var request = require('request');
         request.get({
             url: totalURLs[k],
@@ -187,7 +187,7 @@ function crawling(k){
                             updatePressNews.Press = fieldAndPressList[k];
                             updatePressNews.SavedDate = Date.now();
 
-                            console.log('씨발럼의것' + updatePressNews.Field);
+                            console.log('씨발럼의것' + updatePressNews.Press);
                             updatePressNews.save({new: true}, function (err, doc) {
                                 if (err) console.log(err);
                                 console.log('가져온 뉴스(언론사)', doc);
