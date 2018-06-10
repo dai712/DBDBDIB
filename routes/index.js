@@ -294,12 +294,14 @@ router.get('/user/test', (req, res) => {                //웹으로 라우팅.
 
 
 router.post('/message', (req, res) => {
+
     const _obj = {
         user_key: req.body.user_key,
         type: req.body.type,
         content: req.body.content
     };
     connectedUser = req.body.user_key;
+    findUser(connectedUser);
     const message1 = {
         "message": {
             "text": '',
@@ -354,9 +356,6 @@ router.post('/message', (req, res) => {
                 "돌아가기",
             ];
 
-            User.findOne({'id' : connectedUser}, function(err, doc){
-               console.log(doc.SavedNews);
-            });
             var returnSavedNews = [];
             returnSavedNews = getSavedNews(connectedUser);
 
