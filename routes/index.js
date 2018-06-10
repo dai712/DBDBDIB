@@ -159,7 +159,7 @@ function crawling(k){
                     FieldNews.find({'Title': Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         console.log(doc);
-                        if (doc === null) {
+                        if (doc === []) {
                             console.log('씨발럼의것' + Title);
 
                             var updateFieldNews = new FieldNews();
