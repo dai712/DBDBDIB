@@ -560,12 +560,16 @@ router.post('/message', (req, res) => {
                    else if(doc === null){
                        PressNews.findOne({'Title' : _obj.content} , {new : true} , function(err, doc) {
                             returnNews = doc;
+                            console.log(returnNews);
                        });
                    } else {
                        returnNews = doc;
+                       console.log(returnNews);
                    }
                 });
+
                 setTimeout(function(){
+                   // console.log(returnNews);
                     if (returnNews.ImgUrl !== null) {
                         message2.message.text = returnNews.Title;
                         message2.message.photo = {
