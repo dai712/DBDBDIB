@@ -518,7 +518,7 @@ router.post('/message', (req, res) => {
 
                         setTimeout(function(){
                             console.log(allNews);
-                        },1000);
+                        },10000);
                 });
             message3.message.text = '테스트';
             message3.message.message_button = {
