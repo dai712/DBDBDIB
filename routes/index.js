@@ -518,10 +518,12 @@ router.post('/message', (req, res) => {
         default:
             let fields = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학"];
             let presses = ["경향", "국민", "동아", "문화", "서울", "조선", "중앙", "한겨레", "한국"];
+            let fieldAndPress = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학","경향", "국민", "동아", "문화", "서울", "조선", "중앙", "한겨레", "한국"];
 
             let resultNews;
-
-            if(fields.indexOf(_obj.content) !== -1){
+            let fop;
+            let point = fieldAndPress.indexOf(_obj.content);
+            if(point < 7){
                 FieldNews.find({Field:_obj.content}).sort('-SavedDate').limit(5).exec(function(err, docs){
                     setTimeout(function(){
                         resultNews = docs;
@@ -529,7 +531,7 @@ router.post('/message', (req, res) => {
                 });
             }
 
-            if(presses.indexOf(_obj.content) !== -1){
+            if(point >= 7){
                 PressNews.find({Press:_obj.content}).sort('-SavedDate').limit(5).exec(function(err, docs){
                     setTimeout(function(){
                         resultNews = docs;
@@ -538,12 +540,7 @@ router.post('/message', (req, res) => {
             }
 
                     setTimeout(function () {
-                            let fop;
-                            if(!resultNews.Press) {
-                                fop = resultNews.Field;
-                            } else {
-                                fop = resultNews.Press;
-                            }
+                            fop = _obj.content;
                             message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                             message1.keyboard.type = 'buttons';
                             var i = 0;
