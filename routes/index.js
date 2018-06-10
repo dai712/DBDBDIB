@@ -367,17 +367,18 @@ setTimeout(function() {
     message1.keyboard.type = 'buttons';
     message1.message.text = "순위";
     message1.keyboard.buttons = [];
+    /*
     var i = 0;
     while(top10Field){
         message1.keyboard.buttons.push(top10Field[i].Title);
         i++
-    }
+    }*/
     message1.keyboard.buttons = [
         "돌아가기",
     ];
 
     res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
-},1000);
+},1500);
 
             break;
         case 'Top10 조회순위(언론사)':
