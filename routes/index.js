@@ -477,22 +477,31 @@ router.post('/message', (req, res) => {
             let fieldAndPresses = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학", "경향", "국민", "동아", "문화", "서울", "조선", "중앙", "한겨레", "한국"];
             let points = fieldAndPresses.indexOf(_obj.content);
 
-            User.findOne({'id' : connectedUser}, {$or : [{'Favorite.Category' : fops},{'Favorite.Press' : fops}]}, function(err, doc){
-               if(err) console.log(err);
-               if(doc === null){
-                   if(points < 7) {
-                       User.findOneAndUpdate({'id' : connectedUser}, {$push : {'Favorite.Category' : fops}}, function(err, doc){
+            if(points  < 7) {
+                User.findOne({'id' : connectedUser, 'Favorite.Category' : fops}, function(err, doc){
+                   if(err) console.log(err);
+                   if(doc === null) {
+                       User.findOneAndUpdate({'id' : connectedUser}, {$push : {'Favorite.Category' : fops}}, {new : true} ,function(err, doc){
                           if(err) console.log(err);
                           message1.message.text = "저장완료"
                        });
                    } else {
-                       User.findOneAndUpdate({'id' : connectedUser}, {$push : {'Favorite.Press' : fops}},function(err, doc){
-                           if(err) console.log(err);
-                           message1.message.text = "저장완료"
-                       });
+                       message1.message.text = "이미 저장된 즐겨찾기입니다."
                    }
-               }
-            });
+                });
+            } else {
+                User.findOne({'id' : connectedUser, 'Favorite.Press' : fops}, function(err, doc){
+                    if(err) console.log(err);
+                    if(doc === null) {
+                        User.findOneAndUpdate({'id' : connectedUser}, {$push : {'Favorite.Press' : fops}}, {new : true} ,function(err, doc){
+                            if(err) console.log(err);
+                            message1.message.text = "저장완료"
+                        });
+                    } else {
+                        message1.message.text = "이미 저장된 즐겨찾기입니다."
+                    }
+                });
+            }
 
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [
