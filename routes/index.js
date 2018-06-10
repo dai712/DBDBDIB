@@ -164,9 +164,9 @@ function crawling(k){
                 });
 
                 if(k < 7) {
-                    console.log(updateFieldNews.Title);
                     FieldNews.find({'Title': updateFieldNews.Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
+                        console.log(updateFieldNews.Title);
                         if (doc === null) {
                             updateFieldNews.save({new: true}, function (err, doc) {
                                 if (err) console.log(err);
@@ -175,7 +175,6 @@ function crawling(k){
                         }
                     });
                 } else if (k >= 7){
-                    console.log(updatePressNews.Title);
                     PressNews.find({'Title': updatePressNews.Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         if (doc === null) {
@@ -511,7 +510,7 @@ router.post('/message', (req, res) => {
                     skip:0,
                     limit:10,
                     sort:{
-                        SavedDate: -1 
+                        SavedDate: -1
                     }
                 },{new : true},
                 function(err,allNews){
