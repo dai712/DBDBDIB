@@ -362,12 +362,12 @@ router.post('/message', (req, res) => {
                 top10Field = docs;
 
                 setTimeout(function() {
-                    console.log('씨바립ㅈㄹ' + docs);
 
-                    var i = 0;
-                    while(i<10){
+                    console.log('씨바립ㅈㄹ' + docs);
+                    
+                    for(let i = 0; i < docs.length ; i++){
                         message1.keyboard.buttons.push(docs[i].Title);
-                        i++
+
                     }
                 },500);
             });
