@@ -159,7 +159,7 @@ function crawling(k){
                     console.log('언론사');
                     crawSelector = pressSelector1 + i + pressSelector2;
                     crawImgSelector = pressImgSelector1 + i + pressImgSelector2;
-                } else if (0 < k < 7){
+                } else if (1 < k < 7){
                     console.log('분야');
                     crawSelector = fieldSelector1 + i + fieldSelector2;
                     crawImgSelector = fieldImgSelector1 + i + fieldImgSelector2;
