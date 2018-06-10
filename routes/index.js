@@ -561,7 +561,7 @@ router.post('/message', (req, res) => {
             if( _obj.content.charAt(0) === '('){
                     for(i=0 ; i<5 ; i++){
 
-                        
+
 
 
                         if(_obj.content.indexOf(titles[i]) !== -1){
@@ -666,8 +666,7 @@ router.post('/message', (req, res) => {
             }
 
 
-            break;
-    }
+
 
 });
 
