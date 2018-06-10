@@ -118,7 +118,8 @@ setInterval(function() {
             encoding: null,
         }, function (err, res, body) {
             if (err) console.log('err');
-
+            console.log('k: ' + k);
+            
             var strContents = new Buffer(body);
             var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());   //iconv로 EUC-KR 디코딩. cheerio로 HTML 파싱.
             /*
@@ -169,7 +170,7 @@ setInterval(function() {
                         updatePressNews.ImgUrl = img;
                     }
                 });
-                console.log('k: ' + k);
+
                 if(k < 7) {
                     console.log(updateFieldNews.title);
                     FieldNews.find({'Title': updateFieldNews.title}, {new: true}, function (err, doc) {
