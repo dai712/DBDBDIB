@@ -155,10 +155,10 @@ function crawling(k){
             for (var i = 1; i < 6; i++) {                                              //5개만 크롤링
                 var crawSelector;
                 var crawImgSelector;
-                if (k === 0) {               //속보
-                    console.log('속보');
-                    crawSelector = breakingSelector1 + i + breakingSelector2;
-                    crawImgSelector = breakingImgSelector1 + i + breakingSelector2;
+                if (k >= 7){
+                    console.log('언론사');
+                    crawSelector = pressSelector1 + i + pressSelector2;
+                    crawImgSelector = pressImgSelector1 + i + pressImgSelector2;
                 } else if (0 < k < 7){
                     console.log('분야');
                     crawSelector = fieldSelector1 + i + fieldSelector2;
