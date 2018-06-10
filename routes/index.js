@@ -519,11 +519,9 @@ router.post('/message', (req, res) => {
             }, 500);
             break;
         case '현황' :
-            FieldNews.find({Field:'정치'},function(err,allNews){
-
-
+            FieldNews.find({Field:'정치'}).sort('-SavedDate').exec(function(err, docs){
                         setTimeout(function(){
-                            console.log(allNews);
+                            console.log(docs);
                         },1000);
                 });
             message3.message.text = '테스트';
