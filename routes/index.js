@@ -274,7 +274,7 @@ router.get('/keyboard', (req, res) => {
     findUser(connectedUser);
     const menu = {
         type: 'buttons',
-        buttons: ["뉴스 보기", "저장 목록", "즐겨찾기", "현황"]
+        buttons: ["뉴스 보기", "저장 목록", "즐겨찾기"]
     };
 res.set({'content-type': 'application/json'}).send(JSON.stringify(menu));
 });
@@ -423,7 +423,6 @@ router.post('/message', (req, res) => {
                 "동아",
                 "문화",
                 "서울",
-                "세계",
                 "조선",
                 "중앙",
                 "한겨레",
@@ -441,7 +440,6 @@ router.post('/message', (req, res) => {
                 "뉴스 보기",
                 "저장 목록",
                 "즐겨찾기",
-                "현황"
             ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
@@ -454,7 +452,6 @@ router.post('/message', (req, res) => {
                 "뉴스 보기",
                 "저장 목록",
                 "즐겨찾기",
-                "현황"
             ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
@@ -518,40 +515,31 @@ router.post('/message', (req, res) => {
                 res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             }, 500);
             break;
-        case '현황' :
-            FieldNews.find({Field:'정치'}).sort('+SavedDate').limit(2).exec(function(err, docs){
-                        setTimeout(function(){
-                            console.log(docs);
-                        },1000);
-                });
-            message3.message.text = '테스트';
-            message3.message.message_button = {
-                label : '이동하기',
-                url : 'http://13.124.160.53:3000/user/test',
-            };
-            message3.keyboard.type = 'buttons';
-            message3.keyboard.buttons = [
-                "돌아가기",
-            ];
-            setTimeout(function() {
-                res.set({'content-type': 'application/json'}).send(JSON.stringify(message3));
-            }, 500);            break;
         default:
             let fields = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학"];
             let presses = ["경향", "국민", "동아", "문화", "서울", "조선", "중앙", "한겨레", "한국"];
-            for(i=0 ; i< 7 ; i++) {
-                if (_obj.content === fields[i]) {
-                    if(i === 0) {
-                        crawlingNews(fieldURLs[i], breakingSelector1, breakingSelector2, breakingImgSelector1, breakingImgSelector2);
-                    } else {
-                        crawlingNews(fieldURLs[i], fieldSelector1, fieldSelector2, fieldImgSelector1, fieldImgSelector2);
-                    }
 
-                    field = fields[i];
 
+            if(fields.indexOf(_obj.content) !== -1){
+                FieldNews.find({Field:_obj.content}).sort('-SavedDate').limit(5).exec(function(err, docs){
+                    setTimeout(function(){
+                        console.log(docs);
+                    },1000);
+                });
+            }
+            if(presses.indexOf(_obj.content) !== -1){
+                PressNews.find({Press:_obj.content}).sort('-SavedDate').limit(5).exec(function(err, docs){
+                    setTimeout(function(){
+                        console.log(docs);
+                    },1000);
+                });
+            }
+            /*
                     setTimeout(function () {
                             message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                             message1.keyboard.type = 'buttons';
+
+
 
                             if (field === "IT/과학") {
                                 message1.keyboard.buttons = [
@@ -577,7 +565,7 @@ router.post('/message', (req, res) => {
                         1000);
                     break;
                 }
-            }
+
             for(var k = 0 ; k < 10 ; k++) {
                 if(_obj.content === presses[k]){
                     crawlingNews(pressURLS[k], pressSelector1, pressSelector2, pressImgSelector1, pressImgSelector2);
@@ -703,7 +691,7 @@ router.post('/message', (req, res) => {
                 });
             }
 
-
+*/
             break;
     }
 
