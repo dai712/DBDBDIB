@@ -164,7 +164,7 @@ function crawling(k){
                     console.log('분야');
                     crawSelector = fieldSelector1 + i + fieldSelector2;
                     crawImgSelector = fieldImgSelector1 + i + fieldImgSelector2;
-                } else if (k===0){
+                } else if (k==0){
                     console.log('속보');
                     crawSelector = breakingSelector1 + i + breakingSelector2;
                     crawImgSelector = breakingImgSelector1 + i + breakingImgSelector2;
