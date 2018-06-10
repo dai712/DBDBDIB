@@ -560,7 +560,7 @@ router.post('/message', (req, res) => {
                    else if(doc === null){
                        PressNews.findOne({'Title' : _obj.content} , {new : true} , function(err, doc) {
                             returnNews = doc;
-                            console.log(returnNews);
+                            console.log(returnNews.Title);
                        });
                    } else {
                        returnNews = doc;
