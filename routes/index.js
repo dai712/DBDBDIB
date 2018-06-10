@@ -167,8 +167,8 @@ function crawling(k){
                     FieldNews.find({'Title': updateFieldNews.Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         console.log(doc);
-                        if (doc === []) {
-                            console.log(updateFieldNews.Title);
+                        if (doc === null) {
+                            console.log('씨발럼의것' +updateFieldNews.Title);
                             updateFieldNews.save({new: true}, function (err, doc) {
                                 if (err) console.log(err);
                                 console.log('가져온 뉴스(분야)', doc);
@@ -178,7 +178,7 @@ function crawling(k){
                 } else if (k >= 7){
                     PressNews.find({'Title': updatePressNews.Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
-                        if (doc === []) {
+                        if (doc === null) {
                             updatePressNews.save({new: true}, function (err, doc) {
                                 if (err) console.log(err);
                                 console.log('가져온 뉴스(언론사)', doc);
