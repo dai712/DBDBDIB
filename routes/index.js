@@ -544,7 +544,7 @@ router.post('/message', (req, res) => {
                     message1.keyboard.type = 'buttons';
                     message1.keyboard.buttons = [];
                     for (let i = 0; i < resultNews.length; i++) {
-                        message1.keyboard.buttons.push("(" + fop + ")" + resultNews[i].Title);
+                        message1.keyboard.buttons.push(resultNews[i].Title);
                     }
                     message1.keyboard.buttons.push("돌아가기");
                     message1.keyboard.buttons.push("즐겨찾기등록");
@@ -553,20 +553,29 @@ router.post('/message', (req, res) => {
                 break;
             }
 
-            if (_obj.content.charAt(0) === '(') {
-                console.log('(들어옴');
-                console.log('제발좀이씨발' + resultNews[1]);
-                for (let i = 0; i < 5; i++) {
-                    if (resultNews[i].ImgUrl !== null) {
-                        message2.message.text = resultNews[i].Title;
+            else{
+                let returnNews;
+                FieldNews.findOne({'Title' : _obj.content} , {new : true} , function(err, doc){
+                   if(err) console.log(err);
+                   else if(doc === null){
+                       PressNews.findOne({'Title' : _obj.content} , {new : true} , function(err, doc) {
+                            returnNews = doc;
+                       });
+                   } else {
+                       returnNews = doc;
+                   }
+                });
+
+                    if (returnNews.ImgUrl !== null) {
+                        message2.message.text = returnNews.Title;
                         message2.message.photo = {
-                            url: resultNews[i].ImgUrl,
+                            url: returnNews.ImgUrl,
                             width: 640,
                             height: 480,
                         };
                         message2.message.message_button = {
                             label: '이동하기',
-                            url: resultNews[i].Url
+                            url: returnNews.Url
                         };
                         message2.keyboard.type = 'buttons';
                         message2.keyboard.buttons = [
@@ -575,7 +584,19 @@ router.post('/message', (req, res) => {
                         ];
                             res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
                             break;
-                    }
+                    } else {
+                        message3.message.text = returnNews.Title;
+                        message3.message.message_button = {
+                            label : '이동하기',
+                            url : returnNews.Url
+                        };
+                        message3.keyboard.type = 'buttons';
+                        message3.keyboard.buttons = [
+                            "저장하기",
+                            "돌아가기",
+                        ];
+                        res.set({'content-type': 'application/json'}).send(JSON.stringify(message3));
+                        break;
 
                 }
 
