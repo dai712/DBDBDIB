@@ -523,13 +523,11 @@ router.post('/message', (req, res) => {
             let resultNews;
             let fop;
             let point = fieldAndPress.indexOf(_obj.content);
-            setTimeout(function() {
 
                 if(point < 7){
                     FieldNews.find({Field:_obj.content}).sort('-SavedDate').limit(5).exec(function(err, docs){
                         setTimeout(function(){
                             resultNews = docs;
-                            console.log(resultNews);
                         },1000);
                     });
                 }
@@ -541,12 +539,10 @@ router.post('/message', (req, res) => {
                         },1000);
                     });
                 }
-            },1000);
 
-       //     console.log(resultNews);
-            console.log(point);
 
                     setTimeout(function () {
+                            console.log(resultNews);
                             fop = _obj.content;
                             message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                             message1.keyboard.type = 'buttons';
@@ -555,7 +551,7 @@ router.post('/message', (req, res) => {
                             message1.keyboard.buttons.push("즐겨찾기등록");
                             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
                         },
-                        300);
+                        1500);
                     break;
                 }
 
