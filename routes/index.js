@@ -446,19 +446,8 @@ router.post('/message', (req, res) => {
         case '저장하기' :
 
             console.log(curNews);
-            User.findOne({'id' : connectedUser, 'SavedNews' : curNews._id}, function(err, doc){
-               if(err) console.log(err);
-               if(doc === null ){
-                   User.findOneAndUpdate({'id' : connectedUser}, {$push: {'SavedNews' : curNews._id}}, function(err, retDoc){
-                       if(err) console.log(err);
-                       console.log(retDoc);
-                       message1.message.text = '저장이 완료되었습니다.';
-                   });
-               }else {          //이미 저장한것.
-                   message1.message.text = '이미 저장한 뉴스입니다.';
-               }
-            });
-
+            
+            message1.message.text = '저장이 완료되었습니다.';
 
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [
@@ -576,7 +565,6 @@ router.post('/message', (req, res) => {
 
                 setTimeout(function(){
                    curNews = returnNews;
-                   console.log(curNews);
                     if (returnNews.ImgUrl !== null) {
                         message2.message.text = returnNews.Title;
                         message2.message.photo = {
