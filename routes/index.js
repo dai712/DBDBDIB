@@ -147,10 +147,12 @@ function crawling(k){
                         updateFieldNews.Title = title;
                         updateFieldNews.Url = url;
                         updateFieldNews.Field = fieldAndPressList[k];
+                        updateFieldNews.SavedDate = Date.now();
                     } else if (k >= 7){
                         updatePressNews.Title = title;
                         updatePressNews.Url = url;
                         updatePressNews.Press = fieldAndPressList[k];
+                        updatePressNews.SavedDate = Date.now();
                     }
                 });
                 $(crawImgSelector).each(function (index, value) {             //이미지 url 크롤링
@@ -503,7 +505,7 @@ router.post('/message', (req, res) => {
             }, 500);
             break;
         case '현황' :
-            FieldNews.find({'Field' : '정치'}).sort({_id: -1}).limit(10, function(err, doc){
+            FieldNews.find({'Field' : '정치'}).sort({SavedDate : -1}).limit(10, function(err, doc){
                 if(err) console.log(err);
                 console.log('데헷' + doc);
             });
