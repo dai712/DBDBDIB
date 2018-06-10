@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 
 const FieldSchema = new mongoose.Schema({
-    Title : [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+    Title : String,
     Field : String,
     Url : String,
     ImgUrl : String,

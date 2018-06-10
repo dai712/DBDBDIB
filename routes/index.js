@@ -357,6 +357,7 @@ router.post('/message', (req, res) => {
         case 'Top10 조회순위':
             var top10Field;
             var top10Press;
+
             FieldNews.find().sort('-Views').limit(10).exec(function (err, docs) {
                 top10Field = docs;
             });
@@ -364,7 +365,12 @@ router.post('/message', (req, res) => {
                 top10Press = docs;
             });
 
+            var total = top10Press + top10Field;
 
+            var total2 = total.sort(function(a, b){
+                return a - b;
+            });
+            console.log(total2);
             break;
         case 'Top3 즐겨찾는 분야':
 
