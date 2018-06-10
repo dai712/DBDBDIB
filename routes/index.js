@@ -120,7 +120,7 @@ setInterval(function() {
     }
 */
     (function loop(k) {
-        if (k < 10) new Promise((resolve, reject) => {
+        if (k < 17) new Promise((resolve, reject) => {
             setTimeout( () => {
                 console.log(k);
                 crawling(k);
@@ -204,6 +204,7 @@ function crawling(k){
                         }
                     });
                 } else {
+                    console.log(updatePressNews.Title);
                     PressNews.find({'Title': updatePressNews.Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         if (doc === null) {
