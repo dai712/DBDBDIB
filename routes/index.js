@@ -344,7 +344,8 @@ router.post('/message', (req, res) => {
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [
                 "Top10 저장순위",
-                "Top10 조회순위",
+                "Top10 조회순위(분야별)",
+                "Top10 조회순위(언론사별)"
                 "Top3 즐겨찾는 분야",
                 "Top3 즐겨찾는 언론사"
             ];
@@ -354,7 +355,7 @@ router.post('/message', (req, res) => {
         case 'Top10 저장순위':
 
             break;
-        case 'Top10 조회순위':
+        case 'Top10 조회순위(분야별)':
             var top10Field;
             var top10Press;
 
@@ -365,13 +366,7 @@ router.post('/message', (req, res) => {
                 top10Press = docs;
             });
 setTimeout(function() {
-    var total = top10Press + top10Field;
-    console.log(total[0]);
-/*
-    var total2 = total.Views.sort(function(a, b){
-        return a - b;
-    });
-    console.log(total2);*/
+    console.log(top10Field);
 },1000);
 
             break;
