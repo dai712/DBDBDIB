@@ -367,7 +367,7 @@ router.post('/message', (req, res) => {
 setTimeout(function() {
     var total = top10Press + top10Field;
 
-    var total2 = total.sort(function(a, b){
+    var total2 = total.Views.sort(function(a, b){
         return a - b;
     });
     console.log(total2);
