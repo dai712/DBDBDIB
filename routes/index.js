@@ -539,10 +539,10 @@ router.post('/message', (req, res) => {
 
                     setTimeout(function () {
                             let fop;
-                            if(resultNews.Press !== null) {
-                                fop = resultNews.Press;
-                            } else {
+                            if(!resultNews.Press) {
                                 fop = resultNews.Field;
+                            } else {
+                                fop = resultNews.Press;
                             }
                             message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                             message1.keyboard.type = 'buttons';
