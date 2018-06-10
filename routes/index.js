@@ -158,7 +158,7 @@ function crawling(k){
                 } else if (0 < k < 7){
                     crawSelector = fieldSelector1 + i + fieldSelector2;
                     crawImgSelector = fieldImgSelector1 + i + fieldImgSelector2;
-                } else {
+                } else if (k >= 7){
                     crawSelector = pressSelector1 + i + pressSelector2;
                     crawImgSelector = pressImgSelector1 + i + pressImgSelector2;
                 }
@@ -177,7 +177,7 @@ function crawling(k){
                     if(k<7){
                         updateFieldNews.Title = title;
                         updateFieldNews.Url = url;
-                    } else {
+                    } else if (k >= 7){
                         updatePressNews.Title = title;
                         updatePressNews.Url = url;
                     }
@@ -187,7 +187,7 @@ function crawling(k){
                     // imgUrls.push(img);
                     if(k<7){
                         updateFieldNews.ImgUrl = img;
-                    } else {
+                    } else if (k >= 7){
                         updatePressNews.ImgUrl = img;
                     }
                 });
@@ -203,7 +203,7 @@ function crawling(k){
                             });
                         }
                     });
-                } else {
+                } else if (k >= 7){
                     console.log(updatePressNews.Title);
                     PressNews.find({'Title': updatePressNews.Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
