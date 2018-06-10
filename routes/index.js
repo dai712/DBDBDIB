@@ -355,12 +355,12 @@ router.post('/message', (req, res) => {
             var returnSavedNews = [];
             returnSavedNews = getSavedNews(connectedUser);
 
-            setTimeout(function() {
-                if( returnSavedNews.length === 0){
+            setTimeout(function () {
+                if (returnSavedNews.length === 0) {
                     message1.message.text = '저장된 뉴스가 없습니다.'
                 } else {
                     message1.message.text = '저장목록 실행\n 갯수 : ' + returnSavedNews.length + '개';
-                    for (i = 0 ; i < returnSavedNews.length ; i++){
+                    for (i = 0; i < returnSavedNews.length; i++) {
                         message1.keyboard.buttons.push(returnSavedNews[i]);
                     }
                 }
@@ -373,28 +373,28 @@ router.post('/message', (req, res) => {
             message1.message.text = '즐겨찾기 목록.';
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [
-            "돌아가기",
-               ];
+                "돌아가기",
+            ];
             User.findOne({'id': connectedUser}, function (err, doc) {
-                if(err) console.log(err);
-                else if(doc !== null) {
-                    if(doc.Favorite.Press.length === 0 && doc.Favorite.Category.length === 0){
+                if (err) console.log(err);
+                else if (doc !== null) {
+                    if (doc.Favorite.Press.length === 0 && doc.Favorite.Category.length === 0) {
                         message1.message.text = '즐겨찾는 언론사 or 분야가 없습니다.';
-                    }else {
-                        for(i = 0 ; i < doc.Favorite.Press.length ; i++){
+                    } else {
+                        for (i = 0; i < doc.Favorite.Press.length; i++) {
                             message1.keyboard.buttons.push(doc.Favorite.Press[i]);
                         }
-                        for(j = 0 ; j < doc.Favorite.Category.length ; j++){
+                        for (j = 0; j < doc.Favorite.Category.length; j++) {
                             message1.keyboard.buttons.push(doc.Favorite.Category[j]);
                         }
 
                     }
-                }else if(doc === null){
+                } else if (doc === null) {
                     message1.message.text = '즐겨찾는 언론사 or 분야가 없습니다.';
                 }
             });
 
-            setTimeout(function() {
+            setTimeout(function () {
                 res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
 
             }, 500);
@@ -457,16 +457,16 @@ router.post('/message', (req, res) => {
             break;
         case '즐겨찾기등록' :
 
-            if(field !== '' && press === '') {
+            if (field !== '' && press === '') {
                 console.log(field);
-                User.findOne({'id' : connectedUser, 'Favorite.Category' : field}, function(err, doc){
-                    if(err) console.log(err);
-                    else if(doc !== null) {
+                User.findOne({'id': connectedUser, 'Favorite.Category': field}, function (err, doc) {
+                    if (err) console.log(err);
+                    else if (doc !== null) {
                         message1.message.text = '이미 저장된 분야';
-                    }else if(doc === null) {
-                        User.findOneAndUpdate({'id': connectedUser}, {$push: {'Favorite.Category' : field}}, {new: true}, function(err, doc){
-                            if(err) console.log(err);
-                            else if(doc !== null){
+                    } else if (doc === null) {
+                        User.findOneAndUpdate({'id': connectedUser}, {$push: {'Favorite.Category': field}}, {new: true}, function (err, doc) {
+                            if (err) console.log(err);
+                            else if (doc !== null) {
                                 console.log(doc);
                                 message1.message.text = '저장 완료';
                             }
@@ -474,16 +474,16 @@ router.post('/message', (req, res) => {
                     }
                 });
 
-            }else if(field === '' && press !== ''){
+            } else if (field === '' && press !== '') {
                 console.log(press);
-                User.findOne({'id' : connectedUser, 'Favorite.Press' : press}, function(err, doc){
-                    if(err) console.log(err);
-                    else if(doc !== null) {
+                User.findOne({'id': connectedUser, 'Favorite.Press': press}, function (err, doc) {
+                    if (err) console.log(err);
+                    else if (doc !== null) {
                         message1.message.text = '이미 저장된 분야';
-                    }else if(doc === null) {
-                        User.findOneAndUpdate({'id': connectedUser}, {$push: {'Favorite.Press' : press}}, {new: true}, function(err, doc){
-                            if(err) console.log(err);
-                            else if(doc !== null){
+                    } else if (doc === null) {
+                        User.findOneAndUpdate({'id': connectedUser}, {$push: {'Favorite.Press': press}}, {new: true}, function (err, doc) {
+                            if (err) console.log(err);
+                            else if (doc !== null) {
                                 console.log(doc);
                                 message1.message.text = '저장 완료';
                             }
@@ -495,63 +495,65 @@ router.post('/message', (req, res) => {
             message1.keyboard.buttons = [
                 "돌아가기",
             ];
-            setTimeout(function() {
+            setTimeout(function () {
                 res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             }, 500);
             break;
         case '뉴스삭제' :
             message1.message.text = '삭제완료';
-            User.findOneAndUpdate({'id' : connectedUser}, {$pull: {'SavedNews' : targetNewsId}}, {new: true}, function(err, doc){
-               if(err) console.log(err);
-               else if(doc !== null) {
-                   message1.keyboard.type = 'buttons';
-                   message1.keyboard.buttons = [
-                       "돌아가기",
-                   ];
-                   console.log(doc);
-               }
+            User.findOneAndUpdate({'id': connectedUser}, {$pull: {'SavedNews': targetNewsId}}, {new: true}, function (err, doc) {
+                if (err) console.log(err);
+                else if (doc !== null) {
+                    message1.keyboard.type = 'buttons';
+                    message1.keyboard.buttons = [
+                        "돌아가기",
+                    ];
+                    console.log(doc);
+                }
             });
-            setTimeout(function() {
+            setTimeout(function () {
                 res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             }, 500);
             break;
         default:
-            let fieldAndPress = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학","경향", "국민", "동아", "문화", "서울", "조선", "중앙", "한겨레", "한국"];
+
+            let fieldAndPress = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학", "경향", "국민", "동아", "문화", "서울", "조선", "중앙", "한겨레", "한국"];
 
             var resultNews;
             let fop;
-            let point = fieldAndPress.indexOf(_obj.content);
+            if (fieldAndPress.indexOf(_obj.content) !== -1) {
+                let point = fieldAndPress.indexOf(_obj.content);
 
-                if(point < 7){
-                    FieldNews.find({Field:_obj.content}).sort('-SavedDate').limit(5).exec(function(err, docs){
-                            resultNews = docs;
+                if (point < 7) {
+                    FieldNews.find({Field: _obj.content}).sort('-SavedDate').limit(5).exec(function (err, docs) {
+                        resultNews = docs;
                     });
                 }
 
-                if(point >= 7){
-                    PressNews.find({Press:_obj.content}).sort('-SavedDate').limit(5).exec(function(err, docs){
-                            resultNews = docs;
+                if (point >= 7) {
+                    PressNews.find({Press: _obj.content}).sort('-SavedDate').limit(5).exec(function (err, docs) {
+                        resultNews = docs;
                     });
                 }
 
 
-                    setTimeout(function () {
-                            console.log(resultNews);
-                            fop = _obj.content;
-                            message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
-                            message1.keyboard.type = 'buttons';
-                            message1.keyboard.buttons = [];
-                            for (let i = 0 ; i < resultNews.length ; i++){
-                                message1.keyboard.buttons.push("(" + fop + ")" + resultNews[i].Title);
-                            }
-                            message1.keyboard.buttons.push("돌아가기");
-                            message1.keyboard.buttons.push("즐겨찾기등록");
-                            res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
-                        },
-                        1500);
-                    break;
-                }
-
+                setTimeout(function () {
+                        console.log(resultNews);
+                        fop = _obj.content;
+                        message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
+                        message1.keyboard.type = 'buttons';
+                        message1.keyboard.buttons = [];
+                        for (let i = 0; i < resultNews.length; i++) {
+                            message1.keyboard.buttons.push("(" + fop + ")" + resultNews[i].Title);
+                        }
+                        message1.keyboard.buttons.push("돌아가기");
+                        message1.keyboard.buttons.push("즐겨찾기등록");
+                        res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
+                    },
+                    1500);
+                break;
+            }
+    }
             if( _obj.content.charAt(0) === '('){
                     for(i=0 ; i<5 ; i++){
                         message3.message.text = resultNews[i].Title;
