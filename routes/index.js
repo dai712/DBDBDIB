@@ -516,11 +516,9 @@ router.post('/message', (req, res) => {
             }, 500);
             break;
         default:
-            let fields = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학"];
-            let presses = ["경향", "국민", "동아", "문화", "서울", "조선", "중앙", "한겨레", "한국"];
             let fieldAndPress = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학","경향", "국민", "동아", "문화", "서울", "조선", "중앙", "한겨레", "한국"];
 
-            let resultNews;
+            var resultNews;
             let fop;
             let point = fieldAndPress.indexOf(_obj.content);
 
@@ -544,7 +542,7 @@ router.post('/message', (req, res) => {
                             message1.keyboard.type = 'buttons';
                             message1.keyboard.buttons = [];
                             for (let i = 0 ; i < resultNews.length ; i++){
-                                message1.keyboard.buttons.push("(" + fop + ")" + resultNews[i]);
+                                message1.keyboard.buttons.push("(" + fop + ")" + resultNews[i].Title);
                             }
                             message1.keyboard.buttons.push("돌아가기");
                             message1.keyboard.buttons.push("즐겨찾기등록");
@@ -556,17 +554,28 @@ router.post('/message', (req, res) => {
 
             if( _obj.content.charAt(0) === '('){
                     for(i=0 ; i<5 ; i++){
+                        message3.message.text = resultNews[i].Title;
+                        message3.message.message_button = {
+                            label : '이동하기',
+                            url : resultNews[i].Url
+                        };
+                        message3.keyboard.type = 'buttons';
+                        message3.keyboard.buttons = [
+                            "저장하기",
+                            "돌아가기",
+                        ];
+                        res.set({'content-type': 'application/json'}).send(JSON.stringify(message3));
+                        break;
 
 
 
-
-                        if(_obj.content.indexOf(titles[i]) !== -1){
+                        if(_obj.content.indexOf(resultNews[i].Title) !== -1){
                             targetIndex = i;
-                            if(imgUrls[i] === undefined){
-                                message3.message.text = titles[i];
+                            if(resultNews[i].ImgUrl[i] === undefined){
+                                message3.message.text = resultNews[i].Title;
                                 message3.message.message_button = {
                                     label : '이동하기',
-                                    url : urls[i]
+                                    url : resultNews[i].Url
                                 };
                                 message3.keyboard.type = 'buttons';
                                 message3.keyboard.buttons = [
@@ -577,15 +586,15 @@ router.post('/message', (req, res) => {
                                 break;
 
                             }
-                            message2.message.text = titles[i];
+                            message2.message.text = resultNews[i].Title;
                             message2.message.photo = {
-                                url : imgUrls[i],
+                                url : resultNews[i].ImgUrl,
                                 width : 640,
                                 height : 480,
                             };
                             message2.message.message_button = {
                                 label : '이동하기',
-                                url : urls[i]
+                                url :resultNews[i].Url
                             };
                             message2.keyboard.type = 'buttons';
                             message2.keyboard.buttons = [
@@ -596,70 +605,7 @@ router.post('/message', (req, res) => {
                             break;
                         }
                     }
-                } else{
-                FieldNews.findOne({'Title' : _obj.content}, function(err, doc){
-
-                   if(err) console.log(err);
-                   else if(doc !== null) {
-                       targetNewsId = doc._id;
-                       message2.message.text = doc.Title;
-                       message2.message.photo = {
-                           url : doc.ImgUrl,
-                           width : 640,
-                           height : 480,
-                       };
-                       message2.message.message_button = {
-                           label : '이동하기',
-                           url : doc.Url
-                       };
-                       message2.keyboard.type = 'buttons';
-                       message2.keyboard.buttons = [
-                           "뉴스삭제",
-                           "돌아가기",
-                       ];
-                       res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
-                   } else if(doc === null) {
-                       PressNews.findOne({'Title': _obj.content}, function(err, doc){
-                           if(err) console.log(err);
-                          else if(doc !== null) {
-                              targetNewsId = doc._id;
-                               if(ImgUrl === null) {
-                                   console.log('언론사별 뉴스, 이미지 빔');
-                                   message3.message.text = doc.Title;
-                                   message3.message.message_button = {
-                                       label : '이동하기',
-                                       url : doc.Url
-                                   };
-                                   message3.keyboard.type = 'buttons';
-                                   message3.keyboard.buttons = [
-                                       "뉴스삭제",
-                                       "돌아가기",
-                                   ];
-                                   res.set({'content-type': 'application/json'}).send(JSON.stringify(message3));
-                               }else {
-                                   message2.message.text = doc.Title;
-                                   message2.message.photo = {
-                                       url : doc.ImgUrl,
-                                       width : 640,
-                                       height : 480,
-                                   };
-                                   message2.message.message_button = {
-                                       label : '이동하기',
-                                       url : doc.Url
-                                   };
-                                   message2.keyboard.type = 'buttons';
-                                   message2.keyboard.buttons = [
-                                       "뉴스삭제",
-                                       "돌아가기",
-                                   ];
-                                   res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
-                                   console.log('언론사별 뉴스, 이미지도 있음');
-                               }
-                           }
-                       });
-                   }
-                });
-            }
+                }
 
 
 
