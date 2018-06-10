@@ -166,8 +166,8 @@ function crawling(k){
                 if(k < 7) {
                     FieldNews.find({'Title': updateFieldNews.Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
-                        console.log(updateFieldNews.Title);
                         if (doc === null) {
+                            console.log(updateFieldNews.Title);
                             updateFieldNews.save({new: true}, function (err, doc) {
                                 if (err) console.log(err);
                                 console.log('가져온 뉴스(분야)', doc);
