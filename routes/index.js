@@ -367,14 +367,14 @@ router.post('/message', (req, res) => {
             });
 setTimeout(function() {
     message1.keyboard.type = 'buttons';
+    message1.message.text = "순위";
+    var i = 0;
+    while(top10Field){
+        message1.message.buttons.push(top10Field[i].Title);
+    }
     message1.keyboard.buttons = [
         "돌아가기",
     ];
-    message1.message.text = "";
-    var i = 0;
-    while(top10Field){
-        message1.message.text.push(i + ". : " + top10Field[i].Title + '\n');
-    }
 
     res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
 },1000);
