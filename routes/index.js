@@ -543,6 +543,7 @@ router.post('/message', (req, res) => {
                             fop = _obj.content;
                             message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                             message1.keyboard.type = 'buttons';
+                            message1.keyboard.buttons = [];
                             var i = 0;
                             while(resultNews) {
                                 message1.keyboard.buttons.push("(" + fop + ")" + resultNews[i++].Title);
