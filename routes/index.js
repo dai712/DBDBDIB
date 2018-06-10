@@ -344,7 +344,10 @@ router.post('/message', (req, res) => {
 
     switch(_obj.content) {
         case '크롤링분야뉴스' :
-
+            testField();
+            break;
+        case '크롤링언론사뉴스' :
+            testPress();
             break;
         case '뉴스 보기' :
             message1.message.text = '뉴스보기 실행';
