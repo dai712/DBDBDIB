@@ -110,9 +110,8 @@ var curPos = 0;
 setInterval(function() {
     var request = require('request');
     for(var k = 0 ; k < 16 ; k++) {
-        console.log('k: ' + k);
+
         request.get({
-            //url: targetURL,
             url: totalURLs[k],
             headers: {"User-Agent": "Mozilla/5.0"},
             encoding: null,
@@ -145,53 +144,63 @@ setInterval(function() {
                 var updateFieldNews = new FieldNews();
                 var updatePressNews = new PressNews();
 
-                $(crawSelector).each(function (index, value) {
-                    var title = $(this).find('a').text().trim();
-                    var url = $(value).find('a').attr('href');
-                    //    titles.push(title);
-                    //    urls.push(url);
-                    if(k<7){
-                        updateFieldNews.Title = title;
-                        updateFieldNews.Url = url;
-                    } else {
-                        updatePressNews.Title = title;
-                        updatePressNews.Url = url;
-                    }
+                function getCrawling(callback){
+                    console.log('k: ' + k);
+                    return new Promise(function (resolve, reject){
+                        $(crawSelector).each(function (index, value) {
+                            var title = $(this).find('a').text().trim();
+                            var url = $(value).find('a').attr('href');
+                            //    titles.push(title);
+                            //    urls.push(url);
+                            if(k<7){
+                                updateFieldNews.Title = title;
+                                updateFieldNews.Url = url;
+                            } else {
+                                updatePressNews.Title = title;
+                                updatePressNews.Url = url;
+                            }
+                        });
+                        $(crawImgSelector).each(function (index, value) {             //이미지 url 크롤링
+                            var img = $(value).find('img').attr('src');
+                            // imgUrls.push(img);
+                            if(k<7){
+                                updateFieldNews.ImgUrl = img;
+                            } else {
+                                updatePressNews.ImgUrl = img;
+                            }
+                        });
 
-
-                });
-                $(crawImgSelector).each(function (index, value) {             //이미지 url 크롤링
-                    var img = $(value).find('img').attr('src');
-                    // imgUrls.push(img);
-                    if(k<7){
-                        updateFieldNews.ImgUrl = img;
-                    } else {
-                        updatePressNews.ImgUrl = img;
-                    }
-                });
-
-                if(k < 7) {
-                    console.log(updateFieldNews.title);
-                    FieldNews.find({'Title': updateFieldNews.title}, {new: true}, function (err, doc) {
-                        if (err) console.log(err);
-                        if (doc === null) {
-                            updateFieldNews.save({new: true}, function (err, doc) {
+                        if(k < 7) {
+                            console.log(updateFieldNews.title);
+                            FieldNews.find({'Title': updateFieldNews.title}, {new: true}, function (err, doc) {
                                 if (err) console.log(err);
-                                console.log('가져온 뉴스(분야)', doc);
+                                if (doc === null) {
+                                    updateFieldNews.save({new: true}, function (err, doc) {
+                                        if (err) console.log(err);
+                                        console.log('가져온 뉴스(분야)', doc);
+                                    });
+                                }
+                            });
+                        } else {
+                            PressNews.find({'Title': updatePressNews.title}, {new: true}, function (err, doc) {
+                                if (err) console.log(err);
+                                if (doc === null) {
+                                    updatePressNews.save({new: true}, function (err, doc) {
+                                        if (err) console.log(err);
+                                        console.log('가져온 뉴스(언론사)', doc);
+                                    });
+                                }
                             });
                         }
-                    });
-                } else {
-                    PressNews.find({'Title': updatePressNews.title}, {new: true}, function (err, doc) {
-                        if (err) console.log(err);
-                        if (doc === null) {
-                            updatePressNews.save({new: true}, function (err, doc) {
-                                if (err) console.log(err);
-                                console.log('가져온 뉴스(언론사)', doc);
-                            });
-                        }
+                        resolve(response);
                     });
                 }
+
+                getCrawling().then(function (Data){
+                   console.log(Data);
+                });
+
+
             }
 
 
