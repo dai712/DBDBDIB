@@ -449,7 +449,7 @@ router.post('/message', (req, res) => {
             User.findOne({'id' : connectedUser, 'SavedNews' : curNews._id}, function(err, doc){
                 if(err) console.log(err);
                 if(doc === null ){
-                    User.findOneAndUpdate({'id' : connectedUser}, {$push: {'SavedNews' : curNews._id}}, function(err, retDoc){
+                    User.findOneAndUpdate({'id' : connectedUser}, {$push: {'SavedNews' : curNews._id}}, {new : true}, function(err, retDoc){
                         if(err) console.log(err);
                         message1.message.text = '저장이 완료되었습니다.';
                         console.log(retDoc);
