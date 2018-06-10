@@ -171,8 +171,7 @@ function crawling(k){
                             updateFieldNews.ImgUrl = imgUrls[p];
                             updateFieldNews.Field = fieldAndPressList[k];
                             updateFieldNews.SavedDate = Date.now();
-
-                            console.log('씨발럼의것' + updateFieldNews.Field);
+                            updateFieldNews.Views = Math.random()*100;
 
 
                             updateFieldNews.save({new: true}, function (err, doc) {
@@ -193,8 +192,8 @@ function crawling(k){
                             updatePressNews.ImgUrl = imgUrls[p];
                             updatePressNews.Press = fieldAndPressList[k];
                             updatePressNews.SavedDate = Date.now();
+                            updatePressNews.Views = Math.random()*100;
 
-                            console.log('씨발럼의것' + updatePressNews.Press);
                             updatePressNews.save({new: true}, function (err, doc) {
                                 if (err) console.log(err);
                                 console.log('가져온 뉴스(언론사)', doc);
@@ -568,11 +567,11 @@ router.post('/message', (req, res) => {
 
             else{
                 let returnNews;
-                FieldNews.findOne({'Title' : _obj.content} ,function(err, doc){
+                FieldNews.findOneAndUpdate({'Title' : _obj.content} ,{$inc:{Views : 1}},function(err, doc){
                    if(err) console.log(err);
                    if(doc === null){
                        console.log('언론사찾음');
-                       PressNews.findOne({'Title' : _obj.content} ,function(err, doc) {
+                       PressNews.findOneAndUpdate({'Title' : _obj.content} ,{$inc:{Views : 1}},function(err, doc) {
                            setTimeout(function(){
                                returnNews = doc;
                                console.log(returnNews);
@@ -590,6 +589,18 @@ router.post('/message', (req, res) => {
 
                 setTimeout(function(){
                    curNews = returnNews;
+
+                   User.findOne({'id' : connectedUser, 'RecentNews' : curNews._id}, function(err, doc){
+                      if(err) console.log(err);
+                      if(doc === null ) {
+                          User.findOneAndUpdate({'id' : connectedUser}, {$push : {'RecentNews' : curNews._id}}, {new : true} , function(err, doc){
+                             if(err) console.log(err);
+                          });
+                      }
+                   });
+
+
+
                     if (returnNews.ImgUrl !== null) {
                         message2.message.text = returnNews.Title;
                         message2.message.photo = {
