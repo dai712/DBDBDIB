@@ -106,9 +106,9 @@ var press = '';             //언론사
 var targetNewsId = '';      //Save할때 쓸 뉴스의 DB Primary key
 var curPos = 0;
 
-
-setInterval(function() {
 /*
+setInterval(function() {
+
     for(let k = 0, p = Promise.resolve() ; k < 16 ; k++) {
            p = p.then(_ => new Promise(resolve =>
                 setTimeout(function(){
@@ -118,18 +118,21 @@ setInterval(function() {
                 },1500)
            ))
     }
-*/
-    (function loop(k) {
-        if (k < 17) new Promise((resolve, reject) => {
-            setTimeout( () => {
-                console.log(k);
-                crawling(k);
-                resolve();
-            }, 1500);
-        }).then(loop.bind(null, k+1));
-    })(0);
-},15000);  //5분
 
+},15000);
+*/
+
+
+
+(function loop(k) {
+    if (k < 17) new Promise((resolve, reject) => {
+        setTimeout( () => {
+            console.log(k);
+            crawling(k);
+            resolve();
+        }, 1500);
+    }).then(loop.bind(null, k+1));
+})(0);
 
 function crawling(k){
 
@@ -153,12 +156,15 @@ function crawling(k){
                 var crawSelector;
                 var crawImgSelector;
                 if (k === 0) {               //속보
+                    console.log('속보');
                     crawSelector = breakingSelector1 + i + breakingSelector2;
                     crawImgSelector = breakingImgSelector1 + i + breakingSelector2;
                 } else if (0 < k < 7){
+                    console.log('분야');
                     crawSelector = fieldSelector1 + i + fieldSelector2;
                     crawImgSelector = fieldImgSelector1 + i + fieldImgSelector2;
                 } else if (k >= 7){
+                    console.log('언론사');
                     crawSelector = pressSelector1 + i + pressSelector2;
                     crawImgSelector = pressImgSelector1 + i + pressImgSelector2;
                 }
