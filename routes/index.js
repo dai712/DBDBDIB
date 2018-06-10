@@ -551,9 +551,9 @@ router.post('/message', (req, res) => {
                         res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
                     },
                     1500);
-                break;
-            }
-        }
+                        break;
+                    }
+                
             if( _obj.content.charAt(0) === '('){
         console.log('제발좀이씨발' + resultNews[1]);
                 for(let i = 0 ; i < 5 ; i++){
