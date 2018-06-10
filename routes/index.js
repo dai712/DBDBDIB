@@ -519,7 +519,7 @@ router.post('/message', (req, res) => {
             }, 500);
             break;
         case '현황' :
-            FieldNews.find({Field:'정치'}).sort('-SavedDate').limit(2).exec(function(err, docs){
+            FieldNews.find({Field:'정치'}).sort('+SavedDate').limit(2).exec(function(err, docs){
                         setTimeout(function(){
                             console.log(docs);
                         },1000);
