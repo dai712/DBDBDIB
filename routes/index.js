@@ -555,9 +555,10 @@ router.post('/message', (req, res) => {
 
             else{
                 let returnNews;
+                console.log(_obj.content);
                 FieldNews.findOne({'Title' : _obj.content} , {new : true} , function(err, doc){
                    if(err) console.log(err);
-                   else if(doc === null){
+                   if(doc === null){
                        PressNews.findOne({'Title' : _obj.content} , {new : true} , function(err, doc) {
                             returnNews = doc;
                             console.log(returnNews.Title);
