@@ -513,12 +513,12 @@ router.post('/message', (req, res) => {
             }, 500);
             break;
         case '현황' :
-            FieldNews.find({Field:'정치'}, {skip:0, limit:10, sort:{SavedDate: -1}},{new : true}, function(err,allNews){
+            FieldNews.find({Field:'정치'}, {skip:0, limit:10, sort:{SavedDate: -1}},function(err,allNews){
 
 
                         setTimeout(function(){
                             console.log(allNews);
-                        },10000);
+                        },1000);
                 });
             message3.message.text = '테스트';
             message3.message.message_button = {
