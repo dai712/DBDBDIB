@@ -551,10 +551,6 @@ router.post('/message', (req, res) => {
                             message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                             message1.keyboard.type = 'buttons';
                             message1.keyboard.buttons = [];
-                            for(let i = 0 ; i < resultNews.length ; i++){
-
-                            }
-
                             message1.keyboard.buttons.push("돌아가기");
                             message1.keyboard.buttons.push("즐겨찾기등록");
                             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
