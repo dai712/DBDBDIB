@@ -553,8 +553,9 @@ router.post('/message', (req, res) => {
                     1500);
                 break;
             }
-    }
+        }
             if( _obj.content.charAt(0) === '('){
+        console.log(resultNews[1]);
                 for(let i = 0 ; i < 5 ; i++){
                     if(resultNews[i].ImgUrl !== null){
                         message2.message.text = resultNews[i].Title;
@@ -575,7 +576,7 @@ router.post('/message', (req, res) => {
                         res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
                         break;
                     }
-                    
+
                 }
 
 
