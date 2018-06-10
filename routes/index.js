@@ -519,11 +519,12 @@ router.post('/message', (req, res) => {
             let fields = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학"];
             let presses = ["경향", "국민", "동아", "문화", "서울", "조선", "중앙", "한겨레", "한국"];
 
+            let resultNews;
 
             if(fields.indexOf(_obj.content) !== -1){
                 FieldNews.find({Field:_obj.content}).sort('-SavedDate').limit(5).exec(function(err, docs){
                     setTimeout(function(){
-                        console.log(docs[0]);
+                        resultNews = docs;
                     },1000);
                 });
             }
@@ -531,66 +532,38 @@ router.post('/message', (req, res) => {
             if(presses.indexOf(_obj.content) !== -1){
                 PressNews.find({Press:_obj.content}).sort('-SavedDate').limit(5).exec(function(err, docs){
                     setTimeout(function(){
-                        console.log(docs);
+                        resultNews = docs;
                     },1000);
                 });
             }
-            /*
+
                     setTimeout(function () {
+                            let fop;
+                            if(resultNews.Press !== null) {
+                                fop = resultNews.Press;
+                            } else {
+                                fop = resultNews.Field;
+                            }
                             message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                             message1.keyboard.type = 'buttons';
-
-
-
-                            if (field === "IT/과학") {
-                                message1.keyboard.buttons = [
-                                    "(" + field + ")" + titles[0],
-                                    "(" + field + ")" + titles[1],
-                                    "(" + field + ")" + titles[2],
-                                    "돌아가기",
-                                    "즐겨찾기등록"
-                                ];
-                            } else {
-                                message1.keyboard.buttons = [
-                                    "(" + field + ")" + titles[0],
-                                    "(" + field + ")" + titles[1],
-                                    "(" + field + ")" + titles[2],
-                                    "(" + field + ")" + titles[3],
-                                    "(" + field + ")" + titles[4],
-                                    "돌아가기",
-                                    "즐겨찾기등록"
-                                ];
+                            var i = 0;
+                            while(resultNews) {
+                                message1.keyboard.buttons.push("(" + fop + ")" + resultNews[i++].Title);
                             }
+                            message1.keyboard.buttons.push("돌아가기");
+                            message1.keyboard.buttons.push("즐겨찾기등록");
                             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
                         },
                         1000);
                     break;
                 }
 
-            for(var k = 0 ; k < 10 ; k++) {
-                if(_obj.content === presses[k]){
-                    crawlingNews(pressURLS[k], pressSelector1, pressSelector2, pressImgSelector1, pressImgSelector2);
-                    press = presses[k];
-                    setTimeout(function() {
-                        message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
-                        message1.keyboard.type = 'buttons';
-                        message1.keyboard.buttons = [
-                            "(" + press + ")" + titles[0],
-                            "(" + press + ")" + titles[1],
-                            "(" + press + ")" + titles[2],
-                            "(" + press + ")" + titles[3],
-                            "(" + press + ")" + titles[4],
-                            "돌아가기",
-                            "즐겨찾기등록"
-                        ];
-                        res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
-                    },1000);
-                    break;
-                }
-
-            }
             if( _obj.content.charAt(0) === '('){
                     for(i=0 ; i<5 ; i++){
+
+                        
+
+
                         if(_obj.content.indexOf(titles[i]) !== -1){
                             targetIndex = i;
                             if(imgUrls[i] === undefined){
@@ -692,7 +665,7 @@ router.post('/message', (req, res) => {
                 });
             }
 
-*/
+
             break;
     }
 
