@@ -482,6 +482,7 @@ setTimeout(function() {
                 "뉴스 보기",
                 "저장 목록",
                 "즐겨찾기",
+                "랭킹보기",
             ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
