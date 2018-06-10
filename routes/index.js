@@ -363,8 +363,8 @@ router.post('/message', (req, res) => {
                 console.log('씨바립ㅈㄹ' + docs);
                 setTimeout(function() {
                     var i = 0;
-                    while(top10Field){
-                        message1.keyboard.buttons.push(top10Field[i].Title);
+                    while(i<10){
+                        message1.keyboard.buttons.push(docs[i].Title);
                         i++
                     }
                 },500);
