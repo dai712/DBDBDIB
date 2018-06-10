@@ -363,17 +363,16 @@ router.post('/message', (req, res) => {
                 console.log('씨바립ㅈㄹ' + docs);
             });
 setTimeout(function() {
-    console.log(top10Field);
-    console.log(top10Field[0]);
+
     message1.keyboard.type = 'buttons';
     message1.message.text = "순위";
     message1.keyboard.buttons = [];
-    /*
+    
     var i = 0;
     while(top10Field){
         message1.keyboard.buttons.push(top10Field[i].Title);
         i++
-    }*/
+    }
     message1.keyboard.buttons = [
         "돌아가기",
     ];
