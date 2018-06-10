@@ -448,7 +448,7 @@ router.post('/message', (req, res) => {
             User.findOne({'id' : connectedUser, 'SavedNews' : curNews._id}, function(err, doc){
                if(err) console.log(err);
                if(doc === null ){
-                   User.findOneAndUpdate({'id' : connectedUser}, {$push: {'SavedNews' : curNews._id}}, {new: true} , function(err, retDoc){
+                   User.findOneAndUpdate({'id' : connectedUser}, {$push: {'SavedNews' : curNews._id}}, function(err, retDoc){
                        if(err) console.log(err);
                        console.log(retDoc);
                        message1.message.text = '저장이 완료되었습니다.';
@@ -475,12 +475,12 @@ router.post('/message', (req, res) => {
                if(err) console.log(err);
                if(doc === null){
                    if(points < 7) {
-                       User.findOneAndUpdate({'id' : connectedUser}, {$push : {'Favorite.Category' : fops}}, {new : true} , function(err, doc){
+                       User.findOneAndUpdate({'id' : connectedUser}, {$push : {'Favorite.Category' : fops}}, function(err, doc){
                           if(err) console.log(err);
                           message1.message.text = "저장완료"
                        });
                    } else {
-                       User.findOneAndUpdate({'id' : connectedUser}, {$push : {'Favorite.Press' : fops}}, {new : true} , function(err, doc){
+                       User.findOneAndUpdate({'id' : connectedUser}, {$push : {'Favorite.Press' : fops}},function(err, doc){
                            if(err) console.log(err);
                            message1.message.text = "저장완료"
                        });
