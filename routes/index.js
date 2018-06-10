@@ -176,7 +176,8 @@ function crawling(k){
                 var updatePressNews = new PressNews();
 
                 console.log('인 펑션k: ' + k);
-
+                console.log(crawSelector);
+                
                 $(crawSelector).each(function (index, value) {
                     var title = $(this).find('a').text().trim();
                     var url = $(value).find('a').attr('href');
