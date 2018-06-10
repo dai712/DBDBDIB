@@ -161,9 +161,9 @@ function crawling(k){
 
             for(let p = 0 ; p < titles.length ; p++) {
                 if (k < 7) {
-                    FieldNews.findOne({'Title': titles[p]}, {new: true}, function (err, doc) {
+                    FieldNews.findOne({'Title': titles[p]}, {new: true}, function (err, doc) {  //긁어온 뉴스 중복 검사.
                         if (err) console.log(err);
-                        if (doc === null) {
+                        if (doc === null) {             //새로긁어온 뉴스일경우
 
                             var updateFieldNews = new FieldNews();
                             updateFieldNews.Title = titles[p];
@@ -174,7 +174,7 @@ function crawling(k){
                             updateFieldNews.Views = Math.random()*100;
 
 
-                            updateFieldNews.save({new: true}, function (err, doc) {
+                            updateFieldNews.save({new: true}, function (err, doc) {     //저장.
                                 if (err) console.log(err);
                                 console.log('가져온 뉴스(분야)', doc);
                             });
@@ -220,17 +220,15 @@ function findUser(user_key) {
     console.log(user_key);
     User.findOne({id : user_key}, function(err, doc){       //먼저 DB에서 유저를 검색하고 없으면 저장.
         if(err) console.log(err);
-        else if(doc === null) {
-            console.log('새로저장으로 들어옴');
+        else if(doc === null) {     //없을경우
+
             var newUser = new User();
             newUser.id = user_key;
-            newUser.save(function(err, doc){
+            newUser.save(function(err, doc){        //저장.
                 if(err) {console.log(err)}
-                console.log('새로저장중');
                 console.log(doc);
             });
         } else {
-            console.log('찾음');
             console.log(doc);
         }
     });
@@ -356,7 +354,7 @@ router.post('/message', (req, res) => {
             var top10Field;
             message1.keyboard.buttons = [];
             FieldNews.find().sort('-Views').limit(10).exec(function (err, docs) {
-                top10Field = docs;
+                top10Field = docs;      //분야별 뉴스를 모두 검색후 조회수별로 정렬. 갯수는 10개로 제한.
 
                 setTimeout(function() {
                     for(let i = 0; i < docs.length ; i++){
@@ -512,7 +510,7 @@ setTimeout(function() {
             console.log(curNews._id);
             User.findOne({'id' : connectedUser, 'SavedNews' : curNews._id}, function(err, doc){
                 if(err) console.log(err);
-                if(doc === null ){
+                if(doc === null ){      //유저의 저장한 뉴스중에 현재 저장하려는 뉴스가 존재하는지 검사후 저장.
                     User.findOneAndUpdate({'id' : connectedUser}, {$push: {'SavedNews' : curNews._id}}, {new : true}, function(err, retDoc){
                         if(err) console.log(err);
                         message1.message.text = '저장이 완료되었습니다.';
@@ -574,7 +572,7 @@ setTimeout(function() {
             break;
         case '뉴스삭제' :
             message1.message.text = '삭제완료';
-            User.findOneAndUpdate({'id': connectedUser}, {$pull: {'SavedNews': targetNewsId}}, {new: true}, function (err, doc) {
+            User.findOneAndUpdate({'id': connectedUser}, {$pull: {'SavedNews': curNews._id}}, {new: true}, function (err, doc) {
                 if (err) console.log(err);
                 else if (doc !== null) {
                     message1.keyboard.type = 'buttons';
