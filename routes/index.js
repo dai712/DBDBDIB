@@ -115,10 +115,10 @@ setInterval(function() {
                     console.log('아웃펑션k' + k);
                     crawling(k);
                     resolve();
-                }, 1000)
+                }, 1700)
            ))
     }
-},10000);  //5분
+},15000);  //5분
 
 
 function crawling(k){
