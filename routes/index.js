@@ -119,12 +119,15 @@ setInterval(function() {
            ))
     }
 */
-    (async function() {
-        for (let k = 0; k < 10; k++) {
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            crawling(k);
-        }
-    })();
+    (function loop(k) {
+        if (k < 10) new Promise((resolve, reject) => {
+            setTimeout( () => {
+                console.log(k);
+                crawling(k);
+                resolve();
+            }, 1500);
+        }).then(loop.bind(null, k+1));
+    })(0);
 },15000);  //5분
 
 
