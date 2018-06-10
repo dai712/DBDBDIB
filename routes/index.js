@@ -526,9 +526,7 @@ router.post('/message', (req, res) => {
 
                 if(point < 7){
                     FieldNews.find({Field:_obj.content}).sort('-SavedDate').limit(5).exec(function(err, docs){
-                        setTimeout(function(){
                             resultNews = docs;
-                        },1000);
                     });
                 }
 
