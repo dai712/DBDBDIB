@@ -345,7 +345,7 @@ router.post('/message', (req, res) => {
             message1.keyboard.buttons = [
                 "Top10 저장순위",
                 "Top10 조회순위(분야별)",
-                "Top10 조회순위(언론사별)"
+                "Top10 조회순위(언론사별)",
                 "Top3 즐겨찾는 분야",
                 "Top3 즐겨찾는 언론사"
             ];
