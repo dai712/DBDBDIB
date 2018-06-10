@@ -538,35 +538,34 @@ router.post('/message', (req, res) => {
 
 
                 setTimeout(function () {
-                        console.log(resultNews);
-                        fop = _obj.content;
-                        message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
-                        message1.keyboard.type = 'buttons';
-                        message1.keyboard.buttons = [];
-                        for (let i = 0; i < resultNews.length; i++) {
-                            message1.keyboard.buttons.push("(" + fop + ")" + resultNews[i].Title);
-                        }
-                        message1.keyboard.buttons.push("돌아가기");
-                        message1.keyboard.buttons.push("즐겨찾기등록");
-                        res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
-                    },
-                    1500);
-                        break;
+                    console.log(resultNews);
+                    fop = _obj.content;
+                    message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
+                    message1.keyboard.type = 'buttons';
+                    message1.keyboard.buttons = [];
+                    for (let i = 0; i < resultNews.length; i++) {
+                        message1.keyboard.buttons.push("(" + fop + ")" + resultNews[i].Title);
                     }
-                
-            if( _obj.content.charAt(0) === '('){
-        console.log('제발좀이씨발' + resultNews[1]);
-                for(let i = 0 ; i < 5 ; i++){
-                    if(resultNews[i].ImgUrl !== null){
+                    message1.keyboard.buttons.push("돌아가기");
+                    message1.keyboard.buttons.push("즐겨찾기등록");
+                    res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
+                }, 1500);
+                break;
+            }
+
+            if (_obj.content.charAt(0) === '(') {
+                console.log('제발좀이씨발' + resultNews[1]);
+                for (let i = 0; i < 5; i++) {
+                    if (resultNews[i].ImgUrl !== null) {
                         message2.message.text = resultNews[i].Title;
                         message2.message.photo = {
-                            url : resultNews[i].ImgUrl,
-                            width : 640,
-                            height : 480,
+                            url: resultNews[i].ImgUrl,
+                            width: 640,
+                            height: 480,
                         };
                         message2.message.message_button = {
-                            label : '이동하기',
-                            url :resultNews[i].Url
+                            label: '이동하기',
+                            url: resultNews[i].Url
                         };
                         message2.keyboard.type = 'buttons';
                         message2.keyboard.buttons = [
@@ -580,10 +579,10 @@ router.post('/message', (req, res) => {
                 }
 
 
-                }
+            }
 
 
-
+    }
 
 });
 
