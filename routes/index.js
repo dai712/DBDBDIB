@@ -224,7 +224,6 @@ function findUser(user_key) {
             console.log('새로저장으로 들어옴');
             var newUser = new User();
             newUser.id = user_key;
-            newUser.CurPos = 0;
             newUser.save(function(err, doc){
                 if(err) {console.log(err)}
                 console.log('새로저장중');
@@ -274,7 +273,7 @@ router.get('/keyboard', (req, res) => {
     findUser(connectedUser);
     const menu = {
         type: 'buttons',
-        buttons: ["뉴스 보기", "저장 목록", "즐겨찾기"]
+        buttons: ["뉴스 보기", "저장 목록", "즐겨찾기", "랭킹보기"]
     };
 res.set({'content-type': 'application/json'}).send(JSON.stringify(menu));
 });
@@ -340,6 +339,39 @@ router.post('/message', (req, res) => {
     };
 
     switch(_obj.content) {
+        case '랭킹보기' :
+            message1.message.text = '랭킹보기 실행';
+            message1.keyboard.type = 'buttons';
+            message1.keyboard.buttons = [
+                "Top10 저장순위",
+                "Top10 조회순위",
+                "Top3 즐겨찾는 분야",
+                "Top3 즐겨찾는 언론사"
+            ];
+            res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
+            break;
+
+        case 'Top10 저장순위':
+
+            break;
+        case 'Top10 조회순위':
+            var top10Field;
+            var top10Press;
+            FieldNews.find().sort('-Views').limit(10).exec(function (err, docs) {
+                top10Field = docs;
+            });
+            PressNews.find().sort('-Views').limit(10).exec(function (err, docs) {
+                top10Press = docs;
+            });
+
+
+            break;
+        case 'Top3 즐겨찾는 분야':
+
+            break;
+        case 'Top3 즐겨찾는 언론사':
+
+            break;
         case '뉴스 보기' :
             message1.message.text = '뉴스보기 실행';
             message1.keyboard.type = 'buttons';
