@@ -81,8 +81,9 @@ var imgUrls = [];           //img url
 var field = '';             //분야
 var press = '';             //언론사
 var targetNewsId = '';      //Save할때 쓸 뉴스의 DB Primary key
-var curPos = 0;
-
+var curNews;
+var fops
+;
 /*
 setInterval(function() {
 
@@ -433,7 +434,6 @@ router.post('/message', (req, res) => {
 
         case '돌아가기' :
             clearArrays();
-            findUser(connectedUser);
             message1.message.text = '돌아가기';
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [
@@ -444,9 +444,21 @@ router.post('/message', (req, res) => {
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
         case '저장하기' :
-            findUser(connectedUser);
-            saveNews(titles[targetIndex], urls[targetIndex], imgUrls[targetIndex], connectedUser);
-            message1.message.text = '저장이 완료되었습니다.';
+
+            User.findOne({'id' : connectedUser, 'SavedNews' : curNews._id}, function(err, doc){
+               if(err) console.log(err);
+               if(doc === null ){
+                   User.findOneAndUpdate({'id' : connectedUser}, {$push: {'SavedNews' : curNews._id}}, {new: true} , function(err, retDoc){
+                       if(err) console.log(err);
+                       console.log(retDoc);
+                       message1.message.text = '저장이 완료되었습니다.';
+                   });
+               }else {          //이미 저장한것.
+                   message1.message.text = '이미 저장한 뉴스입니다.';
+               }
+            });
+
+
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [
                 "뉴스 보기",
@@ -456,41 +468,26 @@ router.post('/message', (req, res) => {
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
         case '즐겨찾기등록' :
+            let fieldAndPresses = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학", "경향", "국민", "동아", "문화", "서울", "조선", "중앙", "한겨레", "한국"];
+            let points = fieldAndPresses.indexOf(_obj.content);
 
-            if (field !== '' && press === '') {
-                console.log(field);
-                User.findOne({'id': connectedUser, 'Favorite.Category': field}, function (err, doc) {
-                    if (err) console.log(err);
-                    else if (doc !== null) {
-                        message1.message.text = '이미 저장된 분야';
-                    } else if (doc === null) {
-                        User.findOneAndUpdate({'id': connectedUser}, {$push: {'Favorite.Category': field}}, {new: true}, function (err, doc) {
-                            if (err) console.log(err);
-                            else if (doc !== null) {
-                                console.log(doc);
-                                message1.message.text = '저장 완료';
-                            }
-                        });
-                    }
-                });
+            User.findOne({'id' : connectedUser}, {$or : [{'Favorite.Category' : fops},{'Favorite.Press' : fops}]}, function(err, doc){
+               if(err) console.log(err);
+               if(doc === null){
+                   if(points < 7) {
+                       User.findOneAndUpdate({'id' : connectedUser}, {$push : {'Favorite.Category' : fops}}, {new : true} , function(err, doc){
+                          if(err) console.log(err);
+                          message1.message.text = "저장완료"
+                       });
+                   } else {
+                       User.findOneAndUpdate({'id' : connectedUser}, {$push : {'Favorite.Press' : fops}}, {new : true} , function(err, doc){
+                           if(err) console.log(err);
+                           message1.message.text = "저장완료"
+                       });
+                   }
+               }
+            });
 
-            } else if (field === '' && press !== '') {
-                console.log(press);
-                User.findOne({'id': connectedUser, 'Favorite.Press': press}, function (err, doc) {
-                    if (err) console.log(err);
-                    else if (doc !== null) {
-                        message1.message.text = '이미 저장된 분야';
-                    } else if (doc === null) {
-                        User.findOneAndUpdate({'id': connectedUser}, {$push: {'Favorite.Press': press}}, {new: true}, function (err, doc) {
-                            if (err) console.log(err);
-                            else if (doc !== null) {
-                                console.log(doc);
-                                message1.message.text = '저장 완료';
-                            }
-                        });
-                    }
-                });
-            }
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [
                 "돌아가기",
@@ -540,6 +537,7 @@ router.post('/message', (req, res) => {
                 setTimeout(function () {
                     console.log(resultNews);
                     fop = _obj.content;
+                    fops = fop;
                     message1.message.text = '보고싶은 뉴스를 선택해 주세요.';
                     message1.keyboard.type = 'buttons';
                     message1.keyboard.buttons = [];
@@ -576,7 +574,7 @@ router.post('/message', (req, res) => {
                 });
 
                 setTimeout(function(){
-                   console.log(returnNews);
+                   curNews = returnNews;
                     if (returnNews.ImgUrl !== null) {
                         message2.message.text = returnNews.Title;
                         message2.message.photo = {
