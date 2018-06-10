@@ -364,13 +364,15 @@ router.post('/message', (req, res) => {
             PressNews.find().sort('-Views').limit(10).exec(function (err, docs) {
                 top10Press = docs;
             });
+setTimeout(function() {
+    var total = top10Press + top10Field;
 
-            var total = top10Press + top10Field;
+    var total2 = total.sort(function(a, b){
+        return a - b;
+    });
+    console.log(total2);
+},1000);
 
-            var total2 = total.sort(function(a, b){
-                return a - b;
-            });
-            console.log(total2);
             break;
         case 'Top3 즐겨찾는 분야':
 
