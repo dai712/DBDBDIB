@@ -523,10 +523,11 @@ router.post('/message', (req, res) => {
             if(fields.indexOf(_obj.content) !== -1){
                 FieldNews.find({Field:_obj.content}).sort('-SavedDate').limit(5).exec(function(err, docs){
                     setTimeout(function(){
-                        console.log(docs);
+                        console.log(docs[0]);
                     },1000);
                 });
             }
+
             if(presses.indexOf(_obj.content) !== -1){
                 PressNews.find({Press:_obj.content}).sort('-SavedDate').limit(5).exec(function(err, docs){
                     setTimeout(function(){
