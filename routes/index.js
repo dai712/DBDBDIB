@@ -155,7 +155,7 @@ function crawling(k){
                 });
 
                 if(k < 7) {
-                    FieldNews.findOne({'Title': Title}, {new: true}, function (err, doc) {
+                    FieldNews.findOne({'Url': Url}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         if (doc === null) {
                             var updateFieldNews = new FieldNews();
@@ -176,11 +176,11 @@ function crawling(k){
                     });
                 }
                 if (k >= 7){
-                    PressNews.findOne({'Title': Title}, {new: true}, function (err, doc) {
+                    PressNews.findOne({'Url': Url}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         if (doc === null) {
 
-                            var updatePressNews = new FieldNews();
+                            var updatePressNews = new PressNews();
                             updatePressNews.Title = Title;
                             updatePressNews.Url = Url;
                             updatePressNews.ImgUrl = ImgUrl;
