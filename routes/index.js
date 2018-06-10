@@ -370,7 +370,7 @@ setTimeout(function() {
     message1.message.text = "순위";
     var i = 0;
     while(top10Field){
-        message1.message.buttons.push(top10Field[i].Title);
+        message1.keyboard.buttons.push(top10Field[i].Title);
     }
     message1.keyboard.buttons = [
         "돌아가기",
