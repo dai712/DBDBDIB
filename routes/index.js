@@ -357,17 +357,14 @@ router.post('/message', (req, res) => {
             break;
         case 'Top10 조회순위(분야별)':
             var top10Field;
-            var top10Press;
 
             FieldNews.find().sort('-Views').limit(10).exec(function (err, docs) {
                 top10Field = docs;
             });
-            PressNews.find().sort('-Views').limit(10).exec(function (err, docs) {
-                top10Press = docs;
-            });
 setTimeout(function() {
     message1.keyboard.type = 'buttons';
     message1.message.text = "순위";
+    message1.keyboard.buttons = [];
     var i = 0;
     while(top10Field){
         message1.keyboard.buttons.push(top10Field[i].Title);
@@ -378,6 +375,28 @@ setTimeout(function() {
 
     res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
 },1000);
+
+            break;
+        case 'Top10 조회순위(언론사)':
+            var top10Press;
+
+            PressNews.find().sort('-Views').limit(10).exec(function (err, docs) {
+                top10Press = docs;
+            });
+            setTimeout(function() {
+                message1.keyboard.type = 'buttons';
+                message1.message.text = "순위";
+                message1.keyboard.buttons = [];
+                var i = 0;
+                while(top10Field){
+                    message1.keyboard.buttons.push(top10Press[i].Title);
+                }
+                message1.keyboard.buttons = [
+                    "돌아가기",
+                ];
+
+                res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
+            },1000);
 
             break;
         case 'Top3 즐겨찾는 분야':
