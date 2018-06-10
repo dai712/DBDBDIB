@@ -565,7 +565,7 @@ router.post('/message', (req, res) => {
                        returnNews = doc;
                    }
                 });
-
+                setTimeout(function(){
                     if (returnNews.ImgUrl !== null) {
                         message2.message.text = returnNews.Title;
                         message2.message.photo = {
@@ -582,8 +582,8 @@ router.post('/message', (req, res) => {
                             "저장하기",
                             "돌아가기",
                         ];
-                            res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
-                            break;
+                        res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
+                        break;
                     } else {
                         message3.message.text = returnNews.Title;
                         message3.message.message_button = {
@@ -598,7 +598,9 @@ router.post('/message', (req, res) => {
                         res.set({'content-type': 'application/json'}).send(JSON.stringify(message3));
                         break;
 
-                }
+                    }
+                },1000);
+
 
 
             }
