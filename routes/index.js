@@ -156,6 +156,7 @@ function crawling(k){
                 });
             }
             console.log(titles);
+            /*
                 if(k < 7) {
                     FieldNews.findOne({'Title': titles[0]}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
@@ -196,7 +197,7 @@ function crawling(k){
                             });
                         }
                     });
-                }
+                }*/
 
         });
 }
