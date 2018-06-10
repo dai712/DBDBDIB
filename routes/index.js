@@ -115,8 +115,8 @@ setInterval(function() {
             //url: targetURL,
             url: totalURLs[k],
             headers: {"User-Agent": "Mozilla/5.0"},
-            encoding: null
-        }, function (err, res, body, k) {
+            encoding: null,
+        }, function (err, res, body) {
             if (err) console.log('err');
 
             var strContents = new Buffer(body);
