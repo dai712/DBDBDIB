@@ -157,7 +157,7 @@ function crawling(k){
             }
             console.log(titles);
                 if(k < 7) {
-                    FieldNews.findOne({'Title': Title}, {new: true}, function (err, doc) {
+                    FieldNews.findOne({'Title': titles[0]}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         if (doc === null) {
                             var updateFieldNews = new FieldNews();
@@ -178,7 +178,7 @@ function crawling(k){
                     });
                 }
                 if (k >= 7){
-                    PressNews.findOne({'Title': Title}, {new: true}, function (err, doc) {
+                    PressNews.findOne({'Title': titles[0]}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         if (doc === null) {
 
