@@ -109,10 +109,11 @@ var curPos = 0;
 
 setInterval(function() {
 
-    for(let k = 0, p = crawling(k).resolve() ; k < 16 ; k++) {
+    for(let k = 0, p = Promise.resolve() ; k < 16 ; k++) {
            p = p.then(_ => new Promise(resolve =>
                 setTimeout(function(){
                     console.log(k);
+                    crawling(k);
                     resolve();
                 }, 800)
            ))
@@ -122,7 +123,6 @@ setInterval(function() {
 
 function crawling(k){
 
-    return new Promise(function (resolve, reject){
         var request = require('request');
         request.get({
             url: totalURLs[k],
@@ -206,7 +206,6 @@ function crawling(k){
                 }
             }
         });
-    });
 }
 
 function clearArrays() {                //글로벌 변수 초기화
