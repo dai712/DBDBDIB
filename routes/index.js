@@ -364,7 +364,7 @@ router.post('/message', (req, res) => {
                 setTimeout(function() {
 
                     console.log('씨바립ㅈㄹ' + docs);
-                    
+
                     for(let i = 0; i < docs.length ; i++){
                         message1.keyboard.buttons.push(docs[i].Title);
 
@@ -376,9 +376,7 @@ setTimeout(function() {
     message1.keyboard.type = 'buttons';
     message1.message.text = "순위";
 
-    message1.keyboard.buttons = [
-        "돌아가기",
-    ];
+    message1.keyboard.buttons.push("돌아가기");
 
     res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
 },2000);
