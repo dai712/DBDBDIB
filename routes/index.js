@@ -360,6 +360,7 @@ router.post('/message', (req, res) => {
 
             FieldNews.find().sort('-Views').limit(10).exec(function (err, docs) {
                 top10Field = docs;
+                console.log('씨바립ㅈㄹ' + docs);
             });
 setTimeout(function() {
     console.log(top10Field);
@@ -378,7 +379,7 @@ setTimeout(function() {
     ];
 
     res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
-},1500);
+},2000);
 
             break;
         case 'Top10 조회순위(언론사)':
