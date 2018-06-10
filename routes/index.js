@@ -169,6 +169,7 @@ setInterval(function() {
                         updatePressNews.ImgUrl = img;
                     }
                 });
+                console.log('ㅂㄹㅈㅂㄹ' + updateFieldNews);
                 if(k < 7) {
                     FieldNews.find({'Title': updateFieldNews.title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
