@@ -574,7 +574,7 @@ router.post('/message', (req, res) => {
                         ];
                         setTimeout(function(){
                             res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
-                            break;
+
                         },1000);
                     }
 
@@ -583,7 +583,7 @@ router.post('/message', (req, res) => {
 
             }
 
-
+            break;
     }
 
 });
