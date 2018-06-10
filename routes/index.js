@@ -83,7 +83,7 @@ var press = '';             //언론사
 var targetNewsId = '';      //Save할때 쓸 뉴스의 DB Primary key
 var curPos = 0;
 
-
+/*
 setInterval(function() {
 
     (function loop(k) {
@@ -98,7 +98,7 @@ setInterval(function() {
 
 },60000);
 
-
+*/
 
 function crawling(k){
         var fieldAndPressList = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학","경향", "국민", "동아", "문화", "서울", "조선", "중앙", "한겨레", "한국"];
