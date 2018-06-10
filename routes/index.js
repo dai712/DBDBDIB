@@ -285,7 +285,7 @@ router.get('/user/test', (req, res) => {                //웹으로 라우팅.
 
 function testField() {
     console.log('시작');
-    FieldNews.find({}).limit(10, function(err, doc){
+    FieldNews.find().sort({_id: -1}).limit(10, function(err, doc){
         if(err) console.log(err);
         console.log('데헷' + doc);
     });
