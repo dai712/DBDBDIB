@@ -503,7 +503,7 @@ router.post('/message', (req, res) => {
             }, 500);
             break;
         case '현황' :
-            FieldNews.find({}).sort({_id: -1}).limit(10, function(err, doc){
+            FieldNews.find({'Field' : '정치'}).sort({_id: -1}).limit(10, function(err, doc){
                 if(err) console.log(err);
                 console.log('데헷' + doc);
             });
