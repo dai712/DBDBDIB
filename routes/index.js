@@ -583,7 +583,7 @@ router.post('/message', (req, res) => {
                             "돌아가기",
                         ];
                         res.set({'content-type': 'application/json'}).send(JSON.stringify(message2));
-                        break;
+
                     } else {
                         message3.message.text = returnNews.Title;
                         message3.message.message_button = {
@@ -596,8 +596,6 @@ router.post('/message', (req, res) => {
                             "돌아가기",
                         ];
                         res.set({'content-type': 'application/json'}).send(JSON.stringify(message3));
-                        break;
-
                     }
                 },1000);
 
