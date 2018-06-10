@@ -155,6 +155,7 @@ function crawling(k){
                 });
 
                 if(k < 7) {
+                    console.log(Title);
                     FieldNews.find({'Title': Title}, {new: true}, function (err, doc) {
                         if (err) console.log(err);
                         console.log(doc);
