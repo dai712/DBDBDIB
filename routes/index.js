@@ -67,35 +67,12 @@ let totalURLs = [
     'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=020',                //동아
     'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=021',                //문화
     'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=081',                //서울
-    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=022',                //세계
     'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=023',                //조선
     'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=025',                //중앙
     'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=028',                //한겨레
-    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=469',                //한국                10개
+    'http://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=469',                //한국                9개
 ];
-/*
-let client_id = 'uD_8GWD3pP_KXJJRKecZ';
-let client_secret = '7OTLr047fX';
 
-router.get('/search/news', function (req, res) {                                                            //네이버 검색 API
-    var api_url = 'https://openapi.naver.com/v1/search/news.json?query=' + encodeURI('속보');
-    var request = require('request');
-    var options = {
-        url: api_url,
-        headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
-    };
-    request.get(options, function (error, response, body) {
-        if (!error && response.statusCode === 200) {
-            res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
-            res.end(body);
-            console.log(body.items);
-        } else {
-            res.status(response.statusCode).end();
-            console.log('error = ' + response.statusCode);
-        }
-    });
-});
-*/
 var connectedUser = '';     //접속중인 카카오 유저
 var targetIndex = 99;       //Save할때 쓸 Index
 var titles = [];            //제목
@@ -106,26 +83,11 @@ var press = '';             //언론사
 var targetNewsId = '';      //Save할때 쓸 뉴스의 DB Primary key
 var curPos = 0;
 
-/*
+
 setInterval(function() {
 
-    for(let k = 0, p = Promise.resolve() ; k < 16 ; k++) {
-           p = p.then(_ => new Promise(resolve =>
-                setTimeout(function(){
-                    console.log('아웃펑션k' + k);
-                    crawling(k);
-                    resolve();
-                },1500)
-           ))
-    }
-
-},15000);
-*/
-
-
-
-(function loop(k) {
-    if (k < 17) new Promise((resolve, reject) => {
+    (function loop(k) {
+    if (k < 16) new Promise((resolve, reject) => {
         setTimeout( () => {
             console.log(k);
             crawling(k);
@@ -134,8 +96,12 @@ setInterval(function() {
     }).then(loop.bind(null, k+1));
 })(0);
 
-function crawling(k){
+},300000);
 
+
+
+function crawling(k){
+        var fieldAndPressList = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학","경향", "국민", "동아", "문화", "서울", "조선", "중앙", "한겨레", "한국"];
         var request = require('request');
         request.get({
             url: totalURLs[k],
@@ -171,29 +137,24 @@ function crawling(k){
                     crawImgSelector = breakingImgSelector1 + i + breakingImgSelector2;
                 }
 
-
                 var updateFieldNews = new FieldNews();
                 var updatePressNews = new PressNews();
 
-                console.log('인 펑션k: ' + k);
-                console.log(crawSelector);
-                
                 $(crawSelector).each(function (index, value) {
                     var title = $(this).find('a').text().trim();
                     var url = $(value).find('a').attr('href');
-                    //    titles.push(title);
-                    //    urls.push(url);
                     if(k<7){
                         updateFieldNews.Title = title;
                         updateFieldNews.Url = url;
+                        updateFieldNews.Field = fieldAndPressList[k];
                     } else if (k >= 7){
                         updatePressNews.Title = title;
                         updatePressNews.Url = url;
+                        updatePressNews.Press = fieldAndPressList[k];
                     }
                 });
                 $(crawImgSelector).each(function (index, value) {             //이미지 url 크롤링
                     var img = $(value).find('img').attr('src');
-                    // imgUrls.push(img);
                     if(k<7){
                         updateFieldNews.ImgUrl = img;
                     } else if (k >= 7){
@@ -297,7 +258,7 @@ router.get('/keyboard', (req, res) => {
     findUser(connectedUser);
     const menu = {
         type: 'buttons',
-        buttons: ["뉴스 보기", "저장 목록", "즐겨찾기", "현황", "크롤링분야뉴스", "크롤링언론사뉴스"]
+        buttons: ["뉴스 보기", "저장 목록", "즐겨찾기", "현황"]
     };
 res.set({'content-type': 'application/json'}).send(JSON.stringify(menu));
 });
@@ -314,21 +275,6 @@ router.get('/user/test', (req, res) => {                //웹으로 라우팅.
 
 });
 
-function testField() {
-    console.log('시작');
-    FieldNews.find().sort({_id: -1}).limit(10, function(err, doc){
-        if(err) console.log(err);
-        console.log('데헷' + doc);
-    });
-}
-
-function testPress() {
-    console.log('시작');
-    PressNews.find({}).sort({_id: -1}).limit(10, function(err, doc){
-        if(err) console.log(err);
-        console.log('데헷' + doc);
-    });
-}
 
 router.post('/message', (req, res) => {
     const _obj = {
@@ -376,12 +322,6 @@ router.post('/message', (req, res) => {
     };
 
     switch(_obj.content) {
-        case '크롤링분야뉴스' :
-            testField();
-            break;
-        case '크롤링언론사뉴스' :
-            testPress();
-            break;
         case '뉴스 보기' :
             message1.message.text = '뉴스보기 실행';
             message1.keyboard.type = 'buttons';
@@ -563,6 +503,10 @@ router.post('/message', (req, res) => {
             }, 500);
             break;
         case '현황' :
+            FieldNews.find({}).sort({_id: -1}).limit(10, function(err, doc){
+                if(err) console.log(err);
+                console.log('데헷' + doc);
+            });
             message3.message.text = '테스트';
             message3.message.message_button = {
                 label : '이동하기',
@@ -572,11 +516,12 @@ router.post('/message', (req, res) => {
             message3.keyboard.buttons = [
                 "돌아가기",
             ];
-            res.set({'content-type': 'application/json'}).send(JSON.stringify(message3));
-            break;
+            setTimeout(function() {
+                res.set({'content-type': 'application/json'}).send(JSON.stringify(message3));
+            }, 500);            break;
         default:
             let fields = ["속보", "정치", "경제", "사회", "생활/문화", "세계", "IT/과학"];
-            let presses = ["경향", "국민", "동아", "문화", "서울", "세계", "조선", "중앙", "한겨레", "한국"];
+            let presses = ["경향", "국민", "동아", "문화", "서울", "조선", "중앙", "한겨레", "한국"];
             for(i=0 ; i< 7 ; i++) {
                 if (_obj.content === fields[i]) {
                     if(i === 0) {
