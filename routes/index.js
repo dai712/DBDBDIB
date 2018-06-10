@@ -110,7 +110,7 @@ var curPos = 0;
 setInterval(function() {
     var request = require('request');
     for(var k = 0 ; k < 16 ; k++) {
-
+        console.log('k: ' + k);
         request.get({
             //url: targetURL,
             url: totalURLs[k],
@@ -118,8 +118,7 @@ setInterval(function() {
             encoding: null,
         }, function (err, res, body) {
             if (err) console.log('err');
-            console.log('k: ' + k);
-            
+
             var strContents = new Buffer(body);
             var $ = cheerio.load(iconv.decode(strContents, 'EUC-KR').toString());   //iconv로 EUC-KR 디코딩. cheerio로 HTML 파싱.
             /*
@@ -198,7 +197,7 @@ setInterval(function() {
 
         });
     }
-},10000);  //5분
+},5000);  //5분
 
 function clearArrays() {                //글로벌 변수 초기화
     titles = [];
