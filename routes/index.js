@@ -16,7 +16,7 @@ db.on('error', function(){
 db.once('open', function() {
     console.log('Connected!');
 });
-db.dropDatabase();
+//db.dropDatabase();
 
 //HTML 셀렉터
 const fieldSelector1 = '#main_content > div > div._persist > div:nth-child(1) > div:nth-child(';
@@ -84,13 +84,10 @@ var targetNewsId = '';      //Save할때 쓸 뉴스의 DB Primary key
 var curNews;
 var fops
 ;
-/*
+
 setInterval(function() {
-
-
-},60000);*/
 (function loop(k) {
-    if (k < 2) new Promise((resolve, reject) => {
+    if (k < 16) new Promise((resolve, reject) => {
         setTimeout( () => {
             console.log(k);
             crawling(k);
@@ -98,6 +95,9 @@ setInterval(function() {
         }, 1500);
     }).then(loop.bind(null, k+1));
 })(0);
+
+},300000);
+
 
 
 function crawling(k){
@@ -343,11 +343,8 @@ router.post('/message', (req, res) => {
             message1.message.text = '랭킹보기 실행';
             message1.keyboard.type = 'buttons';
             message1.keyboard.buttons = [
-                "Top10 저장순위",
                 "Top10 조회순위(분야별)",
                 "Top10 조회순위(언론사별)",
-                "Top3 즐겨찾는 분야",
-                "Top3 즐겨찾는 언론사"
             ];
             res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
             break;
@@ -362,9 +359,6 @@ router.post('/message', (req, res) => {
                 top10Field = docs;
 
                 setTimeout(function() {
-
-                    console.log('씨바립ㅈㄹ' + docs);
-
                     for(let i = 0; i < docs.length ; i++){
                         message1.keyboard.buttons.push(docs[i].Title);
 
@@ -384,33 +378,29 @@ setTimeout(function() {
             break;
         case 'Top10 조회순위(언론사)':
             var top10Press;
-
+            message1.keyboard.buttons = [];
             PressNews.find().sort('-Views').limit(10).exec(function (err, docs) {
                 top10Press = docs;
+
+                setTimeout(function() {
+
+                    for(let i = 0; i < docs.length ; i++){
+                        message1.keyboard.buttons.push(docs[i].Title);
+
+                    }
+                },500);
             });
             setTimeout(function() {
+
                 message1.keyboard.type = 'buttons';
                 message1.message.text = "순위";
-                message1.keyboard.buttons = [];
-                var i = 0;
-                while(top10Field){
-                    message1.keyboard.buttons.push(top10Press[i].Title);
-                    i++
-                }
-                message1.keyboard.buttons = [
-                    "돌아가기",
-                ];
+
+                message1.keyboard.buttons.push("돌아가기");
 
                 res.set({'content-type': 'application/json'}).send(JSON.stringify(message1));
-            },1000);
-
+            },2000);
             break;
-        case 'Top3 즐겨찾는 분야':
 
-            break;
-        case 'Top3 즐겨찾는 언론사':
-
-            break;
         case '뉴스 보기' :
             message1.message.text = '뉴스보기 실행';
             message1.keyboard.type = 'buttons';
